@@ -15,10 +15,13 @@ def linearBijection(x,ensemble_entree,ensemble_sortie):
 
 def est_superieur(l1, l2) :#doit supporter les coeff negatifs
     """"demander alex"""
+    """
     base=max(l1+l2)+1
     n1=sum(l1[i]*(base**(len(l1)-i-1)) for i in range(len(l1)))
     n2=sum(l2[i]*(base**(len(l2)-i-1)) for i in range(len(l2)))
     return n1>=n2
+    """
+    return l1>=l2
 
 def ajouter_coeff_alea(l1,l2) :
     alea_coeff = [0, 1]

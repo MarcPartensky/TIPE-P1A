@@ -63,7 +63,7 @@ class Joueur:
 
     def reinitialiser(self, plateau):
         #A compléter par Alexandre
-        pass
+        self.plateau = plateau
 
     def __str__(self):
         """Renvoie une représentation du joueur en string."""

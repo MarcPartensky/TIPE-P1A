@@ -96,19 +96,26 @@ class Othello:
                 if not self.fenetre.open: break
                 self.afficher()
             self.faireTour()
-        self.fin()
+
+        self.derterminer_gagnant()
+        log("le gagnant : {}".format(repr(self.gagnant)))
         if self.fenetre:
             self.afficher()
             self.afficherSceneFinale()
 
-    def fin(self):
+    def derterminer_gagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
-        jouable=self.plateau.estJouable()
         cote_gagnant=self.plateau.obtenirCoteGagnant()
         #Faire attention au fait que le plateau ne connait que des cotés, et à
         #aucun moment il ne possède les vrais joueurs comme attributs.
         #Effectivement, ce sont les joueurs qui utilise le plateau et non l'inverse.
-        if cote_gagnant: self.gagnant=self.joueurs[cote_gagnant]
+        if cote_gagnant!=None :
+            self.gagnant=self.joueurs[cote_gagnant]
+        else :
+            #il n'y a pas de gagnant ici, match nul
+            self.gagnant=None
+            pass
+        return self.gagnant
 
     def afficherSceneFinale(self):
         """Afficher le resultat de la partie une fois qu'elle est terminee.
@@ -134,13 +141,14 @@ class Othello:
         """Faire un tour de jeu"""
         self.tour = self.state % self.plateau.nombre_de_joueurs
         joueur_actif=self.joueurs[self.tour]#joueur a qui c'est le tour
-        self.plateau.charger(self.tour) #Necessaire pour tous les joueurs
-        self.plateau.chargerAnalyse(self.fenetre) #Economise du temps de calcul pour les ias qui s'en servent, et peut être affichée pour une démonstration
+        self.plateau.charger(self.tour) #Necessaire pour tous les joueurs <= meme pas
+        # self.plateau.chargerAnalyse(self.fenetre) #Economise du temps de calcul pour les ias qui s'en servent, et peut être affichée pour une démonstration
         self.state+=1
         if len(self.plateau.mouvements)>=1:#Si des moves sont possibles
             choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.fenetre)
             if not choix_du_joueur:
                 return None
+            cfg.debug("Le choix du joueur est {}".format(repr(choix_du_joueur)))
             self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
             self.plateau.afficherAnimationPion(self.fenetre,choix_du_joueur)
             self.historique.append([self.plateau.grille,joueur_actif.cote,choix_du_joueur]) #Permet en théorie au joueur de retourner en arrière.

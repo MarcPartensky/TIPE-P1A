@@ -4,6 +4,8 @@ CASE_VIDE=-1 #Ne pas mettre 0 ou 1
 DEBUGING=True
 import sys
 
+TEMPS_ANIMATION_PION=0.15
+
 """
 def debug(*txt) :
     if DEBUGING :
