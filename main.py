@@ -1,5 +1,5 @@
 from mywindow import Window
-from othello import Othello
+from Othello import Othello
 from joueur import Robot,Humain,Developpeur
 from bruteforce import BruteForce
 
@@ -49,5 +49,5 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     machine3=ia2.IA()
     bruteforce=BruteForce(level=3) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
 
-    jeu=Othello(joueurs=[machine1,bruteforce],fenetre=fenetre) #Crée un jeu.
+    jeu=Othello(joueurs=[machine1,humain],fenetre=fenetre) #Crée un jeu.
     jeu() #Lance le jeu.
