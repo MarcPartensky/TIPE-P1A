@@ -191,8 +191,8 @@ class PlateauAnalysable(Plateau):
 
     def obtenirCarres(self,cote):
         """Renvoie l'ensemble des carrés de pions dans le plateau qui appartiennent au joueur du côté 'cote'."""
-        pass #A compléter
+        raise NotImplementedError #A compléter
 
     def obtenirTriangles(self,cote):
         """Renvoie la liste des triangles de pions dans le plateau qui appartiennent au joueur du côté 'cote'."""
-        pass #A compléter
+        raise NotImplementedError #A compléter

@@ -244,8 +244,6 @@ class IA(joueur.Robot) :
     #@deco_debug
     def est_stable_pour_cote(self, plateau, liste_de_position, cote):#todo debug cette fonction
         #plateau_simulation = deepcopy(plateau)
-
-
         #cfg.debug("###on lance est_stable_pour_cote")
         cote_oppose=1-cote
         liste_des_cas_particuliers={}
@@ -281,6 +279,33 @@ class IA(joueur.Robot) :
         plateau_simulation = deepcopy(plateau)
         plateau_simulation.placerPion(position, cote)
         return self.est_stable_pour_cote(plateau_simulation, [position], cote)
+
+    def position_stable_pour_cote2(self, plateau, position, cote):#todo debug cette fonction
+        #Si on renomme cette fonction faut renommer egalement son appel recursif plus bas
+        cote_oppose=1-cote
+        liste_des_cas_particuliers={}
+        mouv_valide_adv=plateau.obtenirMouvementsValides(cote_oppose)
+        for mouv in mouv_valide_adv :
+            plateau_simulation = deepcopy(plateau)
+            plateau_simulation.placerPion(mouv, cote_oppose)
+            if plateau_simulation.estCaseJoueur(position, cote_oppose) :
+                #On est dans le deuxième cas
+                liste_des_cas_particuliers[tuple(mouv)]=plateau_simulation
+        cfg.debug("685lise cas paritculier "+repr(liste_des_cas_particuliers))
+        if liste_des_cas_particuliers=={}:
+            #L'adv ne peut pas prendre la position quelque soit son coup
+            return True
+        else :
+            for mouv_cas_particulier in liste_des_cas_particuliers:
+                #la position est alors stable si pour tout les mouv, la position est instable pour cote oppose
+                plateau_de_ce_cas=liste_des_cas_particuliers[mouv_cas_particulier]
+                if self.est_stable_pour_cote2(plateau_de_ce_cas, position, cote_oppose) :
+                    #l'adv a reussi a former une position satble, cela signifie la position de depart etait instable
+                    return False
+            #L'adv ne peut pas former une position stable en prenant notre pion, notre position est donc stable
+            return True
+
+
 
     @deco_debug
     def comparer_blanc(self, pos1, pos2):
@@ -565,7 +590,7 @@ class IA(joueur.Robot) :
 
         coeff_noir.append(int(self.possessionCoinDuQuartier(self.plateau, noir, self.cote)))
         coeff_vert.append(1)
-        cfg.debug("on a bouure vert noir")
+        cfg.debug("on a bourre vert noir")
 
         coeff_noir.append(1)
         coeff_vert.append(0)
