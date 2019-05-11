@@ -204,6 +204,11 @@ class Plateau:
                     nombre+=1
         return nombre
 
+    def obtenirNombrePionsRestant(self):
+        """Determine le nombre de cases restantes"""
+        return self.taille[0]*self.taille[1]-self.obtenirNombrePionsJoueur(0)-self.obtenirNombrePionsJoueur(1)
+
+
 
     def obtenirEnvironnement(self,positions):
         """Prend en parametre une liste de position de case et retourne la liste des postions des cases vide se trouvant juste à cote"""
@@ -506,7 +511,7 @@ class Plateau:
             fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon+2,0)
             fenetre.check()
             fenetre.flip()
-            time.sleep(0.2)
+            time.sleep(cfg.TEMPS_ANIMATION_PION)
             fenetre.draw.circle(fenetre.screen,(255,0,0),position_brute,rayon+2,0) #tres mal implemente
             fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)
             fenetre.check()

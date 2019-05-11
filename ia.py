@@ -26,6 +26,9 @@ PLATEAU_COLORE=[[ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZO
                 [ZONE_NOIR, ZONE_NOIR ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIR ,ZONE_NOIR],
                 [ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_NOIR ,ZONE_COIN]]
 
+
+
+
 LISTE_POSITION_ZONE={}
 for i in range(len(LISTE_ZONES)):#Permet de generer LISTE_POSITION_ZONE
     result=[]
@@ -42,9 +45,16 @@ class IA(joueur.Robot) :
        super().__init__()
 
     def reinitialiser(self, plateau):
+        """Lancer au debut de chaque tour par la methode main
+        Ici on definit des variables qui ne vont pas etre modifie pendant tout le tour afin d'economiser temps..."""
         self.plateau=plateau#il ne faut surtout pas faire des simulations sur ce plateau !!
         self.mouvements_possibles=plateau.obtenirMouvementsValides(self.cote)
+        self.parite_desavantageuse = not(self.test_parite_avantageuse())
 
+    def test_parite_avantageuse(self):
+        """Determine si la parite est avantageuse pour nous
+        Si le nombre de case restante est impaire c'est avantageux"""
+        return self.plateau.obtenirNombrePionsRestant()%2==1
 
 
     def testToutPionsDansZones(self, plateau, zones):
@@ -77,6 +87,21 @@ class IA(joueur.Robot) :
                         ]
         """
         return PLATEAU_COLORE[position[0]][position[1]]
+
+    def obtenirCoinQuartier(self, pos):
+        """Retourne la position du coin le plus proche de la position pos"""
+        return [[(0,0),(0,0),(0,0),(0,0),(0,7),(0,7),(0,7),(0,7)],
+                [(0,0),(0,0),(0,0),(0,0),(0,7),(0,7),(0,7),(0,7)],
+                [(0,0),(0,0),(0,0),(0,0),(0,7),(0,7),(0,7),(0,7)],
+                [(0,0),(0,0),(0,0),(0,0),(0,7),(0,7),(0,7),(0,7)],
+                [(7,0),(7,0),(7,0),(7,0),(7,7),(7,7),(7,7),(7,7)],
+                [(7,0),(7,0),(7,0),(7,0),(7,7),(7,7),(7,7),(7,7)],
+                [(7,0),(7,0),(7,0),(7,0),(7,7),(7,7),(7,7),(7,7)],
+                [(7,0),(7,0),(7,0),(7,0),(7,7),(7,7),(7,7),(7,7)]][pos[0]][pos[1]]
+
+    def possessionCoinDuQuartier(self, plateau,pos, cote):
+        return plateau.estCaseJoueur(self.obtenirCoinQuartier(pos),cote)
+
 
     def testSiJoueurCotePossedeUneDeCesPositions(self, plateau, cote, positions):
         """Prend une liste de positions dans le plateau est verifi si le joueur de cote
@@ -139,13 +164,14 @@ class IA(joueur.Robot) :
         return resultat
 
     def est_coup_bourbier_par_cote(self, plateau, pos, cote):
-        """Dertermine si le coup à la positions pos joue par le joueur cote emepche l'adv de jouer au prochain tour"""
+        """Dertermine si le coup à la positions pos joué par le joueur cote empeche l'adv de jouer au prochain tour"""
         cote_oppose=1-cote
         plateau_simulation = deepcopy(plateau)
         plateau_simulation.placerPion(pos, cote)
         return len(plateau_simulation.obtenirMouvementsValides(cote_oppose)) <= 0
 
     def obtenir_coups_bourbier(self, plateau, cote):
+        """Retroune la liste de tout les coups bourbier parmi les coup possible pour nous"""
         coup_bourbier=[]
         MouvementsValides=plateau.obtenirMouvementsValides(cote)
         for mouvement in MouvementsValides :
@@ -175,6 +201,7 @@ class IA(joueur.Robot) :
         final_coup_possible_dans_zone=intersection(outils.liste_liste_vers_liste_tuple(plateau_simulation.obtenirMouvementsValides(self.cote_oppose)), LISTE_POSITION_ZONE[zone])
         final_nombre_coup_possible_dans_zone=len(final_coup_possible_dans_zone)
         return final_nombre_coup_possible_dans_zone-nombre_coup_possible_dans_zone
+
 
     @deco_debug
     def Nombre_pion_stable_zone(self, plateau, cote, zone):
@@ -217,8 +244,6 @@ class IA(joueur.Robot) :
     #@deco_debug
     def est_stable_pour_cote(self, plateau, liste_de_position, cote):#todo debug cette fonction
         #plateau_simulation = deepcopy(plateau)
-
-
         #cfg.debug("###on lance est_stable_pour_cote")
         cote_oppose=1-cote
         liste_des_cas_particuliers={}
@@ -249,17 +274,57 @@ class IA(joueur.Robot) :
             #L'adv ne peut pas former une ligne stable en prenant notre ligne, notre ligne est donc stable
             return True
 
-    @deco_debug
+    #@deco_debug
     def position_stable_pour_cote(self, plateau, position,cote):
         plateau_simulation = deepcopy(plateau)
         plateau_simulation.placerPion(position, cote)
         return self.est_stable_pour_cote(plateau_simulation, [position], cote)
 
+    def position_stable_pour_cote2(self, plateau, position, cote):#todo debug cette fonction
+        #Si on renomme cette fonction faut renommer egalement son appel recursif plus bas
+        cote_oppose=1-cote
+        liste_des_cas_particuliers={}
+        mouv_valide_adv=plateau.obtenirMouvementsValides(cote_oppose)
+        for mouv in mouv_valide_adv :
+            plateau_simulation = deepcopy(plateau)
+            plateau_simulation.placerPion(mouv, cote_oppose)
+            if plateau_simulation.estCaseJoueur(position, cote_oppose) :
+                #On est dans le deuxième cas
+                liste_des_cas_particuliers[tuple(mouv)]=plateau_simulation
+        cfg.debug("685lise cas paritculier "+repr(liste_des_cas_particuliers))
+        if liste_des_cas_particuliers=={}:
+            #L'adv ne peut pas prendre la position quelque soit son coup
+            return True
+        else :
+            for mouv_cas_particulier in liste_des_cas_particuliers:
+                #la position est alors stable si pour tout les mouv, la position est instable pour cote oppose
+                plateau_de_ce_cas=liste_des_cas_particuliers[mouv_cas_particulier]
+                if self.est_stable_pour_cote2(plateau_de_ce_cas, position, cote_oppose) :
+                    #l'adv a reussi a former une position satble, cela signifie la position de depart etait instable
+                    return False
+            #L'adv ne peut pas former une position stable en prenant notre pion, notre position est donc stable
+            return True
+
+
+
     @deco_debug
     def comparer_blanc(self, pos1, pos2):
         coeff1,coeff2=[],[]
+        #On produit ci dessous est en fait une astuce :
+        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+        #des coups proposes.
+        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+        #il n'influe donc pas dans  la selection du coup
+        coeff1.append(self.est_coup_bourbier_par_cote(self.plateau, pos1, self.cote)*self.parite_desavantageuse)
+        coeff2.append(self.est_coup_bourbier_par_cote(self.plateau, pos2, self.cote)*self.parite_desavantageuse)
+
+        coeff1.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos1, ZONE_TOUT))
+        coeff2.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos2, ZONE_TOUT))
+
         coeff1.append(self.Nombre_pion_retourne(self.plateau, pos1))
         coeff2.append(self.Nombre_pion_retourne(self.plateau, pos2))
+
         outils.ajouter_coeff_alea(coeff1, coeff2)
         if est_superieur(coeff1, coeff2) :
             return pos1
@@ -269,8 +334,21 @@ class IA(joueur.Robot) :
     @deco_debug
     def comparer_rouge(self, pos1, pos2):
         coeff1,coeff2=[],[]
+        #On produit ci dessous est en fait une astuce :
+        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+        #des coups proposes.
+        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+        #il n'influe donc pas dans  la selection du coup
+        coeff1.append(self.est_coup_bourbier_par_cote(self.plateau, pos1, self.cote)*self.parite_desavantageuse)
+        coeff2.append(self.est_coup_bourbier_par_cote(self.plateau, pos2, self.cote)*self.parite_desavantageuse)
+
         coeff1.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos1, ZONE_BORD))
         coeff2.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos2, ZONE_BORD))
+
+        coeff1.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos1, ZONE_TOUT))
+        coeff2.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos2, ZONE_TOUT))
+
         coeff1.append(self.Nombre_pion_retourne(self.plateau, pos1))
         coeff2.append(self.Nombre_pion_retourne(self.plateau, pos2))
         outils.ajouter_coeff_alea(coeff1, coeff2)
@@ -282,12 +360,29 @@ class IA(joueur.Robot) :
     @deco_debug
     def comparer_vert(self, pos1, pos2):
         coeff1,coeff2=[],[]
+        #On produit ci dessous est en fait une astuce :
+        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+        #des coups proposes.
+        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+        #il n'influe donc pas dans  la selection du coup
+        coeff1.append(self.est_coup_bourbier_par_cote(self.plateau, pos1, self.cote)*self.parite_desavantageuse)
+        coeff2.append(self.est_coup_bourbier_par_cote(self.plateau, pos2, self.cote)*self.parite_desavantageuse)
 
-        coeff1.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, pos1))
-        coeff2.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, pos2))
+        #coeff1.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, pos1))
+        #coeff2.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, pos2))
 
-        coeff1.append(self.Augmentation_pion_dans_zone(self.plateau, self.cote, ZONE_BORD, pos1))
-        coeff2.append(self.Augmentation_pion_dans_zone(self.plateau, self.cote, ZONE_BORD, pos2))
+        #coeff1.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, pos1))
+        #coeff2.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, pos2))
+
+        coeff1.append(int(self.position_stable_pour_cote(self.plateau, pos1, self.cote)))
+        coeff2.append(int(self.position_stable_pour_cote(self.plateau, pos2, self.cote)))
+
+        coeff1.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos1, ZONE_BORD))
+        coeff2.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos2, ZONE_BORD))
+
+        coeff1.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos1, ZONE_TOUT))
+        coeff2.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos2, ZONE_TOUT))
 
         coeff1.append(self.Nombre_pion_retourne(self.plateau, pos1))
         coeff2.append(self.Nombre_pion_retourne(self.plateau, pos2))
@@ -301,6 +396,14 @@ class IA(joueur.Robot) :
     @deco_debug
     def comparer_noir(self, pos1, pos2):
         coeff1,coeff2=[],[]
+        #On produit ci dessous est en fait une astuce :
+        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+        #des coups proposes.
+        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+        #il n'influe donc pas dans  la selection du coup
+        coeff1.append(self.est_coup_bourbier_par_cote(self.plateau, pos1, self.cote)*self.parite_desavantageuse)
+        coeff2.append(self.est_coup_bourbier_par_cote(self.plateau, pos2, self.cote)*self.parite_desavantageuse)
 
         coeff1.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos1, ZONE_COIN))
         coeff1.append(-1*self.Augmentation_coup_possible_adv_dans_zone(self.plateau, pos2, ZONE_COIN))
@@ -309,6 +412,8 @@ class IA(joueur.Robot) :
         coeff2.append(int(self.position_stable_pour_cote(self.plateau, pos2, self.cote)))
 
         #todo faire cas Case noir sur l'extrême bord, juste à côté d’un coin conquis
+        coeff1.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, pos1))
+        coeff2.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, pos2))
 
         coeff1.append(self.Nombre_pion_retourne(self.plateau, pos1))
         coeff2.append(self.Nombre_pion_retourne(self.plateau, pos2))
@@ -321,15 +426,20 @@ class IA(joueur.Robot) :
 
     def comparer_coin(self, pos1, pos2):
         coeff1,coeff2=[],[]
+        #On produit ci dessous est en fait une astuce :
+        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+        #des coups proposes.
+        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+        #il n'influe donc pas dans  la selection du coup
+        coeff1.append(self.est_coup_bourbier_par_cote(self.plateau, pos1, self.cote)*self.parite_desavantageuse)
+        coeff2.append(self.est_coup_bourbier_par_cote(self.plateau, pos2, self.cote)*self.parite_desavantageuse)
 
         coeff1.append(self.Nombre_coin_adjacent_pris(self.plateau, self.cote, pos1))
         coeff2.append(self.Nombre_coin_adjacent_pris(self.plateau, self.cote, pos2))
 
-        coeff1.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, pos1))
-        coeff2.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, pos2))
-
-        coeff1.append(self.Augmentation_pion_dans_zone(self.plateau, self.cote, ZONE_BORD, pos1))
-        coeff2.append(self.Augmentation_pion_dans_zone(self.plateau, self.cote, ZONE_BORD, pos2))
+        coeff1.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, pos1))
+        coeff2.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, pos2))
 
         coeff1.append(self.Nombre_pion_retourne(self.plateau, pos1))
         coeff2.append(self.Nombre_pion_retourne(self.plateau, pos2))
@@ -343,41 +453,79 @@ class IA(joueur.Robot) :
     @deco_debug
     def comparer_blanc_rouge(self, blanc, rouge):
 
-        if self.Augmentation_coup_possible_adv_dans_zone(self.plateau, rouge, ZONE_BORD)<=0:
-            if self.Nombre_pion_retourne(self.plateau, rouge)>=self.Nombre_pion_retourne(self.plateau, blanc) :
-                return rouge
+        cfg.debug("on a bourre comapre blacn et rouge")
         return blanc
+        coeff_blanc, coeff_rouge = [], []
+
+
+        coeff_blanc.append(self.est_coup_bourbier_par_cote(self.plateau, blanc, self.cote) * self.parite_desavantageuse)
+        coeff_rouge.append(self.est_coup_bourbier_par_cote(self.plateau, rouge, self.cote) * self.parite_desavantageuse)
+
+        coeff_rouge.append(int(self.Augmentation_coup_possible_adv_dans_zone(self.plateau, rouge, ZONE_BORD)<=0))
+        coeff_blanc.append(1)
+
+        coeff_rouge.append(int(self.Nombre_pion_retourne(self.plateau, rouge)>=self.Nombre_pion_retourne(self.plateau, blanc)))
+        coeff_blanc.append(1)
+
+
+
+        coeff_rouge.append(1)
+        coeff_blanc.append(0)
+
+        #outils.ajouter_coeff_alea(coeff_blanc, coeff_rouge)
+
+        if est_superieur(coeff_blanc, coeff_rouge):
+            return blanc
+        else:
+            return rouge
+
+
 
     @deco_debug
     def comparer_blanc_vert(self, blanc, vert):#todo faire un debug affichable
-        if self.position_stable_pour_cote(self.plateau, blanc, self.cote) :
-            if not(self.position_stable_pour_cote(self.plateau, vert, self.cote)) :
-                if self.Nombre_pion_retourne(self.plateau, blanc)>=self.Nombre_pion_retourne(self.plateau, vert) :
-                    cfg.debug("##Cas particulier {} est mieux que {}")
-                    return blanc
-        return vert
+
+        coeff_blanc, coeff_vert = [], []
+
+        coeff_blanc.append(self.est_coup_bourbier_par_cote(self.plateau, blanc, self.cote) * self.parite_desavantageuse)
+        coeff_vert.append(self.est_coup_bourbier_par_cote(self.plateau, vert, self.cote) * self.parite_desavantageuse)
+
+
+        coeff_blanc.append(int(not(self.position_stable_pour_cote(self.plateau, vert, self.cote))))
+        coeff_vert.append(1)
+
+
+        coeff_blanc.append(1)#on prend le blanc en prioro
+        coeff_vert.append(0)
+
+        if est_superieur(coeff_blanc, coeff_vert):
+            return blanc
+        else:
+            return vert
 
     @deco_debug
     def comparer_blanc_noir(self, blanc, noir):#todo faire un debug affichable
-        if self.Augmentation_coup_possible_adv_dans_zone(self.plateau, noir, ZONE_COIN)<=0:
-            #Ok on peut envisager de jouer noir
-            coeff_blanc, coeff_noir=[],[]
-            coeff_blanc.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, blanc))
-            coeff_noir.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, noir))
-
-            coeff_blanc.append(self.Nombre_pion_retourne(self.plateau, blanc))
-            coeff_noir.append(self.Nombre_pion_retourne(self.plateau, noir))
-
-            outils.ajouter_coeff_alea(coeff_blanc, coeff_noir)
-
-            cfg.debug("##Cas particu noir {} est mieux que blanc {}".format(noir, blanc))
-            if est_superieur(coeff_blanc, coeff_noir):
-                return blanc
-            else:
-                return noir
-
-
+        cfg.debug("on a bourre comparer blanc rouge")
         return blanc
+        coeff_blanc, coeff_noir = [], []
+
+        coeff_blanc.append(1)
+        coeff_noir.append(int(self.Augmentation_coup_possible_adv_dans_zone(self.plateau, noir, ZONE_COIN)<=0))
+
+        coeff_blanc.append(self.est_coup_bourbier_par_cote(self.plateau, blanc, self.cote) * self.parite_desavantageuse)
+        coeff_noir.append(self.est_coup_bourbier_par_cote(self.plateau, noir, self.cote) * self.parite_desavantageuse)
+
+        coeff_blanc.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, blanc))
+        coeff_noir.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, noir))
+
+        coeff_blanc.append(self.Nombre_pion_retourne(self.plateau, blanc))
+        coeff_noir.append(self.Nombre_pion_retourne(self.plateau, noir))
+
+        outils.ajouter_coeff_alea(coeff_blanc, coeff_noir)
+
+        if est_superieur(coeff_blanc, coeff_noir):
+            return blanc
+        else:
+            return noir
 
     @deco_debug
     def comparer_blanc_coin(self, blanc, coin):
@@ -385,31 +533,51 @@ class IA(joueur.Robot) :
 
     @deco_debug
     def comparer_rouge_vert(self, rouge, vert):#todo revoir ca + debug affichage
-        if not(self.position_stable_pour_cote(self.plateau, vert, self.cote)) :
-            if self.position_stable_pour_cote(self.plateau, rouge, self.cote) :
-                cfg.debug("##Cas particulier, le rouge {} est mieux que le vert {}".format(rouge, vert))
-                return rouge
-        return vert
+
+        coeff_rouge, coeff_vert=[],[]
+
+        coeff_rouge.append(int(not(self.position_stable_pour_cote(self.plateau, vert, self.cote))))
+        coeff_vert.append(1)
+
+        coeff_rouge.append(self.est_coup_bourbier_par_cote(self.plateau, rouge, self.cote)*self.parite_desavantageuse)
+        coeff_vert.append(self.est_coup_bourbier_par_cote(self.plateau, vert, self.cote)*self.parite_desavantageuse)
+
+        coeff_rouge.append(1)
+        coeff_vert.append(0)
+
+        outils.ajouter_coeff_alea(coeff_vert, coeff_rouge)
+        if est_superieur(coeff_rouge, coeff_vert) :
+            return rouge
+        else :
+            return vert
+
+
 
     @deco_debug
     def comparer_rouge_noir(self, rouge, noir):#todo revoir ca + debug affichage
-        if self.Augmentation_coup_possible_adv_dans_zone(self.plateau, noir, ZONE_COIN)<=0:
-            #Ok on peut envisager de jouer noir
-            coeff_rouge, coeff_noir = [], []
 
-            coeff_rouge.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, rouge))
-            coeff_noir.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, noir))
+        coeff_rouge, coeff_noir = [], []
 
-            coeff_rouge.append(self.Nombre_pion_retourne(self.plateau, rouge))
-            coeff_noir.append(self.Nombre_pion_retourne(self.plateau, noir))
+        #coeff_noir.append(int(self.Augmentation_coup_possible_adv_dans_zone(self.plateau, noir, ZONE_COIN)<=0))
+        #coeff_rouge.append(1)
 
-            outils.ajouter_coeff_alea(coeff_rouge, coeff_noir)
-            if est_superieur(coeff_rouge, coeff_noir):
-                return rouge
-            else:
-                return noir
+        coeff_noir.append(int(self.possessionCoinDuQuartier(self.plateau, noir, self.cote)))
+        coeff_rouge.append(1)
 
-        return rouge
+        coeff_noir.append(self.est_coup_bourbier_par_cote(self.plateau, noir, self.cote)*self.parite_desavantageuse)
+        coeff_rouge.append(self.est_coup_bourbier_par_cote(self.plateau, rouge, self.cote)*self.parite_desavantageuse)
+
+        coeff_rouge.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, rouge))
+        coeff_noir.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_TOUT, noir))
+
+        coeff_rouge.append(self.Nombre_pion_retourne(self.plateau, rouge))
+        coeff_noir.append(self.Nombre_pion_retourne(self.plateau, noir))
+
+        outils.ajouter_coeff_alea(coeff_rouge, coeff_noir)
+        if est_superieur(coeff_rouge, coeff_noir):
+            return rouge
+        else:
+            return noir
 
     @deco_debug
     def comparer_rouge_coin(self, rouge, coin):
@@ -417,27 +585,36 @@ class IA(joueur.Robot) :
 
     @deco_debug
     def comparer_vert_noir(self, vert, noir):
-        if self.Augmentation_coup_possible_adv_dans_zone(self.plateau, noir, ZONE_COIN)<=0:
-            #Ok on peut envisager de jouer noir
-            coeff_vert, coeff_noir = [], []
 
-            coeff_vert.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, vert))
-            coeff_noir.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, noir))
+        coeff_vert, coeff_noir = [], []
 
-            coeff_vert.append(self.Augmentation_pion_dans_zone(self.plateau, self.cote, ZONE_BORD, vert))
-            coeff_noir.append(self.Augmentation_pion_dans_zone(self.plateau, self.cote, ZONE_BORD, noir))
+        coeff_noir.append(int(self.possessionCoinDuQuartier(self.plateau, noir, self.cote)))
+        coeff_vert.append(1)
+        cfg.debug("on a bourre vert noir")
 
-            coeff_vert.append(self.Nombre_pion_retourne(self.plateau, vert))
-            coeff_noir.append(self.Nombre_pion_retourne(self.plateau, noir))
+        coeff_noir.append(1)
+        coeff_vert.append(0)
+        coeff_noir.append(int(self.Augmentation_coup_possible_adv_dans_zone(self.plateau, noir, ZONE_COIN)<=0))
+        coeff_vert.append(1)
 
-            outils.ajouter_coeff_alea(coeff_vert, coeff_noir)
-            if est_superieur(coeff_vert, coeff_noir):
-                return vert
-            else:
-                return noir
+        coeff_noir.append(self.est_coup_bourbier_par_cote(self.plateau, noir, self.cote)*self.parite_desavantageuse)
+        coeff_vert.append(self.est_coup_bourbier_par_cote(self.plateau, vert, self.cote)*self.parite_desavantageuse)
 
 
-        return vert
+        coeff_vert.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, vert))
+        coeff_noir.append(self.Augmentation_pion_stable_dans_zone(self.plateau, self.cote, ZONE_BORD, noir))
+
+        coeff_vert.append(self.Augmentation_pion_dans_zone(self.plateau, self.cote, ZONE_BORD, vert))
+        coeff_noir.append(self.Augmentation_pion_dans_zone(self.plateau, self.cote, ZONE_BORD, noir))
+
+        coeff_vert.append(self.Nombre_pion_retourne(self.plateau, vert))
+        coeff_noir.append(self.Nombre_pion_retourne(self.plateau, noir))
+
+        outils.ajouter_coeff_alea(coeff_vert, coeff_noir)
+        if est_superieur(coeff_vert, coeff_noir):
+            return vert
+        else:
+            return noir
 
     @deco_debug
     def comparer_vert_coin(self, vert, coin):
@@ -495,31 +672,20 @@ class IA(joueur.Robot) :
         #cfg.debug("le args", args)
         return self.compa_diago(fct2,fct2(args[0], args[1]), *args[2:])
 
-    def main(self, plateau):
+    def main(self, plateau, fenetre=None):
+        self.fenetre=fenetre
         self.reinitialiser(plateau)  # Il faut prednre en compte le nouveau plateau
+        cfg.debug("les coup possible :", repr(self.mouvements_possibles))
         coups_bourbier=self.obtenir_coups_bourbier(self.plateau, self.cote)
-        if coups_bourbier!=[] :
-            cfg.debug("##Coup Bourbier !")
-            return self.compa_diago(self.comparer, *coups_bourbier)
-        else :
-            return self.compa_diago(self.comparer, *self.mouvements_possibles)
+        return self.compa_diago(self.comparer, *self.mouvements_possibles)
+        #if coups_bourbier!=[] :
+        #    cfg.debug("##Coup Bourbier !")
+        #    return self.compa_diago(self.comparer, *coups_bourbier)
+        #else :
+        #    return self.compa_diago(self.comparer, *self.mouvements_possibles)
+
+    def debug_case(self, positions,couleur,message=None,clear=True,pause=True):
+        if self.fenetre!=None :
+            self.plateau.presenter(positions,couleur,self.fenetre,message=message,clear=clear,pause=pause)
 
 
-    """
-    def main(self, plateau_objet) :
-        #if not(self.test_acces_zone(self, ZONE_BORD)):
-        self.reinitialiser(plateau_objet)#Il faut prednre en compte le nouveau plateau
-
-        if self.testToutPionsDansZones(self.plateau, ZONE_BLANCHE) :#alors tout les pions sont dans la zone blanche c'est necore le debut de la particulier
-            return self.obtenirPositionAleatoireDansZone(self.mouvements_possibles, ZONE_BLANCHE)
-            #Si c'est le debut du jeu, alors on joue aleatoirement dans ZONE_BLANCHE
-        #Sinon on essai de jouer dans
-        #QUand on joue sur les bords on ne veut pas etre repris juste après
-        if intersection(LISTE_POSITION_ZONE[ZONE_BORD], self.mouvements_possibles)!=[]:
-            coups_interressant_sur_bord=[]#ensemble coup possible sur le bords ou on n'est pas pirs juste apres
-            for position in intersection(LISTE_POSITION_ZONE[ZONE_BORD], self.mouvements_possibles):
-                if not self.test_peut_etre_repris_tout_suite_apres(position) :
-                    coups_interressant_sur_bord.append(position)
-            if coups_interressant_sur_bord :#si coups_interressant_sur_bord est pas vide
-                return random.choice(coups_interressant_sur_bord)
-"""

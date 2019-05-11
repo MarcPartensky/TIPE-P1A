@@ -1,5 +1,5 @@
 from mywindow import Window
-from othello import Othello
+from Othello import Othello
 from joueur import Robot,Humain,Developpeur
 from bruteforce import BruteForce
 
