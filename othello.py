@@ -105,6 +105,8 @@ class Othello:
         """Determine le gagnant de la partie a la fin du jeu."""
         jouable=self.plateau.estJouable()
         cote_gagnant=self.plateau.obtenirCoteGagnant()
+        if cote_gagnant: cfg.log("Le joueur "+str(cote_gagant)"a gagne.")
+        else: cfg.log("Match nul.")
         #Faire attention au fait que le plateau ne connait que des cotés, et à
         #aucun moment il ne possède les vrais joueurs comme attributs.
         #Effectivement, ce sont les joueurs qui utilise le plateau et non l'inverse.
@@ -135,7 +137,7 @@ class Othello:
         self.tour = self.state % self.plateau.nombre_de_joueurs
         joueur_actif=self.joueurs[self.tour]#joueur a qui c'est le tour
         self.plateau.charger(self.tour) #Necessaire pour tous les joueurs
-        self.plateau.chargerAnalyse(self.fenetre) #Economise du temps de calcul pour les ias qui s'en servent, et peut être affichée pour une démonstration
+        #self.plateau.chargerAnalyse(self.fenetre) #Economise du temps de calcul pour les ias qui s'en servent, et peut être affichée pour une démonstration
         self.state+=1
         if len(self.plateau.mouvements)>=1:#Si des moves sont possibles
             choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.fenetre)

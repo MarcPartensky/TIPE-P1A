@@ -10,7 +10,7 @@ class PlateauAnalysable(Plateau):
 
     def __init__(self,*args,**kwargs):
         """Creer un plateau analysable."""
-        self.vitesse_demonstration=0.1 #Possibilité de changer la vitesse de démonstration
+        self.vitesse_demonstration=1 #Possibilité de changer la vitesse de démonstration
         self.pions_definitivement_stables=None
         self.pions_stables=None
         super().__init__(*args,**kwargs)
@@ -30,8 +30,7 @@ class PlateauAnalysable(Plateau):
         for i in range(2):
             self.presenter(self.pions_stables[i],self.pieces_couleur[i],fenetre,"stables")
             self.presenter(self.pions_prenables[i],self.pieces_couleur[i],fenetre,"prenables")
-            self.presenter(self.pions_definitivement_stables[i],self.pieces_couleur[i],fenetre,"definitivement_stables",clear=False,pause=False)
-            fenetre.attendre(0.5)
+            self.presenter(self.pions_definitivement_stables[i],self.pieces_couleur[i],fenetre,"definitivement_stables")
 
     def obtenirToutesLesLignes(self):
         """Renvoie la liste de toutes les lignes possibles de la grille."""
@@ -78,7 +77,7 @@ class PlateauAnalysable(Plateau):
         fenetre.clear()
         plateau.afficher(fenetre)
         for i in range(2):
-            plateau.presenter(tous_les_pions[i],self.pieces_couleur[i],fenetre,message="pions stables",pause=False,clear=False)
+            plateau.presenter(tous_les_pions[i],self.pieces_couleur[i],fenetre,message="pions stables",clear=False)
         if tous_les_pions.count([])!=2:
             fenetre.attendre() #Par défaut la fenetre attend 1 seconde
 
@@ -116,8 +115,7 @@ class PlateauAnalysable(Plateau):
             """Présentation des lignes sur l'écran pour le mode démonstration."""
             self.presenter(ligne,couleurs.BLEU,fenetre,message="ligne",pause=False)
             self.presenter(ligne_oppose,couleurs.VIOLET,fenetre,message="ligne_oppose",clear=False,pause=False)
-            self.presenter(pion,couleurs.ROUGE,fenetre,"pion considéré",clear=False,pause=False)
-            fenetre.attendre(self.vitesse_demonstration)
+            self.presenter(pion,couleurs.ROUGE,fenetre,"pion considéré",clear=False)
             if not stable:
                 break
         return stable

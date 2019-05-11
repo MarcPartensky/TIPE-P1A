@@ -1,6 +1,6 @@
 from mywindow import Window
 from othello import Othello
-from jouer import Robot,Humain
+from joueur import Robot,Humain
 from bruteforce import BruteForce
 from ia import IA
 #from neuralnetwork import NeuralNetwork
@@ -12,16 +12,13 @@ class Simulateur:
         self.nombre_parties=nombre_parties
         self.joueurs=joueurs
         self.affichage=affichage
-        self.display=display
         self.gagnants=[]
 
     def __call__(self):
         """Boucle 'for' principale du simulateur."""
         for i in range(self.nombre_parties):
-            if self.fenetre:
-                jeu=Othello(self.joueurs,self.fenetre)
-            else:
-                jeu=Othello(self.joueurs)
+            if self.fenetre: jeu=Othello(self.joueurs,self.fenetre)
+            else: jeu=Othello(self.joueurs)
             jeu()
             if not jeu.fenetre.open:
                 break
