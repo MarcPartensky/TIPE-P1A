@@ -1,3 +1,34 @@
+"""
+################################################################################
+#
+#              Institut Supérieur d'électronique de Paris (ISEP)
+#
+#                               SUJET DE TIPE:
+#                     Othello et Intelligence Artificielle
+#
+#    Première année  --  MPSI
+#
+#    Créateurs : Marc  PARTENSKY
+#                Valentin  COLIN
+#                Alexandre Bigot
+#
+#    Version : 2019
+#
+################################################################################
+#
+#                           SOMMAIRE de fenetre
+#
+#    0. class Fenetre   .............................................. ligne
+#    1.    ................................................ ligne
+#    2.    .............................................. ligne
+#    3.    ................................................ ligne
+#    4.    ................................................ ligne
+#    5.    ............................................... ligne
+#
+################################################################################
+"""
+# --coding:utf-8--
+
 from __future__ import division
 
 from couleurs import *
@@ -13,11 +44,11 @@ class Fenetre:
     made=0
     draw=pygame.draw
 
-    def __init__(self,nom="Unnamed Game",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
+    def __init__(self,name="Window Name",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
         Fenetre.made+=1
         self.number=Fenetre.made
-        self.name=nom
+        self.name=name
         self.taille=taille
         self.text_font=text_font
         self.taille_du_texte=text_size
@@ -110,36 +141,22 @@ class Fenetre:
             if keys[K_SPACE]:
                 self.pausing=False
 
-
-    def sleep(self,waiting_time): #useless
-        """Wait for giving time."""
-        time.sleep(waiting_time)
-
-    def press(self):
-        """Return all keys."""
-        return pygame.key.get_pressed()
-
     def direction(self):
         """Return keys for arrows pressed. Trigonometric orientation is used."""
         keys=pygame.key.get_pressed()
-        if keys[K_LEFT]:
-            left=True
-        else:
-            left=False
-        if keys[K_RIGHT]:
-            right=True
-        else:
-            right=False
-        if keys[K_UP]:
-            up=True
-        else:
-            up=False
-        if keys[K_DOWN]:
-            down=True
-        else:
-            down=False
-        return [right,up,right,down]
+        if keys[K_LEFT]:  left=True
+        else:             left=False
 
+        if keys[K_RIGHT]: right=True
+        else:             right=False
+
+        if keys[K_UP]:    up=True
+        else:             up=False
+
+        if keys[K_DOWN]:  down=True
+        else:             down=False
+
+        return [right,up,left,down]
 
     def select(self):
         """Wait for user to click on screen, then return cursor position."""
@@ -170,7 +187,6 @@ class Fenetre:
         self.picture_saved+=1
         pygame.image.save(self.screen,self.name+"-"+str(self.picture_saved)+".png")
 
-
     def getPicture(self,picture_directory):
         """Return picture using picture directory."""
         return pygame.image.load(picture_directory)
@@ -193,7 +209,6 @@ class Fenetre:
         x=sx//2-letter_size*l//2
         y=sy//2-taille/3
         return (x,y)
-
 
     def alert(self,message):
         """Quickly display text on window."""
@@ -236,7 +251,6 @@ class Fenetre:
         x,y=(rcx-wcx,rcy-wcy)
         return (x,y)
 
-
     def randomColor(self):
         """Return random color."""
         import random
@@ -276,14 +290,13 @@ class Fenetre:
         image.fill(color[0:3]+(0,),None,pygame.BLEND_RGBA_ADD)
         return image
 
-
     def wavelengthToRGB(self,wavelength):
         """Convert wavelength to rgb color type."""
         gamma,max_intensity=0.80,255
         def adjust(color, factor):
             if color==0: return 0
             else: return round(max_intensity*pow(color*factor,gamma))
-        if 380<=wavelength<=440: r,g,b=-(wavelength-440)/(440-380),0,1
+        if   380<=wavelength<=440: r,g,b=-(wavelength-440)/(440-380),0,1
         elif 440<=wavelength<=490: r,g,b=0,(wavelength-440)/(490-440),1
         elif 490<=wavelength<=510: r,g,b=0,1,-(wavelength-510)/(510-490)
         elif 510<=wavelength<=580: r,g,b=(wavelength-510)/(580-510),1,0
@@ -299,11 +312,10 @@ class Fenetre:
 
     def __str__(self):
         """Donne une représentation en string de la fenêtre."""
-        text="Fenetre creee par Marc Partensky afin de faciliter l'utilisation des fonctions de pygame."
+        text="Fenêtre créé par Marc Partensky afin de faciliter l'utilisation des fonctions de pygame."
         return text
 
     __repr__=__help__=__str__
-
 
     def kill(self):
         """Quit pygame."""
