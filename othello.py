@@ -32,16 +32,13 @@
 """
 # --coding:utf-8--
 
-import mywindow
-import couleurs
-
 from plateau_analysable import PlateauAnalysable as Plateau
 
+import couleurs
 import joueur as Joueur
 import time
 import pygame
 from pygame.locals import *
-from config import log #Utilisé pour débuguer rapidement
 import config as cfg
 
 from copy import deepcopy
@@ -62,7 +59,7 @@ class Othello:
         if fenetre:
             self.chargerFenetre(fenetre) #Charge une fenetre existante
             self.chargerTheme(theme) #Charge un theme même si celui-ci est None
-            log("Fenetre et theme:",self.fenetre,self.theme)
+            cfg.debug("Fenetre et theme:",self.fenetre,self.theme)
             self.plateau=Plateau(theme=self.theme)
         else:
             self.fenetre=None
@@ -98,7 +95,7 @@ class Othello:
             self.faireTour()
 
         self.derterminer_gagnant()
-        log("le gagnant : {}".format(repr(self.gagnant)))
+        cfg.debug("le gagnant : {}".format(repr(self.gagnant)))
         if self.fenetre:
             self.afficher()
             self.afficherSceneFinale()
@@ -106,7 +103,7 @@ class Othello:
     def derterminer_gagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
         cote_gagnant=self.plateau.obtenirCoteGagnant()
-        if cote_gagnant: cfg.log("Le joueur "+str(cote_gagant)"a gagne.")
+        if cote_gagnant: cfg.log("Le joueur "+str(cote_gagnant)+"a gagne.")
         else: cfg.log("Match nul.")
         #Faire attention au fait que le plateau ne connait que des cotés, et à
         #aucun moment il ne possède les vrais joueurs comme attributs.
@@ -123,7 +120,7 @@ class Othello:
         """Afficher le resultat de la partie une fois qu'elle est terminee.
         Ne peut être exécutée que si la fenetre existe."""
         if self.gagnant: #Si il existe un gagnant, l'afficher.
-            message=str(self.gagnant)+" gagne!"
+            message=repr(self.gagnant)+" gagne!"
         else: #Sinon, afficher match nul.
             message="Match Nul"
         position=list(self.fenetre.centerText(message)) #Centre la position du message, ne fonctionne pas correctement.
@@ -131,6 +128,7 @@ class Othello:
         taille=[int(len(message)*self.fenetre.taille_du_texte/2.7),70] #Choisie la taille du message.
         self.fenetre.print(message,position,taille,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC) #Affiche le message.
         self.fenetre.flip() #Rafraîchie la fenêtre.
+        config.info("Fin de partie :"+message)
         self.fenetre.pause() #Fais pause en attendant que l'utilisateur appuie sur espace ou escape.
 
     def afficher(self):

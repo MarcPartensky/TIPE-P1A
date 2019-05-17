@@ -40,7 +40,7 @@ conversion1 = {"assert":"ASSERT",
 
 def algorithm(name):
     lines = inspect.getsource(name)
-    print(lines)
+    #print(lines)
     output = []
     lines = lines.split("\n")
     lines=removeUselessIndent(lines)
@@ -106,17 +106,17 @@ class Converter:
             self.lines[i]=self.lines[i][4*count:]
 
     def trackIndent(self,i):
-        print(i)
+        #print(i)
         indent=self.countIndent(self.lines[i])
         if indent>len(self.indent_historic):
             self.addElementIndentHistoric(i)
         if indent<len(self.indent_historic):
             self.delElementIndentHistoric(i)
-        print("i:",i)
-        print("self.lines[i]:",self.lines[i])
-        print("indent:",indent)
-        print("historic:",self.indent_historic)
-        print("")
+        #print("i:",i)
+        #print("self.lines[i]:",self.lines[i])
+        #print("indent:",indent)
+        #print("historic:",self.indent_historic)
+        #print("")
         self.indent=indent
         self.removeIndent(i)
 
@@ -129,13 +129,13 @@ class Converter:
         for e in l:
             if e in self.lines[i]:
                 self.indent_historic.append(l[e])
-                print(self.lines[i])
-                print(e)
-                print(e in self.lines[i])
+                #print(self.lines[i])
+                #print(e)
+                #print(e in self.lines[i])
 
     def delElementIndentHistoric(self,i):
-        print(len(self.lines))
-        print(i+1)
+        #print(len(self.lines))
+        #print(i+1)
         self.lines[i]+="\n"+" "*4*(self.countIndent(self.lines[i+1])+1)+"FIN "+self.indent_historic[-1]
         del self.indent_historic[-1]
 

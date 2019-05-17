@@ -8,7 +8,6 @@ import outils
 import random
 import copy
 
-from mywindow import Window
 
 
 class IA(Joueur):

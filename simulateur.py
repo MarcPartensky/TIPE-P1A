@@ -1,4 +1,4 @@
-from mywindow import Window
+from fenetre import Fenetre
 from othello import Othello
 from joueur import Robot,Humain
 from bruteforce import BruteForce
@@ -35,7 +35,7 @@ class Simulateur:
 
 
 if __name__=="__main__":
-    fenetre=Window(taille=[800,800],fullscreen=False)
+    fenetre=Fenetre(taille=[800,800],fullscreen=False)
     joueurs=[IA(),BruteForce(3)]
     nombre_parties=50
     affichage=True

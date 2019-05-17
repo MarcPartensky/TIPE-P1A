@@ -9,15 +9,15 @@ import json
 
 
 
-class Window:
+class Fenetre:
     made=0
     draw=pygame.draw
 
-    def __init__(self,name="Unnamed Game",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
-        """Create a window object using name, taille text_font, text_size, text_color, background and set."""
-        Window.made+=1
-        self.number=Window.made
-        self.name=name
+    def __init__(self,nom="Unnamed Game",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
+        """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
+        Fenetre.made+=1
+        self.number=Fenetre.made
+        self.name=nom
         self.taille=taille
         self.text_font=text_font
         self.taille_du_texte=text_size
@@ -29,14 +29,12 @@ class Window:
             self.set()
 
     def load(self):
-        """Load builtins attributs of window object."""
+        """Load builtins attributs of fenetre object."""
         self.RIGHT = 0
         self.UP    = 1
         self.LEFT  = 2
         self.DOWN  = 3
         if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
-        #self.mouse_position=pygame.mouse.get_pos()
-        #self.mouse_click=bool(pygame.mouse.get_pressed()[0])
         self.selecter_color=self.reverseColor(self.couleur_de_fond)
         self.pausing=False
         self.open=False
@@ -330,8 +328,10 @@ class Window:
         self.pause()
 
 
+"""Guide d'utilisation et test de la fenetre."""
+
 if __name__=="__main__":
-    w=Window("Game")
+    w=Fenetre("Game")
     print(w.press())
     #save(w,"grosse fenetre")
     #w=load("grosse fenetre")
