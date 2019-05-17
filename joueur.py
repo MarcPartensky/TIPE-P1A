@@ -189,7 +189,6 @@ class Developpeur(Joueur):
             curseur=fenetre.point()#Renvoie les coordonnees du curseur
             position=plateau.obtenirPositionPlateau(curseur,fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
             plateau.afficher(fenetre)
-            #plateau.colorerCase(position,couleurs.BLEU,fenetre)
             fenetre.flip()
             click=fenetre.click()
             if click:
