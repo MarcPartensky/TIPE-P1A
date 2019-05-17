@@ -7,6 +7,7 @@ from outils import deco_debug
 import outils
 import config as cfg
 
+#La liste des différentes zone de jeu :
 ZONE_COIN=4#Ne doit pas etre une liste
 ZONE_BORD=3
 ZONE_BLANCHE=2
@@ -42,6 +43,7 @@ for i in range(len(LISTE_ZONES)):#Permet de generer LISTE_POSITION_ZONE
 
 class IA(joueur.Robot) :
     def __init__(self):
+        "Lance l'__init__ de la classe joueur.Robot"
        super().__init__()
 
     def reinitialiser(self, plateau):
@@ -58,7 +60,7 @@ class IA(joueur.Robot) :
 
 
     def testToutPionsDansZones(self, plateau, zones):
-        """Test si tout les pions du plateau sont dans les zones zones"""
+        """Test si tout les pions du plateau plateau sont dans les zones zones"""
         if not isinstance(zones,list):
             zones=[zones]
         resultat=True
@@ -71,6 +73,7 @@ class IA(joueur.Robot) :
 
 
     def test_acces_zone(self, zone) :
+        """Retourne Vrai si l'IA peut actuellement jouer dans la zone zone"""
         resultat=False
         for position in self.mouvements_possibles:
             if self.obtenir_couleur_position(position)==zone :
@@ -79,13 +82,7 @@ class IA(joueur.Robot) :
         return resultat
 
     def obtenir_couleur_position(self, position):
-        #"""Retourne si coin, zone blanche etc..."""
-        a="""positions_bord=[(1,0),(self.plateau.taille_x-2,0),
-                        (0,1),(1,1),(self.plateau.taille_x-2,1), (self.plateau.taille_x-1,1),
-                        (0,self.plateau.taille_y-2),(1,self.plateau.taille_y-2), (self.plateau.taille_x-2,self.plateau.taille_y-2),(self.plateau.taille_x-1,self.plateau.taille_y-2),
-                        (1,self.plateau.taille_y-1),(self.plateau.taille_x-2,self.plateau.taille_y-1)
-                        ]
-        """
+        """Retourne la couleur de la position position, il s'agit également de la zone dans laquelle est la position"""
         return PLATEAU_COLORE[position[0]][position[1]]
 
     def obtenirCoinQuartier(self, pos):
@@ -100,12 +97,13 @@ class IA(joueur.Robot) :
                 [(7,0),(7,0),(7,0),(7,0),(7,7),(7,7),(7,7),(7,7)]][pos[0]][pos[1]]
 
     def possessionCoinDuQuartier(self, plateau,pos, cote):
+        """Retourne si le joueur cote possede le coin le plus proche de la position pos dans le plateau plateau"""
         return plateau.estCaseJoueur(self.obtenirCoinQuartier(pos),cote)
 
 
     def testSiJoueurCotePossedeUneDeCesPositions(self, plateau, cote, positions):
-        """Prend une liste de positions dans le plateau est verifi si le joueur de cote
-        cote possede un pion a l'une des position de la liste"""
+        """Prend une liste de positions dans le plateau est verifie si le joueur de cote
+        cote possede un pion à l'une des position de la liste positions"""
         resultat=False
         for position in positions:
             if plateau.estCaseJoueur(position, cote):
@@ -114,7 +112,7 @@ class IA(joueur.Robot) :
         return resultat
 
     def testSiJoueurCotePossedeTouesCesPositions(self, plateau, cote, positions):
-        """Prend une liste de positions dans le plateau est verifi si le joueur de cote
+        """Prend une liste de positions dans le plateau est verifie si le joueur de cote
         cote possede tout les pions sur les position de la liste"""
         for position in positions:
             if not(plateau.estCaseJoueur(position, cote)):
@@ -122,15 +120,13 @@ class IA(joueur.Robot) :
         return True
 
     def test_si_le_joueur_cote_peut_prendre_position(self,plateau, cote, positions):
-        """on considere que position est une case valide du plateau
-        On a un plateau, c'est le tour de joueur cote est on souhaite determiner, si dans ses mouvements possibles,
-        un permet d'avoir une pion de sa couleur dans une des position de la liste positiones dans le plateau
+        """On a un plateau, c'est le tour de joueur cote est on souhaite determiner, si dans ses mouvements possibles,
+        un permet d'avoir une pion de sa couleur dans une des positions de la liste positions dans le plateau
 
         positions peut etre une liste ou simple coo (si )
         """
 
         resultat=False
-
         if isinstance(positions, tuple) :
             if len(positions)==2 :
                 #positions n'est pas une liste de positions mais jsute une couplde coo:
@@ -149,7 +145,8 @@ class IA(joueur.Robot) :
 
 
     def test_peut_etre_repris_tout_suite_apres(self, position):
-        """on considere que position est une case valide du plateau est que c'est un mouv possible"""
+        """Retourne Vrai si l'adversaire peut retourner le pion de l'IA si elle joue a la position position
+        Il faut que position soit un coup possible de l'IA"""
         plateau_simulation=deepcopy(self.plateau)
         plateau_simulation.placerPion(position, self.cote)
         cote_adversaire=plateau_simulation.obtenir_cote_joueur_oppose(self.cote)
@@ -157,30 +154,28 @@ class IA(joueur.Robot) :
 
     def obtenirLesPositionsDansZone(self, positions, zone):#Todo, utiliser les fonctions build-in de python
         """Renvoie une liste des positions de positions se trouvant dans la zone zone"""
-        resultat=[]
+        """resultat=[]
         for position in positions :
             if self.obtenir_couleur_position(position)==zone:
                 resultat.append(position)
-        return resultat
+        return resultat"""
+        return [position for position in positions if self.obtenir_couleur_position(position)==zone]
 
     def est_coup_bourbier_par_cote(self, plateau, pos, cote):
-        """Dertermine si le coup à la positions pos joué par le joueur cote empeche l'adv de jouer au prochain tour"""
+        """Dertermine si le coup à la positions pos joué par le joueur cote empeche l'adversaire de jouer au prochain tour"""
         cote_oppose=1-cote
         plateau_simulation = deepcopy(plateau)
         plateau_simulation.placerPion(pos, cote)
-        return len(plateau_simulation.obtenirMouvementsValides(cote_oppose)) <= 0
+        return len(plateau_simulation.obtenirMouvementsValides(cote_oppose)) == 0
 
     def obtenir_coups_bourbier(self, plateau, cote):
-        """Retroune la liste de tout les coups bourbier parmi les coup possible pour nous"""
-        coup_bourbier=[]
+        """Retroune la liste de tout les coups bourbier parmi les coup possible pour le joueur de coté cote"""
         MouvementsValides=plateau.obtenirMouvementsValides(cote)
-        for mouvement in MouvementsValides :
-            if self.est_coup_bourbier_par_cote(plateau, mouvement, cote) :
-                coup_bourbier.append(mouvement)
-        return coup_bourbier
+        return [mouvement for mouvement in MouvementsValides if self.est_coup_bourbier_par_cote(plateau, mouvement, cote)]
 
     def obtenirPositionAleatoireDansZone(self, positions, zone):
-        """On considere qu'on a au moins une coup possible dans la zone en question"""
+        """Retourne une position aléatoire de la liste de position positions qui est dans la zone zone
+        On considere qu'on a au moins une coup possible dans la zone en question"""
         return random.choice(self.obtenirLesPositionsDansZone(positions, zone))
 
     def Nombre_pion_retourne(self, plateau, pos):
@@ -687,5 +682,3 @@ class IA(joueur.Robot) :
     def debug_case(self, positions,couleur,message=None,clear=True,pause=True):
         if self.fenetre!=None :
             self.plateau.presenter(positions,couleur,self.fenetre,message=message,clear=clear,pause=pause)
-
-
