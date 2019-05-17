@@ -44,7 +44,7 @@ for i in range(len(LISTE_ZONES)):#Permet de generer LISTE_POSITION_ZONE
 class IA(joueur.Robot) :
     def __init__(self):
         "Lance l'__init__ de la classe joueur.Robot"
-       super().__init__()
+        super().__init__()
 
     def reinitialiser(self, plateau):
         """Lancer au debut de chaque tour par la methode main
