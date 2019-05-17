@@ -17,15 +17,35 @@
 #
 ###############################################################################
 #
-#                           SOMMAIRE de joueur
+#                           SOMMAIRE de Joueur
 #
-#    note : commenter le script correctement
+#    0. __init__ (self)   ........................................... ligne
+#    1. attribuerCote (self,cote)   ................................. ligne
+#    2. __repr__=__str__ (self)   ................................... ligne
 #
-#    0. class joueur   ............................................. ligne
-#    1. class hérité de joueur:   ..................................
-#            a. class Humain
-#            b. class Robot
-#            c. class Developpeur
+###############################################################################
+#
+#                           SOMMAIRE de Humain
+#
+#    0. __init__ (self)  ............................................ ligne
+#    1. jouer (self,plateau,fenetre)  ............................... ligne
+#    2. __repr__=__str__ (self)   ................................... ligne
+#
+###############################################################################
+#
+#                            SOMMAIRE de Robot
+#
+#    0. __init__ (self)  ............................................ ligne
+#    1. jouer (self,plateau,fenetre)   .............................. ligne
+#    2. main (self, plateau)   ...................................... ligne
+#    3. jouerAleatoire (self,plateau)   ............................. ligne
+#
+###############################################################################
+#
+#                         SOMMAIRE de Developpeur
+#
+#    0. __init__ (self)   ........................................... ligne
+#    1. jouer (self,plateau,fenetre)   .............................. ligne
 #
 ###############################################################################
 """
@@ -51,7 +71,7 @@ class Joueur:
 
     def reinitialiser(self, plateau):
         #A compléter par Alexandre
-        self.plateau = plateau
+        pass
 
     def __str__(self):
         """Renvoie une représentation du joueur en string."""
@@ -59,7 +79,7 @@ class Joueur:
         #mais ce celui-ci connait toujours son coté.
         #Effectivement c'est le plateau qui affiche une couleur prédéfinie dans le thème.
         if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
-            text="Joueur"+str(self.name)
+            text="Joueur"+str(self.nom)
         elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
             #Pourrait fonctionner si l'on créer une classe de couleur
             #mais c'est un peu exagéré.
@@ -68,7 +88,7 @@ class Joueur:
             text="Joueur"+str(self.cote)
         return text
 
-    __repr__=__str__ #Permet de faire un print et d'obtenir le même résultat que str.
+    __repr__=__str__ # Permet de faire un print sur l'instance et d'obtenir le même résultat que str.
 
 
 
@@ -94,7 +114,7 @@ class Humain(Joueur):
             curseur=fenetre.point()#Renvoie les coordonnees du curseur
             position=plateau.obtenirPositionPlateau(curseur,fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
             plateau.afficher(fenetre)
-            plateau.colorerCase(position,couleurs.BLEU,fenetre)
+            #plateau.colorerCase(position,couleurs.BLEU,fenetre)
             fenetre.flip()
             click=fenetre.click()
             #print(click,position,plateau.mouvements)
@@ -111,7 +131,7 @@ class Humain(Joueur):
         #mais ce celui-ci connait toujours son coté.
         #Effectivement c'est le plateau qui affiche une couleur prédéfinie dans le thème.
         if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
-            text="Joueur"+str(self.name)
+            text="Joueur"+str(self.nom)
         elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
             #Pourrait fonctionner si l'on créer une classe de couleur
             #mais c'est un peu exagéré.
@@ -119,6 +139,8 @@ class Humain(Joueur):
         else: #Sinon dans la plupart des cas on affiche uniquement son type.
             text="Joueur Humain"
         return text
+
+    __repr__=__str__
 
 class Robot(Joueur):
     def __init__(self):
@@ -134,9 +156,9 @@ class Robot(Joueur):
         cfg.debug("Random actif, Robot.main n'a pas ete surcharge")
         return self.jouerAleatoire(plateau)
 
-    def jouerAleatoire(self,board):
+    def jouerAleatoire(self,plateau):
         """Le joueur choisi un des mouvements possibles aléatoirement."""
-        self.choix=random.choice(board.mouvements)
+        self.choix=random.choice(plateau.mouvements)
         return self.choix
 
     def __str__(self):
@@ -145,7 +167,7 @@ class Robot(Joueur):
         #mais ce celui-ci connait toujours son coté.
         #Effectivement c'est le plateau qui affiche une couleur prédéfinie dans le thème.
         if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
-            text="Joueur"+str(self.name)
+            text="Joueur"+str(self.nom)
         elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
             #Pourrait fonctionner si l'on créer une classe de couleur
             #mais c'est un peu exagéré.
@@ -153,6 +175,8 @@ class Robot(Joueur):
         else: #Sinon dans la plupart des cas on affiche uniquement son type.
             text="Joueur Robot"
         return text
+
+    __repr__=__str__
 
 class Developpeur(Joueur):
     def __init__(self):
@@ -165,10 +189,11 @@ class Developpeur(Joueur):
             curseur=fenetre.point()#Renvoie les coordonnees du curseur
             position=plateau.obtenirPositionPlateau(curseur,fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
             plateau.afficher(fenetre)
-            plateau.colorerCase(position,couleurs.BLEU,fenetre)
+            #plateau.colorerCase(position,couleurs.BLEU,fenetre)
             fenetre.flip()
             click=fenetre.click()
             if click:
-                self.choix=position
+                if plateau.estDansGrille(position):
+                    self.choix=position
                 break
         return self.choix

@@ -1,5 +1,5 @@
 from plateau import Plateau
-from config import log
+from config import debug
 
 import config as cfg
 import outils
@@ -73,7 +73,7 @@ class PlateauAnalysable(Plateau):
             self.presenter(pions,self.pieces_couleur[i],fenetre,message="pions stables",pause=False)
             if pions:
                 fenetre.attendre(self.vitesse_demonstration)
-        log("pions definitivement stables:",tous_les_pions)
+        debug("pions definitivement stables:",tous_les_pions)
         fenetre.clear()
         plateau.afficher(fenetre)
         for i in range(2):

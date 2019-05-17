@@ -45,7 +45,7 @@ class Fenetre:
 
     def set(self):
         """Creates apparent window."""
-        self.log("Window has been created.")
+        self.infoConsole("Window has been created.")
         pygame.init()
         self.info = pygame.display.Info()
         self.font = pygame.font.SysFont(self.text_font, self.taille_du_texte)
@@ -313,14 +313,14 @@ class Fenetre:
         """Quit pygame."""
         pygame.quit()
 
-    def log(self,message):
+    def infoConsole(self,message):
         """Print message with window mention."""
         text="["+self.name+"] "+message
         print(text)
 
     def __del__(self):
         """Executed before the window is destroyed."""
-        self.log("Window has been closed.")
+        self.infoConsole("Window has been closed.")
 
     def __call__(self):
         """Refresh and pause."""

@@ -60,7 +60,7 @@ from outils import intersection
 import outils
 from outils import linearBijection as bijection
 import couleurs
-from config import log
+from config import debug
 import config as cfg
 import time #pour les animations
 import pygame
@@ -452,7 +452,7 @@ class Plateau:
 
     def colorerLigne(self,ligne,couleur,fenetre):
         """Colorie la ligne."""
-        log("colorer:ligne:",ligne)
+        debug("colorer:ligne:",ligne)
         ligne=outils.obtenirLigne(ligne[0],ligne[-1])
         self.colorerCase(ligne,couleur,fenetre)
 

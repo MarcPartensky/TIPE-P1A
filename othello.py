@@ -103,7 +103,7 @@ class Othello:
     def derterminer_gagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
         cote_gagnant=self.plateau.obtenirCoteGagnant()
-        if cote_gagnant: cfg.log("Le joueur "+str(cote_gagnant)+"a gagne.")
+        if cote_gagnant: cfg.debug("Le joueur "+str(cote_gagnant)+"a gagne.")
         else: cfg.log("Match nul.")
         #Faire attention au fait que le plateau ne connait que des cotés, et à
         #aucun moment il ne possède les vrais joueurs comme attributs.
