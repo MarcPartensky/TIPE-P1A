@@ -1,3 +1,9 @@
+"""
+Module de variable de couleurs répertoriant des triplet de de valeurs RGB/RVB usuels
+couleurs écrites en majuscule, et en français/anglais
+"""
+
+
 BLEU       = (  0,  0,255)
 ROUGE      = (255,  0,  0)
 VERT       = (  0,255,  0)
