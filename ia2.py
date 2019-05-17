@@ -11,10 +11,10 @@ import copy
 
 
 class IA(Joueur):
-    def __init__(self):
+    def __init__(self,nom=None):
         """Creer une instance de joueur."""
         self.vitesse_demonstration=0.1 #Possibilité de changer la vitesse de démonstration
-        super().__init__()
+        super().__init__(nom)
 
 
     def jouer(self,plateau,fenetre):
