@@ -60,9 +60,10 @@ import couleurs
 
 
 class Joueur:
-    def __init__(self):
+    def __init__(self,nom_du_joueur=None):
         """Cree un joueur et défini son choix à rien. Il s'agit de la classe de base de tous les joueurs."""
         self.choix=None
+        self.nom=str(nom_du_joueur)
 
     def attribuerCote(self,cote):
         """Défini le côté d'un joueur, celui-ci peut varier d'une partie à une autre."""
@@ -93,9 +94,9 @@ class Joueur:
 
 
 class Humain(Joueur):
-    def __init__(self):
+    def __init__(self,nom=None):
         """Crée un humain qui hérite de joueur."""
-        Joueur.__init__(self)  #Compatibilité avec python2.7 avec cette écriture théoriquement.
+        Joueur.__init__(self,nom)  #Compatibilité avec python2.7 avec cette écriture théoriquement.
 
     def old_jouer(self,input,board,fenetre,cote):
         """Ancienne fonction obselète utilisée au début du jeu pour joueur."""
@@ -143,9 +144,9 @@ class Humain(Joueur):
     __repr__=__str__
 
 class Robot(Joueur):
-    def __init__(self):
+    def __init__(self,nom=None):
         """Cree un joueur robot qui hérite de joueur. Il s'agit de la classe de base de tous les robots."""
-        Joueur.__init__(self) #Compatibilité avec python2.7 avec cette écriture théoriquement.
+        Joueur.__init__(self,nom) #Compatibilité avec python2.7 avec cette écriture théoriquement.
 
     def jouer(self,plateau,fenetre):
         """Le joueur renvoie un mouvement parmi les mouvements possibles a l'aide du plateau et de la fenetre."""
@@ -179,8 +180,8 @@ class Robot(Joueur):
     __repr__=__str__
 
 class Developpeur(Joueur):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,nom=None):
+        Joueur.__init__(self,nom)
 
     def jouer(self,plateau,fenetre):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""

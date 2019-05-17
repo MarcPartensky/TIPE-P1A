@@ -37,17 +37,17 @@ Faire mini schema des heritage de classe
 """
 
 
-if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécuté directement et non depuis un autre fichier.
+if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécuté directement depuis ce fichier et non depuis un autre fichier.
 
-    fenetre=Fenetre(taille=[800,800],set=False,fullscreen=False) #Crée une fenêtre.
+    fenetre=Fenetre(taille=(720,720),set=False,fullscreen=False) # Crée une fenêtre
 
-    developpeur1=Developpeur()
-    developpeur2=Developpeur()
-    humain=Humain() #Crée un humain.
-    machine1=ia.IA() #Crée une intelligence artificielle.
-    machine2=ia.IA()
+    developpeur1=Developpeur(nom="dev1")
+    developpeur2=Developpeur(nom="dev2")
+    humain=Humain(nom="je suis l'humain n°1 LOL") #Crée un joueur humain.
+    machine1=ia.IA(nom="machine1") #Crée une intelligence artificielle.
+    machine2=ia.IA(nom="machine2")
     machine3=ia2.IA()
-    bruteforce=BruteForce(level=3) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
+    #bruteforce=BruteForce(level=3) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
 
     jeu=Othello(joueurs=[machine1,machine2],fenetre=fenetre) #Crée un jeu.
     jeu() #Lance le jeu.
