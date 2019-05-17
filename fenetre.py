@@ -30,10 +30,6 @@ class Fenetre:
 
     def load(self):
         """Load builtins attributs of fenetre object."""
-        self.RIGHT = 0
-        self.UP    = 1
-        self.LEFT  = 2
-        self.DOWN  = 3
         if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
         self.selecter_color=self.reverseColor(self.couleur_de_fond)
         self.pausing=False
