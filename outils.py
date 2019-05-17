@@ -1,5 +1,5 @@
 import random
-from config import log
+from config import debug
 import config
 
 def intersection_(liste):#todo revoir
@@ -103,16 +103,16 @@ def obtenirLigneComplete(ligne):
     p2x,p2y=position2
     vx,vy=p2x-p1x,p2y-p1y
     p=pgcd(vx,vy)
-    log("p:",p)
+    print("p:",p)
     if p==0: return [position1,position2]
     vx//=p
     vy//=p
-    log("p1x,p1y:",p1x,p1y)
-    log("vx,vy:",vx,vy)
+    debug("p1x,p1y:",p1x,p1y)
+    debug("vx,vy:",vx,vy)
     ligne=[]
     for i in range(p+1):
         position=(p1x+i*vx,p1y+i*vy)
-        log("position:",position)
+        debug("position:",position)
         ligne.append(position)
     #ligne=[position1,position2]
     return ligne
