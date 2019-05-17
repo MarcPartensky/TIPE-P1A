@@ -41,7 +41,7 @@ import joueur as Joueur
 import time
 import pygame
 from pygame.locals import *
-from config import log #Utilisé pour débuguer rapidement
+from config import debug #Utilisé pour débuguer rapidement
 import config as cfg
 
 from copy import deepcopy
@@ -62,7 +62,7 @@ class Othello:
         if fenetre:
             self.chargerFenetre(fenetre) #Charge une fenetre existante
             self.chargerTheme(theme) #Charge un theme même si celui-ci est None
-            log("Fenetre et theme:",self.fenetre,self.theme)
+            debug("Fenetre et theme:",self.fenetre,self.theme)
             self.plateau=Plateau(theme=self.theme)
         else:
             self.fenetre=None
@@ -98,7 +98,7 @@ class Othello:
             self.faireTour()
 
         self.derterminer_gagnant()
-        log("le gagnant : {}".format(repr(self.gagnant)))
+        debug("le gagnant : {}".format(repr(self.gagnant)))
         if self.fenetre:
             self.afficher()
             self.afficherSceneFinale()
@@ -106,8 +106,8 @@ class Othello:
     def derterminer_gagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
         cote_gagnant=self.plateau.obtenirCoteGagnant()
-        if cote_gagnant: cfg.log("Le joueur "+str(cote_gagant)"a gagne.")
-        else: cfg.log("Match nul.")
+        if cote_gagnant: debug("Le joueur "+str(cote_gagant)"a gagne.")
+        else: debug("Match nul.")
         #Faire attention au fait que le plateau ne connait que des cotés, et à
         #aucun moment il ne possède les vrais joueurs comme attributs.
         #Effectivement, ce sont les joueurs qui utilise le plateau et non l'inverse.
