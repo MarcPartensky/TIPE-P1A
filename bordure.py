@@ -17,17 +17,17 @@ class Bordure:
         police=pygame.font.SysFont(cfg.THEME_BORDURE["police"],taille)
         surface_texte=font.render(texte,1,couleur)
         self.surface.blit(surface_texte,position)
-    """
+   
     def afficherTemps(self,position,couleurs=None,taille=None):
-        ""affiche l'heure à un instant""
-        heure=str(time.tm_hour)
-        minute=str(time.tm_min)
+        """affiche l'heure à un instant"""
+        heure=str(time.localtime()[3])
+        minute=str(time.localtime()[4])
         temps=heure+" : "+minute
         self.afficherTexte(temps,position,couleurs,taille)
 
     def error_message(self,message):
         pass
-    """
+
 
 if __name__=="__main__":
     from fenetre import Fenetre
