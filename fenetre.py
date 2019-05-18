@@ -206,12 +206,12 @@ class Fenetre:
         letter_size=taille/4
         x=sx//2-letter_size*l//2
         y=sy//2-taille/3
-        return (x,y)
+        return (int(x),int(y))
 
     def alert(self,message):
         """Quickly display text on window."""
         position=self.centerText(message)
-        self.print(message,position)
+        self.print(message,position,color=BLACK,couleur_de_fond=WHITE)
         self.flip()
 
     def print(self,text,position,taille=None,color=None,couleur_de_fond=None,font=None):
@@ -221,7 +221,7 @@ class Fenetre:
         if not font: font=self.font
         sx,sy=taille
         x,y=position
-        pygame.draw.rect(self.screen,self.reverseColor(couleur_de_fond),list(position)+list(taille),0)
+        pygame.draw.rect(self.screen,reverseColor(couleur_de_fond),list(position)+list(taille),0)
         pygame.draw.rect(self.screen,couleur_de_fond,(x+1,y+1,sx-2,sy-2),0)
         label=font.render(text,1,color)
         self.screen.blit(label,position)
@@ -231,7 +231,6 @@ class Fenetre:
         font=pygame.font.SysFont(self.text_font,taille)
         label=font.render(text,1,couleur)
         self.screen.blit(label,position)
-
 
     def drawRect(self,coordonnates,color):
         """Draw a rectangle on the screen using color and coordonnates relative to window's fiducials."""
@@ -248,65 +247,6 @@ class Fenetre:
         pcx,pcy=position
         x,y=(rcx-wcx,rcy-wcy)
         return (x,y)
-
-    def randomColor(self):
-        """Return random color."""
-        import random
-        r=random.randint(0,255)
-        g=random.randint(0,255)
-        b=random.randint(0,255)
-        color=(r,g,b)
-        return color
-
-    def reverseColor(self,color):
-        """Return reverse color."""
-        r,g,b=color
-        r=255-r
-        g=255-g
-        b=255-b
-        color=(r,g,b)
-        return color
-
-    def lighten(self,color,luminosity=80): #View later
-        """Return lightened color using color and luminosity percentage."""
-        r,g,b=color
-        if luminosity>=50:
-            r+=(255-r)*luminosity/100
-            g+=(255-g)*luminosity/100
-            b+=(255-b)*luminosity/100
-        else:
-            r-=r*luminosity/100
-            g-=g*luminosity/100
-            b-=b*luminosity/100
-        color=r,g,b
-        return color
-
-    def colorize(self,image, color):
-        """Return image colorized"""
-        image = image.copy()
-        image.fill((0,0,0,255),None,pygame.BLEND_RGBA_MULT)
-        image.fill(color[0:3]+(0,),None,pygame.BLEND_RGBA_ADD)
-        return image
-
-    def wavelengthToRGB(self,wavelength):
-        """Convert wavelength to rgb color type."""
-        gamma,max_intensity=0.80,255
-        def adjust(color, factor):
-            if color==0: return 0
-            else: return round(max_intensity*pow(color*factor,gamma))
-        if   380<=wavelength<=440: r,g,b=-(wavelength-440)/(440-380),0,1
-        elif 440<=wavelength<=490: r,g,b=0,(wavelength-440)/(490-440),1
-        elif 490<=wavelength<=510: r,g,b=0,1,-(wavelength-510)/(510-490)
-        elif 510<=wavelength<=580: r,g,b=(wavelength-510)/(580-510),1,0
-        elif 580<=wavelength<=645: r,g,b=1,-(wavelength-645)/(645-580),0
-        elif 645<=wavelength<=780: r,g,b=1,0,0
-        else: r,g,b=0,0,0
-        if 380<=wavelength<=420: factor=0.3+0.7*(wavelength-380)/(420-380)
-        elif 420<=wavelength<=701: factor=1
-        elif 701<=wavelength<=780: factor=0.3+0.7*(780-wavelength)/(780-700)
-        else: factor=0
-        r,g,b=adjust(r,factor),adjust(g,factor),adjust(b,factor)
-        return (r,g,b)
 
     def __str__(self):
         """Donne une représentation en string de la fenêtre."""
@@ -337,14 +277,13 @@ class Fenetre:
 """Guide d'utilisation et test de la fenetre."""
 
 if __name__=="__main__":
-    w=Fenetre("Game")
-    print(w.press())
+    w=Fenetre("WINDOW TEST")
     #save(w,"grosse fenetre")
     #w=load("grosse fenetre")
-    #print(w.lighten(BLUE))
+    #print(lighten(BLUE))
     #w.alert("test")
     w.pause()
     w.clear()
     w.alert("test2")
-    w.pause()
+    w.attendre(1)
     w.kill()

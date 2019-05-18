@@ -1,20 +1,16 @@
 from joueur import Joueur
-
-
-#from config import log
+from config import debug
 import config as cfg
-import couleurs
-import outils
-import random
-import copy
+import outils, random, copy, couleurs
+
 
 
 
 class IA(Joueur):
-    def __init__(self):
+    def __init__(self,nom=None):
         """Creer une instance de joueur."""
         self.vitesse_demonstration=0.1 #Possibilité de changer la vitesse de démonstration
-        super().__init__()
+        super().__init__(nom)
 
 
     def jouer(self,plateau,fenetre):

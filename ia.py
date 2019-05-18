@@ -1,11 +1,10 @@
-from copy import deepcopy
-import random
-import joueur
-from outils import intersection
-from outils import est_superieur
-from outils import deco_debug
-import outils
+from outils import intersection, est_superieur, deco_debug
+import outils, joueur, random
 import config as cfg
+from copy import deepcopy
+
+
+
 
 #La liste des différentes zone de jeu :
 ZONE_COIN=4#Ne doit pas etre une liste
@@ -42,9 +41,9 @@ for i in range(len(LISTE_ZONES)):#Permet de generer LISTE_POSITION_ZONE
 
 
 class IA(joueur.Robot) :
-    def __init__(self):
+    def __init__(self,nom=None):
         "Lance l'__init__ de la classe joueur.Robot"
-        super().__init__()
+        super().__init__(nom)
 
     def reinitialiser(self, plateau):
         """Lancer au debut de chaque tour par la methode main

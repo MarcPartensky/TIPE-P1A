@@ -57,10 +57,9 @@
 # --coding:utf-8--
 
 from outils import intersection
-import outils
 from outils import linearBijection as bijection
+import outils
 import couleurs
-from config import debug
 import config as cfg
 import time #pour les animations
 import pygame
@@ -177,7 +176,8 @@ class Plateau:
         self.mouvements=self.obtenirMouvementsValides(cote)
 
     def __contains__(self,pion):
-        """Determine si le plateau contient un pion."""
+        """Determine si le plateau contient un pion.
+        Méthode spécial permèttant d'utiliser le mot clé 'in' """
         case=self.obtenirCase(pion)
         return bool(case!=cfg.CASE_VIDE)
 
@@ -452,7 +452,7 @@ class Plateau:
 
     def colorerLigne(self,ligne,couleur,fenetre):
         """Colorie la ligne."""
-        debug("colorer:ligne:",ligne)
+        cfg.debug("colorer:ligne:",ligne)
         ligne=outils.obtenirLigne(ligne[0],ligne[-1])
         self.colorerCase(ligne,couleur,fenetre)
 
@@ -529,5 +529,5 @@ class Plateau:
                 position_brute=self.obtenirPositionBrute((x,y),fenetre)
                 if 0<=case and case<=len(self.pieces_couleur)-1 :
                     couleur=self.pieces_couleur[case]
-                    fenetre.draw.circle(fenetre.screen,fenetre.reverseColor(couleur),position_brute,rayon+2,0)
+                    fenetre.draw.circle(fenetre.screen,couleurs.reverseColor(couleur),position_brute,rayon+2,0)
                     fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)

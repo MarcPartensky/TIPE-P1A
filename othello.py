@@ -59,7 +59,7 @@ class Othello:
         if fenetre:
             self.chargerFenetre(fenetre) #Charge une fenetre existante
             self.chargerTheme(theme) #Charge un theme même si celui-ci est None
-            cfg.debug("Fenetre et theme:",self.fenetre,self.theme)
+            cfg.info("Fenetre:",self.fenetre.name,"et theme [couleur_grille,couleur_pieces,couleur_mouvement] :",self.theme,nom_fichier="othello.py")
             self.plateau=Plateau(theme=self.theme)
         else:
             self.fenetre=None
@@ -95,7 +95,7 @@ class Othello:
             self.faireTour()
 
         self.derterminer_gagnant()
-        cfg.debug("le gagnant : {}".format(repr(self.gagnant)))
+        cfg.info("le gagnant : {}".format(repr(self.gagnant)),nom_fichier="othello.py")
         if self.fenetre:
             self.afficher()
             self.afficherSceneFinale()
@@ -103,17 +103,15 @@ class Othello:
     def derterminer_gagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
         cote_gagnant=self.plateau.obtenirCoteGagnant()
-        if cote_gagnant: cfg.debug("Le joueur "+str(cote_gagnant)+"a gagne.")
-        else: cfg.log("Match nul.")
+        if cote_gagnant!=None:
+            cfg.info("Le joueur "+self.joueurs[cote_gagnant].nom+" a gagne.",nom_fichier="othello.py")
+            self.gagnant=self.joueurs[cote_gagnant].nom
+        else:
+            cfg.info("Match nul.",nom_fichier="othello.py")
+            self.gagnant=None
         #Faire attention au fait que le plateau ne connait que des cotés, et à
         #aucun moment il ne possède les vrais joueurs comme attributs.
         #Effectivement, ce sont les joueurs qui utilise le plateau et non l'inverse.
-        if cote_gagnant!=None :
-            self.gagnant=self.joueurs[cote_gagnant]
-        else :
-            #il n'y a pas de gagnant ici, match nul
-            self.gagnant=None
-            pass
         return self.gagnant
 
     def afficherSceneFinale(self):
@@ -128,7 +126,7 @@ class Othello:
         taille=[int(len(message)*self.fenetre.taille_du_texte/2.7),70] #Choisie la taille du message.
         self.fenetre.print(message,position,taille,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC) #Affiche le message.
         self.fenetre.flip() #Rafraîchie la fenêtre.
-        config.info("Fin de partie :"+message)
+        cfg.info("Fin de partie :"+message,nom_fichier="othello.py")
         self.fenetre.pause() #Fais pause en attendant que l'utilisateur appuie sur espace ou escape.
 
     def afficher(self):
@@ -148,7 +146,7 @@ class Othello:
             choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.fenetre)
             if not choix_du_joueur:
                 return None
-            cfg.debug("Le choix du joueur est {}".format(repr(choix_du_joueur)))
+            cfg.info("Le choix du joueur est {}".format(repr(choix_du_joueur)),nom_fichier="othello.py")
             self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
             self.plateau.afficherAnimationPion(self.fenetre,choix_du_joueur)
             self.historique.append([self.plateau.grille,joueur_actif.cote,choix_du_joueur]) #Permet en théorie au joueur de retourner en arrière.
