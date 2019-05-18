@@ -44,7 +44,7 @@ class Fenetre:
     made=0
     draw=pygame.draw
 
-    def __init__(self,name="Window Name",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
+    def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
         Fenetre.made+=1
         self.number=Fenetre.made
@@ -61,20 +61,18 @@ class Fenetre:
 
     def load(self):
         """Load builtins attributs of fenetre object."""
-        if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
         self.selecter_color=self.reverseColor(self.couleur_de_fond)
         self.pausing=False
         self.open=False
-        self.coordonnates=[0,0]+self.taille
         self.picture_saved=0
         self.pause_cool_down=1
-        self.time=time.time()
 
     def set(self):
         """Creates apparent window."""
         self.infoConsole("Window has been created.")
         pygame.init()
-        self.info = pygame.display.Info()
+        self.info=pygame.display.Info()
+        if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
         self.font = pygame.font.SysFont(self.text_font, self.taille_du_texte)
         if self.fullscreen:
             self.screen=pygame.display.set_mode(self.taille,FULLSCREEN)

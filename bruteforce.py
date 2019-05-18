@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from myminimax import Minimax
 #from joueur import Joueur
 from ia2 import IA
@@ -5,7 +7,7 @@ from ia2 import IA
 from copy import deepcopy
 from random import choice
 
-from config import log
+#from config import log
 import config as cfg
 
 
@@ -26,7 +28,7 @@ class BruteForce(IA): #a ete rajoute pour faire des tests, ne sera pas present a
         #board.presenterPionsStables(window) #Pas encore au point
         self.board=board
         tree=self.treePlay(board.grille,self.cote)
-        log("[BruteForce]: arbre des possibilitees",tree)
+        cfg.debug("[BruteForce]: arbre des possibilitees",tree)
         if self.container(tree):
             minimax=Minimax(tree,start=0)
             result=minimax()

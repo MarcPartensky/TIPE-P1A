@@ -1,7 +1,7 @@
 from joueur import Joueur
 
 
-from config import log
+#from config import log
 import config as cfg
 import couleurs
 import outils

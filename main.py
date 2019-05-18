@@ -1,7 +1,7 @@
 from fenetre import Fenetre
 from othello import Othello
 from joueur import Robot,Humain,Developpeur
-#from bruteforce import BruteForce
+from bruteforce import BruteForce
 
 import ia
 import ia2
