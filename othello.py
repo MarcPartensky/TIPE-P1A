@@ -43,10 +43,9 @@ import config as cfg
 
 from copy import deepcopy
 
-
-
 class Othello:
     def __init__(self,joueurs,fenetre=None,theme=None):
+        """Crée un objet de jeu d'Othello en utilisant sa liste de joueurs, sa fenetre et son theme."""
         self.nom="Othello"
         self.joueurs=joueurs
         for compteur in range(len(self.joueurs)):
@@ -71,7 +70,7 @@ class Othello:
         """Permet de charger la fenetre en supposant qu'elle ne soit pas None."""
         fenetre.name=self.nom #Donne un nom a la fenêtre.
         fenetre.set() #Charge la fenêtre créée.
-        fenetre.couleur_de_fond=couleurs.VERT #Charge la couleur de fond par défaut.
+        fenetre.couleur_de_fond=couleurs.BLANC #Charge la couleur de fond par défaut.
         self.fenetre=fenetre
 
     def chargerTheme(self,theme):

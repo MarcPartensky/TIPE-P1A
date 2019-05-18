@@ -67,23 +67,26 @@ import pygame
 
 
 class Plateau:
-    def __init__(self,taille=[8,8],theme=None):
+    def __init__(self,surface,taille=[8,8]):
         """Cree un plateau."""
         self.taille=taille
+        self.surface=surface
+        self.surface.taille=self.surface.get_size #Traduction de la fonction pour la simplicité
         self.creerGrille()
         self.mouvements=[]
         self.gagne=False
         self.taille_x,self.taille_y=self.taille
         self.nombre_de_joueurs=2
         self.demonstration=True
-        if theme: self.couleur_grille,self.pieces_couleur,self.mouvements_couleur=theme
 
     def creerGrille(self):
         """Cree une grille."""
         sx,sy=self.taille
         self.grille=[[cfg.CASE_VIDE for x in range(sx)] for y in range(sy)]
-        self.insererPion([(3,3),(4,4)],0) #Place les pions du joueur de côté 0.
-        self.insererPion([(3,4),(4,3)],1) #Place les pions du joueur de côté 1.
+        mx=sx//2
+        my=sy//2
+        self.insererPion([(mx,my),(mx+1,my+1)],0) #Place les pions du joueur de côté 0.
+        self.insererPion([(mx+1,my),(mx,my+1)],1) #Place les pions du joueur de côté 1.
 
     def estDansGrille(self,position):
         """Verifie si la position est dans la grille"""
@@ -399,127 +402,109 @@ class Plateau:
         """Assigne aux cases mangeables la valeur de pion de la personne"""
         self.insererPion(mangeables,personne)
 
-    def afficher(self,fenetre):
+    def afficher(self):
         """Affiche l'ensemble des éléments du plateau."""
-        self.afficherFond(fenetre)
-        self.afficherGrille(fenetre)
-        self.afficherDecorationGrille(fenetre)
-        self.afficherPions(fenetre)
-        self.afficherMouvements(fenetre)
+        self.afficherFond()
+        self.afficherGrille()
+        self.afficherDecorationGrille()
+        self.afficherPions()
+        self.afficherMouvements()
 
-    def afficherDecorationGrille(self,fenetre):
+    def afficherDecorationGrille(self):
         """Affiche les 4 points pour délimiter le carré central du plateau."""
         pass #A Valentin de faire, son expérience dans le domaine est sans égal
 
-    def presenter(self,positions,couleur,fenetre,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
+    def presenter(self,positions,couleur,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
         """Permet de debuger en 1 commande."""
         if self.demonstration:
             if not type(positions)==list: positions=[positions]
             if clear:
                 fenetre.clear()
-                self.afficher(fenetre)
+                self.afficher()
             if positions:
-                self.colorerCase(positions,couleur,fenetre)
+                self.colorerCase(positions,couleur)
                 if message:
-                    self.afficherMessage(message,positions[0],couleur_texte,fenetre)
-            fenetre.flip()
-            if pause:
-                fenetre.pause()
+                    self.afficherMessage(message,positions[0],couleur_texte)
 
 
-    def afficherMessage(self,message,position,couleur,fenetre):
+    def afficherMessage(self,message,position,couleur):
         """Affiche un message en utilisant une position plateau, une couleur, et une fenetre."""
         x,y=position
-        position=(x-3/7,y-2/5) #Déplacement arbitraire
-        position=self.obtenirPositionBrute(position,fenetre)
-        fenetre.drawText(message,position,couleur)
+        position=self.obtenirPositionBrute(position)
+        #fenetre.drawText(message,position,couleur)
 
-    def colorerCase(self,positions,couleur,fenetre):
+    def colorerCase(self,positions,couleur):
         """Colorie une case du plateau d'une certaine couleur en affichant les contours d'un carre de couleur.
         Cette fonction est utile pour debug.
         Utilise la position dans le systeme de coordonnees du plateau, une couleur et une fenetre."""
         if not type(positions)==list: positions=[positions]
         for position in positions:
-            x,y=self.obtenirPositionBrute(position,fenetre)
-            wsx,wsy=fenetre.taille #Taille de la fenetre en coordonnees de la fenetre
+            x,y=self.obtenirPositionBrute(position)
+            wsx,wsy=self.surface.taille() #Taille de la fenetre en coordonnees de la fenetre
             sx,sy=self.taille #Taille du plateau en coordonnes du plateau
             cx=wsx/sx #Taille d'une case en x en coordonnees de la fenetre
             cy=wsy/sy #Taille d'une case en y en coordonnees de la fenetre
             mx=x-cx//2+1 #Position d'une case en x en coordonnees de la fenetre
             my=y-cy//2+1 #Position d'une case en y en coordonnees de la fenetre
             for i in range(2,6):
-                fenetre.draw.rect(fenetre.screen,couleur,[mx+i,my+i,cx-2*i,cy-2*i],1)
+                pygame.draw.rect(self.surface,couleur,[mx+i,my+i,cx-2*i,cy-2*i],1)
 
-    def colorerLigne(self,ligne,couleur,fenetre):
+    def colorerLigne(self,ligne,couleur):
         """Colorie la ligne."""
         cfg.debug("colorer:ligne:",ligne)
         ligne=outils.obtenirLigne(ligne[0],ligne[-1])
-        self.colorerCase(ligne,couleur,fenetre)
+        self.colorerCase(ligne,couleur)
 
-    def afficherFond(self,fenetre):
+    def afficherFond(self):
         """Affiche un fond colore."""
-        ftx,fty=fenetre.taille
-        for y in range(0,fty,10):
-            for x in range(0,ftx,10):
-                r=abs(bijection(x,[0,ftx],[-100,100]))
-                g=255-abs(bijection((x+y)/2,[0,ftx],[-100,100]))
-                b=abs(bijection(y,[0,fty],[-100,100]))
-                couleur=(r,g,b)
-                fenetre.draw.rect(fenetre.screen,couleur,[x,y,10,10],0)
+        self.surface.blit(cfg.THEME_PLATEAU["arriere plan"])
 
-
-    def afficherMouvements(self,fenetre,mouvements=None,couleur=None):
+    def afficherMouvements(self,mouvements=None,couleur=None):
         """Afficher les coups possible. (point rouge sur la fenêtre)"""
         if not mouvements: mouvements=self.mouvements
-        if not couleur: couleur=self.mouvements_couleur
+        if not couleur: couleur=cfg.THEME_PLATEAU["couleur mouvement"]
         #devrait  marcher si il n'y a que un moment.
         for move in mouvements:
-            wsx,wsy=fenetre.taille
+            wsx,wsy=self.surface.taille()
             sx,sy=self.taille
             rayon=int(min(wsx,wsy)/min(sx,sy)/4)
             x,y=move
-            position_brute=self.obtenirPositionBrute((x,y),fenetre)
-            fenetre.draw.circle(fenetre.screen,(100,0,0),position_brute,rayon+2,0) #affiche des bord aux couleurs, bonne idees mais mal implemente
-            fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)
+            position_brute=self.obtenirPositionBrute((x,y))
+            pygame.draw.circle(self.surface,(100,0,0),position_brute,rayon+2,0) #affiche des bord aux couleurs, bonne idees mais mal implemente
+            pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)
 
 
-    def afficherGrille(self,fenetre):
+    def afficherGrille(self):
         """Affiche la grille."""
-        wsx,wsy=fenetre.taille
+        wsx,wsy=self.surface.taille()
         sx,sy=self.taille
         for y in range(sy):
             _y=y*wsy//sy
             start=(0,_y)
             end=(wsx,_y)
-            fenetre.draw.line(fenetre.screen,self.couleur_grille,start,end,1)
+            pygame.draw.line(self.surface,cfg.THEME_PLATEAU["couleur grille"],start,end,1)
         for x in range(sx):
             _x=x*wsx//sx
             start=(_x,0)
             end=(_x,wsy)
-            fenetre.draw.line(fenetre.screen,self.couleur_grille,start,end,1)
+            pygame.draw.line(self.surface,cfg.THEME_PLATEAU["couleur grille"],start,end,1)
 
-    def afficherAnimationPion(self,fenetre,choix_du_joueur):
+    def afficherAnimationPion(self,choix_du_joueur):
         """Permet d'affichier l'animation du placement d'un nouveau pion en faisant clicgnoter son contour."""
-        wsx,wsy=fenetre.taille
+        wsx,wsy=self.surface.taille()
         sx,sy=self.taille
         rayon=int(min(wsx,wsy)/min(sx,sy)/2.5)
         x,y=choix_du_joueur
         position_brute=self.obtenirPositionBrute((x,y),fenetre)
         case=self.obtenirCase(choix_du_joueur)
-        couleur=self.pieces_couleur[case]
-        for i in range(2):
-            fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon+2,0)
-            fenetre.check()
-            fenetre.flip()
-            time.sleep(cfg.TEMPS_ANIMATION_PION)
-            fenetre.draw.circle(fenetre.screen,(255,0,0),position_brute,rayon+2,0) #tres mal implemente
-            fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)
-            fenetre.check()
-            fenetre.flip()
+        #pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur piece"],position_brute,rayon+2,0)
+        pygame.draw.circle(self.surface,couleurs.BLANC,position_brute,rayon+2,0) #tres mal implemente
+        pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur piece"],position_brute,rayon,0)
+        #Cette fonction est devenue purement inutile suite aux nouvelles modifications
 
-    def afficherPions(self,fenetre):
+    def afficherPions(self):
         """Affiche les pions"""
-        wsx,wsy=fenetre.taille
+        wsx,wsy=self.surface.taille()
         sx,sy=self.taille
         taille_relative=2/5 #Taille du pion par rapport a une case
         rayon=int(min(wsx,wsy)/min(sx,sy)*taille_relative) #taille des pions a changer
@@ -527,7 +512,7 @@ class Plateau:
             for x in range(sx):
                 case=self.obtenirCase((x,y))
                 position_brute=self.obtenirPositionBrute((x,y),fenetre)
-                if 0<=case and case<=len(self.pieces_couleur)-1 :
-                    couleur=self.pieces_couleur[case]
-                    fenetre.draw.circle(fenetre.screen,couleurs.reverseColor(couleur),position_brute,rayon+2,0)
-                    fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)
+                if 0<=case and case<=len(cfg.THEME_PLATEAU["couleur pieces"])-1 :
+                    couleur=cfg.THEME_PLATEAU["couleur pieces"][i]
+                    fenetre.draw.circle(self.surface,couleurs.reverse(couleur),position_brute,rayon+2,0)
+                    fenetre.draw.circle(self.surface,couleur,position_brute,rayon,0)

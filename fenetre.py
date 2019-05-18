@@ -31,7 +31,7 @@
 
 from __future__ import division
 
-from couleurs import *
+import couleurs
 
 import pygame
 from pygame.locals import *
@@ -43,8 +43,7 @@ import json
 class Fenetre:
     made=0
     draw=pygame.draw
-
-    def __init__(self,name="Window Name",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
+    def __init__(self,name="Window Name",taille=None,text_font="monospace",text_size=65,text_color=couleurs.BLANC,background_color=couleurs.NOIR,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
         Fenetre.made+=1
         self.number=Fenetre.made
@@ -61,20 +60,17 @@ class Fenetre:
 
     def load(self):
         """Load builtins attributs of fenetre object."""
-        if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
-        self.selecter_color=self.reverseColor(self.couleur_de_fond)
         self.pausing=False
         self.open=False
-        self.coordonnates=[0,0]+self.taille
         self.picture_saved=0
         self.pause_cool_down=1
-        self.time=time.time()
 
     def set(self):
         """Creates apparent window."""
         self.infoConsole("Window has been created.")
         pygame.init()
         self.info = pygame.display.Info()
+        if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
         self.font = pygame.font.SysFont(self.text_font, self.taille_du_texte)
         if self.fullscreen:
             self.screen=pygame.display.set_mode(self.taille,FULLSCREEN)
@@ -197,7 +193,7 @@ class Fenetre:
     def alert(self,message):
         """Quickly display text on window."""
         position=self.centerText(message)
-        self.print(message,position,color=BLACK,couleur_de_fond=WHITE)
+        self.print(message,position,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC)
         self.flip()
 
     def print(self,text,position,taille=None,color=None,couleur_de_fond=None,font=None):
@@ -207,7 +203,7 @@ class Fenetre:
         if not font: font=self.font
         sx,sy=taille
         x,y=position
-        pygame.draw.rect(self.screen,reverseColor(couleur_de_fond),list(position)+list(taille),0)
+        pygame.draw.rect(self.screen,couleurs.inverser(couleur_de_fond),list(position)+list(taille),0)
         pygame.draw.rect(self.screen,couleur_de_fond,(x+1,y+1,sx-2,sy-2),0)
         label=font.render(text,1,color)
         self.screen.blit(label,position)
@@ -239,7 +235,7 @@ class Fenetre:
         text="Fenêtre créé par Marc Partensky afin de faciliter l'utilisation des fonctions de pygame."
         return text
 
-    __repr__=__help__=__str__
+    __repr__=__str__
 
     def kill(self):
         """Quit pygame."""

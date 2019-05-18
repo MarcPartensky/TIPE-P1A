@@ -4,7 +4,10 @@ couleurs écrites en majuscule, et en français/anglais
 
 possède également quelque fonctions utile
 """
-from random import randint
+from __future__ import division
+import random as rd
+from math import exp,log
+import math
 
 BLEU       = (  0,  0,255)
 ROUGE      = (255,  0,  0)
@@ -35,42 +38,29 @@ LIGHTGREY  = (200,200,200)
 BEIGE      = (199,175,138)
 
 
-def randomColor():
-    """Génère une couleur RGB aléatoire """
-    r=randint(0,255)
-    g=randint(0,255)
-    b=randint(0,255)
-    return (r,g,b)
+sigmoid = s = lambda x:1/(1+math.exp(-x))
+reverse_sigmoid = lambda x:log(x/(1-x))
+#r=reverse_sigmoid()
 
-def reverseColor(color):
-    """renvoie la couleur inversée"""
-    r,g,b=color
-    r=255-r
-    g=255-g
-    b=255-b
-    return (r,g,b)
+linear  = lambda x,e,s:(x-e[0])/(e[1]-e[0])*(s[1]-s[0])+s[0]
 
-def lighten(self,color,luminosity=80):
-    """Renvoie la couleurs donné en modifiant sa luminosité"""
-    r,g,b=color
-    if luminosity>=50:
-        r+=(255-r)*luminosity/100
-        g+=(255-g)*luminosity/100
-        b+=(255-b)*luminosity/100
-    else:
-        r*=luminosity/50
-        g*=luminosity/50
-        b*=luminosity/50
-    color=int(r),int(g),int(b)
-    return color
 
-def wavelengthToRGB(self,wavelength):
-    """Convertie une longueur d'onde en couleur RGB"""
+random    = lambda :            tuple([rd.randint(0,255)              for i in range(3)])
+reverse   = lambda color:       tuple([255-c                          for c in color])
+darken    = lambda color,n=0:   tuple([int(c*sigmoid(n/10))           for c in color])
+lighten   = lambda color,n=0:   tuple([int(255-(255-c)*sigmoid(n/10)) for c in color])
+mix       = lambda cl1,cl2:     tuple([(c1+c2)//2                     for (c1,c2) in zip(cl1,cl2)])
+substract = lambda cl1,cl2:     tuple([max(min(2*c1-c2,255),0)        for (c1,c2) in zip(cl1,cl2)])
+increase  = lambda color,n=2:   tuple([int(255*exp(n*log(c/255)))     for c in color])
+
+
+def setFromWavelength(wavelength):
+    """Return a color using wavelength."""
     gamma,max_intensity=0.80,255
     def adjust(color, factor):
         if color==0: return 0
         else: return round(max_intensity*pow(color*factor,gamma))
-    if   380<=wavelength<=440: r,g,b=-(wavelength-440)/(440-380),0,1
+    if 380<=wavelength<=440: r,g,b=-(wavelength-440)/(440-380),0,1
     elif 440<=wavelength<=490: r,g,b=0,(wavelength-440)/(490-440),1
     elif 490<=wavelength<=510: r,g,b=0,1,-(wavelength-510)/(510-490)
     elif 510<=wavelength<=580: r,g,b=(wavelength-510)/(580-510),1,0
@@ -84,5 +74,14 @@ def wavelengthToRGB(self,wavelength):
     r,g,b=adjust(r,factor),adjust(g,factor),adjust(b,factor)
     return (r,g,b)
 
+if __name__=="__main__":
+    print(darken(RED,10))
+    print(mix(YELLOW,RED))
+    print(reverse(LIGHTBROWN))
+    print(substract(LIGHTBROWN,ORANGE))
+    print(increase(LIGHTBROWN))
 
-print("mycolors imported")
+    for i in range(380,780,10):
+        print(setFromWavelength(i))
+
+    #print("mycolors imported")

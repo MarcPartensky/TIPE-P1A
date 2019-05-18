@@ -1,6 +1,8 @@
 """
 Module de configuration du script et déclaration de variables constantes nécéssaire
 """
+import couleurs
+import pygame
 
 CASE_VIDE =   -1   #Ne pas mettre 0 ou 1
 DEBUGING  = True
@@ -8,15 +10,64 @@ INFO      = True
 
 TEMPS_ANIMATION_PION = 0.15
 
+RESOLUTION_FENETRE=(1000,800)
+RESOLUTION_PLATEAU=(800,800) # les dimmension des arriere_plan comme celle-ci n'ont pas d'importance vu qu'elle seront redimmensionnées
+RESOLUTION_BORDURE=(200,800)
+
+def bijection(x,ensemble_entree,ensemble_sortie):
+    """Renvoie la valeur de f(x) par la bijection de l'ensemble_entree et l'ensemble_sortie."""
+    min1,max1=ensemble_entree
+    min2,max2=ensemble_sortie
+    return (x-min1)/(max1-min1)*(max2-min2)+min2
+
+arriere_plan=pygame.Surface(RESOLUTION_PLATEAU)
+
+ftx,fty=arriere_plan.get_size()
+for y in range(0,fty,10):
+    for x in range(0,ftx,10):
+        r=abs(bijection(x,[0,ftx],[-100,100]))
+        g=255-abs(bijection((x+y)/2,[0,ftx],[-100,100]))
+        b=abs(bijection(y,[0,fty],[-100,100]))
+        couleur=(r,g,b)
+        pygame.draw.rect(arriere_plan,couleur,[x,y,10,10],0)
+
+
+THEME_BORDURE={     "arriere plan"    :   couleurs.NOIR,
+                    "police"          :   "monospace",
+                    "couleur texte"   :   couleurs.BLANC,
+                    "taille texte"    :   50             }
+
+THEME_PLATEAU={     "arriere plan"        :   arriere_plan,
+                    "couleur pions"       :   [couleurs.BLANC,couleurs.NOIR],
+                    "couleur grille"      :   couleurs.NOIR,
+                    "couleur mouvements"  :   couleurs.ROUGE,
+                    "couleur points"      :   couleurs.NOIR}
+
+THEME_FENETRE={
+
+}
+
+
+
+
+
+"""
+n=min(RESOLUTION_FENETRE)
+m=max(RESOLUTION_FENETRE)
+
+RESOLUTION_PLATEAU=(n,n)
+RESOLUTION_BORDURE=(m-n,m)
+"""
+
 def debug(*txt):
-    """fonction de debug,
-    cet fonction est équivalente à un print"""
+    """Fonction de debug,
+    cette fonction est équivalente à un print"""
     if DEBUGING:
         print("[DEBUG]:",*txt)
 
 def info(*txt,nom_fichier="NO_NAME"):
     """Fonction donnant des information en direct sur l'état du programme,
-    cet fonction est équivalente à un print.
+    cette fonction est équivalente à un print.
     Ne pas oublier de donner le nom du fichier dans le quelle la fonction est appeler"""
     if INFO:
         print("[INFO]["+nom_fichier+"]",*txt)
