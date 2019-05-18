@@ -46,7 +46,7 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     humain=Humain(nom="je suis l'humain n°1 LOL") #Crée un joueur humain.
     machine1=ia.IA(nom="machine1") #Crée une intelligence artificielle.
     machine2=ia.IA(nom="machine2")
-    machine3=ia2.IA()
+    machine3=ia2.IA(nom="machine3") # semble ne pas fonctionner 
     #bruteforce=BruteForce(level=3) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
 
     jeu=Othello(joueurs=[machine1,machine2],fenetre=fenetre) #Crée un jeu.

@@ -1,9 +1,9 @@
-import joueur
-import random
+from outils import intersection, est_superieur, deco_debug
+import outils, joueur, random
 import config as cfg
 from copy import deepcopy
-from outils import intersection, est_superieur, deco_debug
-import outils
+
+
 
 
 #La liste des différentes zone de jeu :
