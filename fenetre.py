@@ -141,22 +141,6 @@ class Fenetre:
             if keys[K_SPACE]:
                 self.pausing=False
 
-    def direction(self):
-        """Return keys for arrows pressed. Trigonometric orientation is used."""
-        keys=pygame.key.get_pressed()
-        if keys[K_LEFT]:  left=True
-        else:             left=False
-
-        if keys[K_RIGHT]: right=True
-        else:             right=False
-
-        if keys[K_UP]:    up=True
-        else:             up=False
-
-        if keys[K_DOWN]:  down=True
-        else:             down=False
-
-        return [right,up,left,down]
 
     def select(self):
         """Wait for user to click on screen, then return cursor position."""
