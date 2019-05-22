@@ -48,9 +48,10 @@
 #   22.  manger   .................................................. ligne 256
 #   24.  afficher   ................................................ ligne 261
 #   25.  colorerCase   ............................................. ligne 267
-#   26.  afficherMouvements   ...................................... ligne 273
-#   27.  afficherGrille   .......................................... ligne
-#   28.  afficherPions   ........................................... ligne
+#   26.  afficherDecorationGrille   ................................ ligne 
+#   27.  afficherMouvements   ...................................... ligne 273
+#   28.  afficherGrille   .......................................... ligne
+#   29.  afficherPions   ........................................... ligne
 #
 ###############################################################################
 """
@@ -67,9 +68,9 @@ import pygame
 
 
 class Plateau:
-    def __init__(self,taille=[8,8],theme=None):
+    def __init__(self,theme=None): # la taille doit forcément être un carré de coté paire
         """Cree un plateau."""
-        self.taille=taille
+        self.taille=[8,8] # taille du plateau 8 lignes et 8 colonnes
         self.creerGrille()
         self.mouvements=[]
         self.gagne=False
@@ -82,8 +83,14 @@ class Plateau:
         """Cree une grille."""
         sx,sy=self.taille
         self.grille=[[cfg.CASE_VIDE for x in range(sx)] for y in range(sy)]
-        self.insererPion([(3,3),(4,4)],0) #Place les pions du joueur de côté 0.
-        self.insererPion([(3,4),(4,3)],1) #Place les pions du joueur de côté 1.
+
+        ####### marche dans le cas d'une grille [8,8] comme ici mais peu rigoureux
+        #self.insererPion([(3,3),(4,4)],0) #Place les pions du joueur de côté 0.
+        #self.insererPion([(3,4),(4,3)],1) #Place les pions du joueur de côté 1.
+
+        ####### marche quelque soit la taille de la grille
+        self.insererPion([(sx//2-1,sx//2-1),(sx//2,  sx//2)],0) #Place les pions du joueur de côté 0.
+        self.insererPion([(sx//2-1,sx//2  ),(sx//2,sx//2-1)],1) #Place les pions du joueur de côté 1.
 
     def estDansGrille(self,position):
         """Verifie si la position est dans la grille"""
@@ -207,8 +214,6 @@ class Plateau:
     def obtenirNombrePionsRestant(self):
         """Determine le nombre de cases restantes"""
         return self.taille[0]*self.taille[1]-self.obtenirNombrePionsJoueur(0)-self.obtenirNombrePionsJoueur(1)
-
-
 
     def obtenirEnvironnement(self,positions):
         """Prend en parametre une liste de position de case et retourne la liste des postions des cases vide se trouvant juste à cote"""
@@ -378,7 +383,6 @@ class Plateau:
             self.conquerirLigne(p_cote,ligne)
         return True
 
-
     def conquerirLigne(self,cote,ligne):
         """Permet au nouveau pion a la position position de couleur cote de
         retouner les autres pions dans une ligne"""
@@ -406,10 +410,6 @@ class Plateau:
         self.afficherDecorationGrille(fenetre)
         self.afficherPions(fenetre)
         self.afficherMouvements(fenetre)
-
-    def afficherDecorationGrille(self,fenetre):
-        """Affiche les 4 points pour délimiter le carré central du plateau."""
-        pass #A Valentin de faire, son expérience dans le domaine est sans égal
 
     def presenter(self,positions,couleur,fenetre,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
         """Permet de debuger en 1 commande."""
@@ -466,7 +466,7 @@ class Plateau:
                 b=abs(bijection(y,[0,fty],[-100,100]))
                 couleur=(r,g,b)
                 fenetre.draw.rect(fenetre.screen,couleur,[x,y,10,10],0)
-                
+
     def afficherDecorationGrille(self,fenetre):
         """Affiche les 4 points pour délimiter le carré central du plateau.
         Aspect uniquement graphique et décoratif afin d'améliorer le confort de l'utilisateur"""
@@ -521,13 +521,13 @@ class Plateau:
             fenetre.check()
             fenetre.flip()
             time.sleep(cfg.TEMPS_ANIMATION_PION)
-            fenetre.draw.circle(fenetre.screen,couleurs.ROUGE,position_brute,rayon+2,0) #tres mal implemente
+            fenetre.draw.circle(fenetre.screen,(255,0,0),position_brute,rayon+2,0) #tres mal implemente
             fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)
             fenetre.check()
             fenetre.flip()
 
     def afficherPions(self,fenetre):
-        """Affiche les pions"""
+        """Affiche les pions durant la partie"""
         wsx,wsy=fenetre.taille
         sx,sy=self.taille
         taille_relative=2/5 #Taille du pion par rapport a une case
@@ -540,3 +540,4 @@ class Plateau:
                     couleur=self.pieces_couleur[case]
                     fenetre.draw.circle(fenetre.screen,couleurs.reverseColor(couleur),position_brute,rayon+2,0)
                     fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)
+
