@@ -466,7 +466,16 @@ class Plateau:
                 b=abs(bijection(y,[0,fty],[-100,100]))
                 couleur=(r,g,b)
                 fenetre.draw.rect(fenetre.screen,couleur,[x,y,10,10],0)
-
+                
+    def afficherDecorationGrille(self,fenetre):
+        """Affiche les 4 points pour délimiter le carré central du plateau.
+        Aspect uniquement graphique et décoratif afin d'améliorer le confort de l'utilisateur"""
+        wsx,wsy=fenetre.taille
+        sx,sy=self.taille
+        d=wsy//sy # distance entre deux ligne ou colonne
+        positions_points_graphic=[(2*d,2*d),(2*d,wsy-2*d),(wsx-2*d,2*d),(wsx-2*d,wsy-2*d)]
+        for position in positions_points_graphic:
+            fenetre.draw.circle(fenetre.screen,couleurs.NOIR,position,5,0)
 
     def afficherMouvements(self,fenetre,mouvements=None,couleur=None):
         """Afficher les coups possible. (point rouge sur la fenêtre)"""
@@ -512,7 +521,7 @@ class Plateau:
             fenetre.check()
             fenetre.flip()
             time.sleep(cfg.TEMPS_ANIMATION_PION)
-            fenetre.draw.circle(fenetre.screen,(255,0,0),position_brute,rayon+2,0) #tres mal implemente
+            fenetre.draw.circle(fenetre.screen,couleurs.ROUGE,position_brute,rayon+2,0) #tres mal implemente
             fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)
             fenetre.check()
             fenetre.flip()
