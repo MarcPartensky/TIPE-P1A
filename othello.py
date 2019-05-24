@@ -44,7 +44,7 @@ import config as cfg
 from copy import deepcopy
 
 class Othello:
-    def __init__(self,joueurs,fenetre=None,theme=None):
+    def __init__(self,joueurs,fenetre=None):
         """Crée un objet de jeu d'Othello en utilisant sa liste de joueurs, sa fenetre et son theme."""
         self.nom="Othello"
         self.joueurs=joueurs
@@ -146,7 +146,7 @@ class Othello:
             if not choix_du_joueur:
                 return None
             cfg.info("Le choix du joueur est {}".format(repr(choix_du_joueur)),nom_fichier="othello.py")
-            self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
+            if cfg.PLACER: self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
             self.plateau.afficherAnimationPion(self.fenetre,choix_du_joueur)
             self.historique.append([self.plateau.grille,joueur_actif.cote,choix_du_joueur]) #Permet en théorie au joueur de retourner en arrière.
         else :

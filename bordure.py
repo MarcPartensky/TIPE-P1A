@@ -1,5 +1,5 @@
-import pygame, time, couleurs
 import config as cfg
+import pygame, time, couleurs
 
 class Bordure:
     def __init__(self,surface):
@@ -11,15 +11,15 @@ class Bordure:
         self.surface.fill(cfg.THEME_BORDURE["arriere plan"])
 
     def afficherTexte(self,texte,position,couleur=None,taille=None):
-        """affiche du texte à l'écran"""
+        """Affiche du texte à l'écran"""
         if couleur == None: couleur=cfg.THEME_BORDURE["couleur texte"]
         if taille  == None: taille=cfg.THEME_BORDURE["taille texte"]
         police=pygame.font.SysFont(cfg.THEME_BORDURE["police"],taille)
         surface_texte=font.render(texte,1,couleur)
         self.surface.blit(surface_texte,position)
-   
+
     def afficherTemps(self,position,couleurs=None,taille=None):
-        """affiche l'heure à un instant"""
+        """Affiche l'heure à un instant"""
         heure=str(time.localtime()[3])
         minute=str(time.localtime()[4])
         temps=heure+" : "+minute
