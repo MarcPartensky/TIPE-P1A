@@ -10,47 +10,61 @@
 #
 #    Créateurs : Marc  PARTENSKY
 #                Valentin  COLIN
-#                Alexandre Bigot
+#                Alexandre BIGOT
 #
 #    Version : 2019
-#              1.1
 #
 ###############################################################################
 #
 #                           SOMMAIRE du plateau
 #
-#    note : commenter le script correctement
-#
-#    0.  __init__   ................................................ ligne  64
-#    1.  creerGrille   ............................................. ligne  74
-#    2.  est_dans_grille   ......................................... ligne  83
-#    3.  est_un_coin   ............................................. ligne  89
-#    4.  obtenirPositionBrute   .................................... ligne  96
-#    4.  obtenirPositionPlateau .................................... ligne intrus car pas de place dans la numérotation
-#    5.  testVictoire   ............................................ ligne 103
-#    6.  obtenirPositionsPions   ................................... ligne 112
-#    7.  obtenirPions   ............................................ ligne 116
-#    8.  obtenirEnvironnement   .................................... ligne 130
-#    9.  insererPion   ............................................. ligne 145
-#   10.  reverse_pion   ............................................ ligne 150
-#   11.  obtenir_case   ............................................ ligne 158
-#   12.  placer_pion   ............................................. ligne 163
-#   13.  est_une_case_vide   ....................................... ligne 168
-#   14.  est_une_case_joueur_cote   ................................ ligne 172
-#   15.  obtenirCoteOppose   ....................................... ligne 176
-#   16.  obtenirMouvementsValides   ................................ ligne 180
-#   17.  estMouvementValide   ...................................... ligne 191
-#   18.  estMouvementValideDansLigne   ............................. ligne 202
-#   19.  conquerir   ............................................... ligne 220
-#   19.  obtenirLigneInclus ........................................ ligne ..
-#   20.  obtenirLigneExclus   ...................................... ligne 228
-#   21.  conquerirLigne   .......................................... ligne 239
-#   22.  manger   .................................................. ligne 256
-#   24.  afficher   ................................................ ligne 261
-#   25.  colorerCase   ............................................. ligne 267
-#   26.  afficherMouvements   ...................................... ligne 273
-#   27.  afficherGrille   .......................................... ligne
-#   28.  afficherPions   ........................................... ligne
+#    1.    Class Plateau:  ........................................... ligne  83
+#    1.1   ------> __init__ (self,theme=None)  ....................... ligne  85
+#    1.2   ------> creerGrille (self)  ............................... ligne
+#    1.3   ------> est_dans_grille (self,position)  .................. ligne
+#    1.4   ------> est_un_coin (self,position)  ...................... ligne
+#    1.5   ------> obtenirPositionBrute (self,(etc).)  ............... ligne
+#    1.6   ------> obtenirPositionPlateau (self,(etc).) .............. ligne
+#    1.7   ------> estComplet (self)  ................................ ligne
+#    1.8   ------> estJouable (self)  ................................ ligne
+#    1.9   ------> estFini (self)  ................................... ligne
+#    1.10  ------> obtenirCoteGagnant (self)  ........................ ligne
+#    1.11  ------> testVictoire (self)  ......  (obsolète)   ......... ligne
+#    1.12  ------> charger (self,cote)  .............................. ligne
+#    1.13  ------> obtenirCase (self,coordonnees)  ................... ligne
+#    1.14  ------> obtenirCases (self,coordonnees)  .................. ligne
+#    1.15  ------> obtenirPions (self,cotes)  ........................ ligne
+#    1.16  ------> __contains__ (self,pion)  ......................... ligne
+#    1.17  ------> obtenirNombrePionsJoueur (self,cote)  ............. ligne
+#    1.18  ------> obtenirNombrePionsRestant (self)  ................. ligne
+#    1.19  ------> obtenirEnvironnement (self,positions)  ............ ligne
+#    1.20  ------> obtenirAlentours (self,positions)  ................ ligne
+#    1.21  ------> obtenirLignesAlentours (self,position)  ........... ligne
+#    1.22  ------> insererPion (self,positions,cote)  ................ ligne
+#    1.23  ------> placer_pion (self,position,cote)  ................. ligne
+#    1.24  ------> estCaseVide (self,position)  ...................... ligne
+#    1.25  ------> estCaseJoueur (self,position,cote)  ............... ligne
+#    1.26  ------> obtenirCoteOppose (self,cote_joueur)  ............. ligne
+#    1.27  ------> obtenirMouvementsValides (self,joueur_cote)  ...... ligne
+#    1.28  ------> estMouvementValide (self,mouvement,cote)  ......... ligne
+#    1.29  ------> estMouvementValideDansLigne (self,cote,ligne)  .... ligne
+#    1.30  ------> obtenirLigneInclus (self,position,vecteur,taille) . ligne
+#    1.31  ------> obtenirLigneExclus (self,position,vecteur,taille) . ligne
+#    1.32  ------> obtenirDirections (self)  ......................... ligne
+#    1.33  ------> conquerir (self,position,p_cote)  ................. ligne
+#    1.34  ------> conquerirLigne (self,cote,ligne)  ................. ligne
+#    1.35  ------> manger (self,mangeables,personne)  ................ ligne
+#    1.36  ------> afficher (self,fenetre)  .......................... ligne
+#    1.37  ------> presenter (self, (etc).)  ......................... ligne
+#    1.38  ------> afficherMessage(self,(etc).)  ..................... ligne
+#    1.39  ------> colorerCase (self,positions,couleur,fenetre)  ..... ligne
+#    1.40  ------> colorerLigne (self,ligne,couleur,fenetre)  ........ ligne
+#    1.41  ------> afficherFond (self,fenetre)  ...................... ligne
+#    1.42  ------> afficherDecorationGrille (self,fenetre)  .......... ligne
+#    1.43  ------> afficherMouvements (self,(etc).)  ................. ligne
+#    1.44  ------> afficherGrille (self,fenetre)  .................... ligne
+#    1.45  ------> afficherPions (self,fenetre)  ..................... ligne
+#    1.46  ------> afficherAnimationPion(self,(etc).)  ............... ligne
 #
 ###############################################################################
 """
@@ -67,9 +81,11 @@ import pygame
 
 
 class Plateau:
-    def __init__(self,taille=[8,8],theme=None):
+    """Représentation en classe de l'othellier"""
+
+    def __init__(self,theme=None): # la taille doit forcément être un carré de coté paire
         """Cree un plateau."""
-        self.taille=taille
+        self.taille=[8,8] # taille du plateau 8 lignes et 8 colonnes
         self.creerGrille()
         self.mouvements=[]
         self.gagne=False
@@ -82,8 +98,14 @@ class Plateau:
         """Cree une grille."""
         sx,sy=self.taille
         self.grille=[[cfg.CASE_VIDE for x in range(sx)] for y in range(sy)]
-        self.insererPion([(3,3),(4,4)],0) #Place les pions du joueur de côté 0.
-        self.insererPion([(3,4),(4,3)],1) #Place les pions du joueur de côté 1.
+
+        ####### marche dans le cas d'une grille [8,8] comme ici mais peu rigoureux
+        #self.insererPion([(3,3),(4,4)],0) #Place les pions du joueur de côté 0.
+        #self.insererPion([(3,4),(4,3)],1) #Place les pions du joueur de côté 1.
+
+        ####### marche quelque soit la taille de la grille
+        self.insererPion([(sx//2-1,sx//2-1),(sx//2,  sx//2)],0) #Place les pions du joueur de côté 0.
+        self.insererPion([(sx//2-1,sx//2  ),(sx//2,sx//2-1)],1) #Place les pions du joueur de côté 1.
 
     def estDansGrille(self,position):
         """Verifie si la position est dans la grille"""
@@ -99,19 +121,19 @@ class Plateau:
         y_=y%(sy-1)
         return (x_,y_)==(0,0)
 
-    def obtenirPositionPlateau(self,position_brute,fenetre):
-        """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la fenetre en pixels."""
-        wsx,wsy=fenetre.taille
-        sx,sy=self.taille
-        rx,ry=position_brute
-        return (int(rx*sx/wsx),int(ry*sy/wsy))
-
     def obtenirPositionBrute(self,position_plateau,fenetre):
         """Renvoie la position brute en pixel a l'aide d'une position dans le systeme de coordonnees du plateau."""
         wsx,wsy=fenetre.taille
         sx,sy=self.taille
         px,py=position_plateau
         return (int((px+1/2)*wsx/sx),int((py+1/2)*wsy/sy))
+
+    def obtenirPositionPlateau(self,position_brute,fenetre):
+        """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la fenetre en pixels."""
+        wsx,wsy=fenetre.taille
+        sx,sy=self.taille
+        rx,ry=position_brute
+        return (int(rx*sx/wsx),int(ry*sy/wsy))
 
     def estComplet(self):
         """Renvoie si le plateau est complet ou non."""
@@ -158,7 +180,7 @@ class Plateau:
         """Test la victoire et vérifie si au moins l'un des joueurs possède un coup ."""
         compteur=0
         for colonne in self.grille:
-            compteur+=colonne.count(cfg.CASE_VIDE)
+            compteur+=colonne.count(cfg.CASE_VIDE) # compte le nombre d'occurence de case vide dans la colonne
         if compteur==0: #Verifie si il reste encore des cases vides
             self.gagne=True
             return self.gagne
@@ -175,11 +197,21 @@ class Plateau:
         """Charge les attributs du plateau afin d'être préchargé pour les ias et ainsi économiser le temps de calcul."""
         self.mouvements=self.obtenirMouvementsValides(cote)
 
-    def __contains__(self,pion):
-        """Determine si le plateau contient un pion.
-        Méthode spécial permèttant d'utiliser le mot clé 'in' """
-        case=self.obtenirCase(pion)
-        return bool(case!=cfg.CASE_VIDE)
+    def obtenirCase(self,coordonnees):
+        """Retourne le contenu d'une case"""
+        x,y=coordonnees
+        return self.grille[y][x]
+
+    def obtenirCases(self,coordonnees):
+        """Renvoie une liste de contenu de cases avec les coordonnees de celles-ci."""
+        if type(coordonnees)==list:
+            cases=[]
+            for position in coordonnees:
+                cases.append(self.obtenirCases(position))
+            return cases
+        else:
+            x,y=coordonnees
+            return self.grille[y][x]
 
     def obtenirPions(self,cotes):
         """Obtenir toute les position de toutes les pieces de cotes de joueurs"""
@@ -194,6 +226,12 @@ class Plateau:
                         positions.append((x,y))
         return positions
 
+    def __contains__(self,pion):
+        """Determine si le plateau contient un pion.
+        Méthode spécial permèttant d'utiliser le mot clé 'in' """
+        case=self.obtenirCase(pion)
+        return bool(case!=cfg.CASE_VIDE)
+
     def obtenirNombrePionsJoueur(self, cote):#Todo à optimiser
         """Determine le nombre de pions d'un joueur en utilisant son cote."""
         nombre=0
@@ -207,8 +245,6 @@ class Plateau:
     def obtenirNombrePionsRestant(self):
         """Determine le nombre de cases restantes"""
         return self.taille[0]*self.taille[1]-self.obtenirNombrePionsJoueur(0)-self.obtenirNombrePionsJoueur(1)
-
-
 
     def obtenirEnvironnement(self,positions):
         """Prend en parametre une liste de position de case et retourne la liste des postions des cases vide se trouvant juste à cote"""
@@ -248,31 +284,16 @@ class Plateau:
         lignes=[self.obtenirLigneExclus(position,direction) for direction in directions]
         return lignes
 
-    def insererPion(self,positions,cote) :
+    def insererPion(self,positions,cote):
         """insererPion insere un pion dans la grille sans se soucier de conquerir le territoire"""
         if type(positions)!=list: positions=[positions]
         for position in positions:
             x,y=position
             self.grille[y][x]=cote
 
-    def obtenirCases(self,coordonnees):
-        """Renvoie une liste de contenu de cases avec les coordonnees de celles-ci."""
-        if type(coordonnees)==list:
-            cases=[]
-            for position in coordonnees:
-                cases.append(self.obtenirCases(position))
-            return cases
-        else:
-            x,y=coordonnees
-            return self.grille[y][x]
-
-    def obtenirCase(self,coordonnees):
-        """Retourne le contenu d'une case"""
-        x,y=coordonnees
-        return self.grille[y][x]
-
     def placerPion(self,position,cote):
-        """Place un pion sur le plateau"""
+        """Place un pion sur le plateau et modifie celui-ci
+        en conséquence selon les règle de l'othello"""
         self.insererPion(position,cote)
         return self.conquerir(position,cote)
 
@@ -312,6 +333,27 @@ class Plateau:
                 break
         return resultat
 
+    def estMouvementValideDansLigne(self,cote,ligne):
+        """Permet de verifier si un mouvement est valide dans une ligne."""
+        valide=False
+        possible=False
+        cote_oppose=self.obtenirCoteOppose(cote)
+        #Regarde si une ligne peut etre prise.
+        for position in ligne: #Regarde chaque pion de la ligne dans l'ordre.
+            if not self.estDansGrille(position): #Si on sort de la ligne, celle-ci ne peut pas être prise
+                break #On arrete la vérification
+            else:
+                case=self.obtenirCase(position) #Sinon on récupère la case
+                if case==cote: #Si la case est a nous
+                    if possible: #et que l'on a déja rencontré des pions ennemis on peut prendre cette ligne.
+                        valide=True
+                    break #On arrete la vérification
+                elif case==cote_oppose: #Si la case contient un pion ennemi alors on peut possiblement le prendre
+                        possible=True
+                else: #Sinon la case est vide et on arrete la vérification
+                    break
+        return valide
+
     def obtenirLigneInclus(self,position,vecteur,taille=None):
         """Recupere la ligne des valeurs obtenue avec une position et un vecteur."""
         if not taille: taille=max(self.taille)
@@ -342,29 +384,9 @@ class Plateau:
             n+=1
         return ligne
 
-    def estMouvementValideDansLigne(self,cote,ligne):
-        """Permet de verifier si un mouvement est valide dans une ligne."""
-        valide=False
-        possible=False
-        cote_oppose=self.obtenirCoteOppose(cote)
-        #Regarde si une ligne peut etre prise.
-        for position in ligne: #Regarde chaque pion de la ligne dans l'ordre.
-            if not self.estDansGrille(position): #Si on sort de la ligne, celle-ci ne peut pas être prise
-                break #On arrete la vérification
-            else:
-                case=self.obtenirCase(position) #Sinon on récupère la case
-                if case==cote: #Si la case est a nous
-                    if possible: #et que l'on a déja rencontré des pions ennemis on peut prendre cette ligne.
-                        valide=True
-                    break #On arrete la vérification
-                elif case==cote_oppose: #Si la case contient un pion ennemi alors on peut possiblement le prendre
-                        possible=True
-                else: #Sinon la case est vide et on arrete la vérification
-                    break
-        return valide
-
     def obtenirDirections(self):
-        """Recupere les directions avec les vecteurs orientés selon chaque axe."""
+        """Recupere les directions avec les vecteurs orientés selon chaque axe,
+        ranger dans un ordre afin de tourner dans le sens trigo (important)"""
         #directions=[(x,y) for x in range(-1,2) for y in range(-1,2) if (x,y)!=(0,0)]
         directions=[(1,0),(1,1),(0,1),(-1,1),(-1,0),(-1,-1),(0,-1),(1,-1)]
         return directions
@@ -377,7 +399,6 @@ class Plateau:
             ligne=self.obtenirLigneExclus(position,direction)
             self.conquerirLigne(p_cote,ligne)
         return True
-
 
     def conquerirLigne(self,cote,ligne):
         """Permet au nouveau pion a la position position de couleur cote de
@@ -407,10 +428,6 @@ class Plateau:
         self.afficherPions(fenetre)
         self.afficherMouvements(fenetre)
 
-    def afficherDecorationGrille(self,fenetre):
-        """Affiche les 4 points pour délimiter le carré central du plateau."""
-        pass #A Valentin de faire, son expérience dans le domaine est sans égal
-
     def presenter(self,positions,couleur,fenetre,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
         """Permet de debuger en 1 commande."""
         if self.demonstration:
@@ -425,7 +442,6 @@ class Plateau:
             fenetre.flip()
             if pause:
                 fenetre.pause()
-
 
     def afficherMessage(self,message,position,couleur,fenetre):
         """Affiche un message en utilisant une position plateau, une couleur, et une fenetre."""
@@ -467,6 +483,15 @@ class Plateau:
                 couleur=(r,g,b)
                 fenetre.draw.rect(fenetre.screen,couleur,[x,y,10,10],0)
 
+    def afficherDecorationGrille(self,fenetre):
+        """Affiche les 4 points pour délimiter le carré central du plateau.
+        Aspect uniquement graphique et décoratif afin d'améliorer le confort de l'utilisateur"""
+        wsx,wsy=fenetre.taille
+        sx,sy=self.taille
+        d=wsy//sy # distance entre deux ligne ou colonne
+        positions_points_graphic=[(2*d,2*d),(2*d,wsy-2*d),(wsx-2*d,2*d),(wsx-2*d,wsy-2*d)]
+        for position in positions_points_graphic:
+            fenetre.draw.circle(fenetre.screen,couleurs.NOIR,position,5,0)
 
     def afficherMouvements(self,fenetre,mouvements=None,couleur=None):
         """Afficher les coups possible. (point rouge sur la fenêtre)"""
@@ -498,6 +523,21 @@ class Plateau:
             end=(_x,wsy)
             fenetre.draw.line(fenetre.screen,self.couleur_grille,start,end,1)
 
+    def afficherPions(self,fenetre):
+        """Affiche les pions durant la partie"""
+        wsx,wsy=fenetre.taille
+        sx,sy=self.taille
+        taille_relative=2/5 #Taille du pion par rapport a une case
+        rayon=int(min(wsx,wsy)/min(sx,sy)*taille_relative) #taille des pions a changer
+        for y in range(sy):
+            for x in range(sx):
+                case=self.obtenirCase((x,y))
+                position_brute=self.obtenirPositionBrute((x,y),fenetre)
+                if 0<=case and case<=len(self.pieces_couleur)-1 :
+                    couleur=self.pieces_couleur[case]
+                    fenetre.draw.circle(fenetre.screen,couleurs.reverseColor(couleur),position_brute,rayon+2,0)
+                    fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)
+
     def afficherAnimationPion(self,fenetre,choix_du_joueur):
         """Permet d'affichier l'animation du placement d'un nouveau pion en faisant clicgnoter son contour."""
         wsx,wsy=fenetre.taille
@@ -516,18 +556,3 @@ class Plateau:
             fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)
             fenetre.check()
             fenetre.flip()
-
-    def afficherPions(self,fenetre):
-        """Affiche les pions"""
-        wsx,wsy=fenetre.taille
-        sx,sy=self.taille
-        taille_relative=2/5 #Taille du pion par rapport a une case
-        rayon=int(min(wsx,wsy)/min(sx,sy)*taille_relative) #taille des pions a changer
-        for y in range(sy):
-            for x in range(sx):
-                case=self.obtenirCase((x,y))
-                position_brute=self.obtenirPositionBrute((x,y),fenetre)
-                if 0<=case and case<=len(self.pieces_couleur)-1 :
-                    couleur=self.pieces_couleur[case]
-                    fenetre.draw.circle(fenetre.screen,couleurs.reverseColor(couleur),position_brute,rayon+2,0)
-                    fenetre.draw.circle(fenetre.screen,couleur,position_brute,rayon,0)

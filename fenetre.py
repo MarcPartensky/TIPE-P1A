@@ -10,43 +10,59 @@
 #
 #    Créateurs : Marc  PARTENSKY
 #                Valentin  COLIN
-#                Alexandre Bigot
+#                Alexandre BIGOT
 #
 #    Version : 2019
 #
 ################################################################################
 #
-#                           SOMMAIRE de fenetre
+#                           SOMMAIRE de Fenetre
 #
-#    0. class Fenetre   .............................................. ligne
-#    1.    ................................................ ligne
-#    2.    .............................................. ligne
-#    3.    ................................................ ligne
-#    4.    ................................................ ligne
-#    5.    ............................................... ligne
+#    1.    class Fenetre:  ........................................... ligne
+#    1.1   ------> __init__ (self,(etc).)  ........................... ligne
+#    1.2   ------> load (self)  ...................................... ligne
+#    1.3   ------> set (self)  ....................................... ligne
+#    1.4   ------> clear (self,color=None)  .......................... ligne
+#    1.5   ------> scale (self,picture)  ............................. ligne
+#    1.6   ------> check (self)  ..................................... ligne
+#    1.7   ------> update (self)  .................................... ligne
+#    1.8   ------> pause (self)  ..................................... ligne
+#    1.9   ------> attendre (self)  .................................. ligne
+#    1.10  ------> direction (self,temps_maximum=0.5)  ............... ligne
+#    1.11  ------> select (self)  .................................... ligne
+#    1.12  ------> point (self)  ..................................... ligne
+#    1.13  ------> click (self)  ..................................... ligne
+#    1.14  ------> press (self)  ..................................... ligne
+#    1.15  ------> flip (self)  ...................................... ligne
+#    1.16  ------> getPicture (self,picture_directory)  .............. ligne
+#    1.17  ------> placePicture (self,picture_directory,coord,..)  ... ligne
+#    1.18  ------> centerText (self)  ................................ ligne
+#    1.19  ------> alert (self)  ..................................... ligne
+#    1.20  ------> print (self,text,position,(etc).)  ................ ligne
+#    1.21  ------> drawText (self,text,position,couleur,taille=20)  .. ligne
+#    1.22  ------> drawRect (self,coordonnates,color)  ............... ligne
+#    1.23  ------> place (self,position)  ............................ ligne
+#    1.23  ------> infoConsole (self,message)  ....................... ligne
+#    1.23  ------> kill (self)  ...................................... ligne
+#    1.23  ------> __str__ (self)  ................................... ligne
+#    1.23  ------> __call__ (self)  .................................. ligne
+#    1.23  ------> __del__ (self)  ................................... ligne
 #
 ################################################################################
 """
 # --coding:utf-8--
 
-from __future__ import division
-
-from couleurs import *
-
 import pygame
-from pygame.locals import *
+from pygame.locals import * # permet de récupérer les constante de pygame (utile pour savoir sur quelle touche l'utilisateur appuie)
+from couleurs import *
 import time
-import json
-
 
 
 class Fenetre:
-    made=0
-    draw=pygame.draw
+    draw=pygame.draw # permet juste d'écrire un peu moins dans le code
 
     def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
-        Fenetre.made+=1
         self.number=Fenetre.made
         self.name=name
         self.taille=taille
@@ -61,7 +77,7 @@ class Fenetre:
 
     def load(self):
         """Load builtins attributs of fenetre object."""
-        self.selecter_color=self.reverseColor(self.couleur_de_fond)
+        self.selecter_color=reverseColor(self.couleur_de_fond) # reverseColor est dans le module couleurs
         self.pausing=False
         self.open=False
         self.picture_saved=0
@@ -90,7 +106,9 @@ class Fenetre:
         self.screen.fill(color)
 
     def scale(self,picture,taille):
-        """Return scaled picture using picture and taille."""
+        """Permet de changer la taille d'une surface pygame
+        utile pour correctement afficher des objet/image dans
+        une surface de dimmension plus petite que la surface par exemple"""
         return pygame.transform.scale(picture,taille)
 
     def check(self):
@@ -119,7 +137,8 @@ class Fenetre:
                     self.open=False
 
     def pause(self):
-        """Wait for user to click on space."""
+        """Permet de mettre le programme en pause
+        jusqu'a ce que l'utisateur appuie sur la barre d'espace"""
         self.pausing=True
         while self.pausing and self.open:
             self.check()
@@ -130,7 +149,8 @@ class Fenetre:
             time.sleep(0.1)
 
     def attendre(self,temps_maximum=0.5):
-        """Wait for user to click on space."""
+        """Permet de mettre le programme en pause pendant une durée déterminé
+        mais si l'utisateur appuie sur la barre d'espace la pause se termine prématurément"""
         self.pausing=True
         temps=time.time()
         while self.pausing and self.open and time.time()-temps<temps_maximum:
@@ -180,10 +200,12 @@ class Fenetre:
         """Refresh screen."""
         pygame.display.flip()
 
+    """    un peu inutile pour le TIPE mais permet juste de faire des capture d'écran
     def screenshot(self):
-        """Save picture of the surface."""
+        ""Save picture of the surface.""
         self.picture_saved+=1
         pygame.image.save(self.screen,self.name+"-"+str(self.picture_saved)+".png")
+    """
 
     def getPicture(self,picture_directory):
         """Return picture using picture directory."""
@@ -248,13 +270,6 @@ class Fenetre:
         x,y=(rcx-wcx,rcy-wcy)
         return (x,y)
 
-    def __str__(self):
-        """Donne une représentation en string de la fenêtre."""
-        text="Fenêtre créé par Marc Partensky afin de faciliter l'utilisation des fonctions de pygame."
-        return text
-
-    __repr__=__help__=__str__
-
     def kill(self):
         """Quit pygame."""
         pygame.quit()
@@ -264,14 +279,21 @@ class Fenetre:
         text="["+self.name+"] "+message
         print(text)
 
-    def __del__(self):
-        """Executed before the window is destroyed."""
-        self.infoConsole("Window has been closed.")
+    def __str__(self):
+        """Donne une représentation en string de la fenêtre."""
+        text="Fenêtre créé par Marc Partensky afin de faciliter l'utilisation des fonctions de pygame."
+        return text
+
+    __repr__=__help__=__str__
 
     def __call__(self):
         """Refresh and pause."""
         self.flip()
         self.pause()
+
+    def __del__(self):
+        """Executed before the window is destroyed."""
+        self.infoConsole("Window has been closed.")
 
 
 """Guide d'utilisation et test de la fenetre."""

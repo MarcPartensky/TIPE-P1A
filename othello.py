@@ -10,23 +10,23 @@
 #
 #    Créateurs : Marc  PARTENSKY
 #                Valentin  COLIN
-#                Alexandre Bigot
+#                Alexandre BIGOT
 #
 #    Version : 2019
-#              1.1
 #
 ###############################################################################
 #
 #                           SOMMAIRE de Othello
 #
-#    note : commenter le script correctement
-#
-#    0. __init__   ................................................ ligne
-#    1. __call__   ................................................ ligne
-#    2. finalScene   .............................................. ligne
-#    3. getInput   ................................................ ligne
-#    4. afficher   ................................................ ligne
-#    5. faireTour   ............................................... ligne
+#    1.    class Othello:  .......................................... ligne
+#    1.1   ------> __init__ (self)  ................................. ligne
+#    1.2   ------> chargerFenetre (self,fenetre)  ................... ligne
+#    1.3   ------> chargerTheme (self,theme)  ....................... ligne
+#    1.4   ------> __call__ (self)  ................................. ligne
+#    1.5   ------> derterminer_gagnant (self)  ...................... ligne
+#    1.6   ------> afficherSceneFinale (self)  ...................... ligne
+#    1.7   ------> afficher (self)  ................................. ligne
+#    1.8   ------> faireTour (self)  ................................ ligne
 #
 ###############################################################################
 """
@@ -64,8 +64,6 @@ class Othello:
         else:
             self.fenetre=None
             self.plateau=Plateau()
-
-
 
     def chargerFenetre(self,fenetre):
         """Permet de charger la fenetre en supposant qu'elle ne soit pas None."""

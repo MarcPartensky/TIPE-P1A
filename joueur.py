@@ -10,10 +10,9 @@
 #
 #    Créateurs : Marc  PARTENSKY
 #                Valentin  COLIN
-#                Alexandre Bigot
+#                Alexandre BIGOT
 #
 #    Version : 2019
-#              1.1
 #
 ###############################################################################
 #
