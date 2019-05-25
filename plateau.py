@@ -32,7 +32,7 @@
 #    7.  obtenirPions   ............................................ ligne 116
 #    8.  obtenirEnvironnement   .................................... ligne 130
 #    9.  insererPion   ............................................. ligne 145
-#   10.  reverse_pion   ............................................ ligne 150
+#   10.  inverser_pion   ............................................ ligne 150
 #   11.  obtenir_case   ............................................ ligne 158
 #   12.  placer_pion   ............................................. ligne 163
 #   13.  est_une_case_vide   ....................................... ligne 168
@@ -67,24 +67,35 @@ import pygame
 
 
 class Plateau:
-    def __init__(self,surface,taille=[8,8]):
+    def __init__(self,taille=[8,8]):
         """Cree un plateau."""
         self.taille=taille
-        self.surface=surface
-        self.surface.taille=self.surface.get_size #Traduction de la fonction pour la simplicité
         self.creerGrille()
         self.mouvements=[]
         self.gagne=False
         self.taille_x,self.taille_y=self.taille
         self.nombre_de_joueurs=2
         self.demonstration=True
+        self.surface=pygame.Surface(cfg.RESOLUTION_PLATEAU)
+        self.surface.get_size #Traduction de la fonction pour la simplicité
+
+    def afficherFond(self):
+        """Permet de charger un arriere plan sur la surface."""
+        ftx,fty=self.surface.get_size()
+        for y in range(0,fty,10):
+            for x in range(0,ftx,10):
+                r=abs(bijection(x,[0,ftx],[-100,100]))
+                g=255-abs(bijection((x+y)/2,[0,ftx],[-100,100]))
+                b=abs(bijection(y,[0,fty],[-100,100]))
+                couleur=(r,g,b)
+                pygame.draw.rect(self.surface,couleur,[x,y,10,10],0)
 
     def creerGrille(self):
         """Cree une grille."""
         sx,sy=self.taille
         self.grille=[[cfg.CASE_VIDE for x in range(sx)] for y in range(sy)]
-        mx=sx//2
-        my=sy//2
+        mx=sx//2-1
+        my=sy//2-1
         self.insererPion([(mx,my),(mx+1,my+1)],0) #Place les pions du joueur de côté 0.
         self.insererPion([(mx+1,my),(mx,my+1)],1) #Place les pions du joueur de côté 1.
 
@@ -102,16 +113,16 @@ class Plateau:
         y_=y%(sy-1)
         return (x_,y_)==(0,0)
 
-    def obtenirPositionPlateau(self,position_brute,fenetre):
-        """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la fenetre en pixels."""
-        wsx,wsy=fenetre.taille
+    def obtenirPositionPlateau(self,position_brute):
+        """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la panneau en pixels."""
+        wsx,wsy=self.surface.get_size()
         sx,sy=self.taille
         rx,ry=position_brute
         return (int(rx*sx/wsx),int(ry*sy/wsy))
 
-    def obtenirPositionBrute(self,position_plateau,fenetre):
+    def obtenirPositionBrute(self,position_plateau):
         """Renvoie la position brute en pixel a l'aide d'une position dans le systeme de coordonnees du plateau."""
-        wsx,wsy=fenetre.taille
+        wsx,wsy=self.surface.get_size()
         sx,sy=self.taille
         px,py=position_plateau
         return (int((px+1/2)*wsx/sx),int((py+1/2)*wsy/sy))
@@ -183,6 +194,13 @@ class Plateau:
         Méthode spécial permèttant d'utiliser le mot clé 'in' """
         case=self.obtenirCase(pion)
         return bool(case!=cfg.CASE_VIDE)
+
+    def __deepcopy__(self,plateau):
+        """Renvoie une copie du plateau juste en lui copiant la grille."""
+        plateau=Plateau()
+        plateau.grille=self.grille
+        return plateau
+
 
     def obtenirPions(self,cotes):
         """Obtenir toute les position de toutes les pieces de cotes de joueurs"""
@@ -292,7 +310,7 @@ class Plateau:
         cote_oppose=1-cote_joueur #Utilise simplement la technique du complémentaire a 1.
         return cote_oppose
 
-    def obtenirMouvementsValides(self,joueur_cote): #yavait fenetre dans les parametres
+    def obtenirMouvementsValides(self,joueur_cote): #yavait panneau dans les parametres
         """Retourne une liste de tuple qui correspondent aux coordonnees des mouvements possibles pour le joueur_cote"""
         cote=self.obtenirCoteOppose(joueur_cote)
         positions=self.obtenirPions(cote)
@@ -419,7 +437,6 @@ class Plateau:
         if self.demonstration:
             if not type(positions)==list: positions=[positions]
             if clear:
-                fenetre.clear()
                 self.afficher()
             if positions:
                 self.colorerCase(positions,couleur)
@@ -428,24 +445,24 @@ class Plateau:
 
 
     def afficherMessage(self,message,position,couleur):
-        """Affiche un message en utilisant une position plateau, une couleur, et une fenetre."""
+        """Affiche un message en utilisant une position plateau, une couleur, et une panneau."""
         x,y=position
         position=self.obtenirPositionBrute(position)
-        #fenetre.drawText(message,position,couleur)
+        #panneau.drawText(message,position,couleur)
 
     def colorerCase(self,positions,couleur):
         """Colorie une case du plateau d'une certaine couleur en affichant les contours d'un carre de couleur.
         Cette fonction est utile pour debug.
-        Utilise la position dans le systeme de coordonnees du plateau, une couleur et une fenetre."""
+        Utilise la position dans le systeme de coordonnees du plateau et une couleur."""
         if not type(positions)==list: positions=[positions]
         for position in positions:
             x,y=self.obtenirPositionBrute(position)
-            wsx,wsy=self.surface.taille() #Taille de la fenetre en coordonnees de la fenetre
+            wsx,wsy=self.surface.get_size() #Taille de la panneau en coordonnees de la panneau
             sx,sy=self.taille #Taille du plateau en coordonnes du plateau
-            cx=wsx/sx #Taille d'une case en x en coordonnees de la fenetre
-            cy=wsy/sy #Taille d'une case en y en coordonnees de la fenetre
-            mx=x-cx//2+1 #Position d'une case en x en coordonnees de la fenetre
-            my=y-cy//2+1 #Position d'une case en y en coordonnees de la fenetre
+            cx=wsx/sx #Taille d'une case en x en coordonnees de la panneau
+            cy=wsy/sy #Taille d'une case en y en coordonnees de la panneau
+            mx=x-cx//2+1 #Position d'une case en x en coordonnees de la panneau
+            my=y-cy//2+1 #Position d'une case en y en coordonnees de la panneau
             for i in range(2,6):
                 pygame.draw.rect(self.surface,couleur,[mx+i,my+i,cx-2*i,cy-2*i],1)
 
@@ -455,17 +472,13 @@ class Plateau:
         ligne=outils.obtenirLigne(ligne[0],ligne[-1])
         self.colorerCase(ligne,couleur)
 
-    def afficherFond(self):
-        """Affiche un fond colore."""
-        self.surface.blit(cfg.THEME_PLATEAU["arriere plan"])
-
     def afficherMouvements(self,mouvements=None,couleur=None):
         """Afficher les coups possible. (point rouge sur la fenêtre)"""
         if not mouvements: mouvements=self.mouvements
         if not couleur: couleur=cfg.THEME_PLATEAU["couleur mouvement"]
         #devrait  marcher si il n'y a que un moment.
         for move in mouvements:
-            wsx,wsy=self.surface.taille()
+            wsx,wsy=self.surface.get_size()
             sx,sy=self.taille
             rayon=int(min(wsx,wsy)/min(sx,sy)/4)
             x,y=move
@@ -476,7 +489,7 @@ class Plateau:
 
     def afficherGrille(self):
         """Affiche la grille."""
-        wsx,wsy=self.surface.taille()
+        wsx,wsy=self.surface.get_size()
         sx,sy=self.taille
         for y in range(sy):
             _y=y*wsy//sy
@@ -491,28 +504,28 @@ class Plateau:
 
     def afficherAnimationPion(self,choix_du_joueur):
         """Permet d'affichier l'animation du placement d'un nouveau pion en faisant clicgnoter son contour."""
-        wsx,wsy=self.surface.taille()
+        wsx,wsy=self.surface.get_size()
         sx,sy=self.taille
         rayon=int(min(wsx,wsy)/min(sx,sy)/2.5)
         x,y=choix_du_joueur
-        position_brute=self.obtenirPositionBrute((x,y),fenetre)
+        position_brute=self.obtenirPositionBrute((x,y))
         case=self.obtenirCase(choix_du_joueur)
         #pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur piece"],position_brute,rayon+2,0)
         pygame.draw.circle(self.surface,couleurs.BLANC,position_brute,rayon+2,0) #tres mal implemente
-        pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur piece"],position_brute,rayon,0)
+        pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur pieces"][case],position_brute,rayon,0)
         #Cette fonction est devenue purement inutile suite aux nouvelles modifications
 
     def afficherPions(self):
         """Affiche les pions"""
-        wsx,wsy=self.surface.taille()
+        wsx,wsy=self.surface.get_size()
         sx,sy=self.taille
         taille_relative=2/5 #Taille du pion par rapport a une case
         rayon=int(min(wsx,wsy)/min(sx,sy)*taille_relative) #taille des pions a changer
         for y in range(sy):
             for x in range(sx):
                 case=self.obtenirCase((x,y))
-                position_brute=self.obtenirPositionBrute((x,y),fenetre)
-                if 0<=case and case<=len(cfg.THEME_PLATEAU["couleur pieces"])-1 :
-                    couleur=cfg.THEME_PLATEAU["couleur pieces"][i]
-                    fenetre.draw.circle(self.surface,couleurs.reverse(couleur),position_brute,rayon+2,0)
-                    fenetre.draw.circle(self.surface,couleur,position_brute,rayon,0)
+                position_brute=self.obtenirPositionBrute((x,y))
+                if 0<=case<=len(cfg.THEME_PLATEAU["couleur pieces"])-1 :
+                    couleur=cfg.THEME_PLATEAU["couleur pieces"][case]
+                    pygame.draw.circle(self.surface,couleurs.inverser(couleur),position_brute,rayon+2,0)
+                    pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)

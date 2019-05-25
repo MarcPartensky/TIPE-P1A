@@ -69,9 +69,9 @@ class Fenetre:
         """Creates apparent window."""
         self.infoConsole("Window has been created.")
         pygame.init()
-        self.info = pygame.display.Info()
+        self.info=pygame.display.Info()
         if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
-        self.font = pygame.font.SysFont(self.text_font, self.taille_du_texte)
+        self.font=pygame.font.SysFont(self.text_font, self.taille_du_texte)
         if self.fullscreen:
             self.screen=pygame.display.set_mode(self.taille,FULLSCREEN)
         else:

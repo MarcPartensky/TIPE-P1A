@@ -14,7 +14,6 @@ class Panneau(Fenetre):
         """Pose une surface dans le compartiment."""
         sx,sy=surface.get_size()
         dx,dy,dsx,dsy=self.decoupages[i]
-        surface=pygame.transform.scale(surface,(dsx,dsy))
         self.screen.blit(surface,(dx,dy))
 
     def pointer(self):

@@ -42,16 +42,16 @@ sigmoid = s = lambda x:1/(1+math.exp(-x))
 reverse_sigmoid = lambda x:log(x/(1-x))
 #r=reverse_sigmoid()
 
-linear  = lambda x,e,s:(x-e[0])/(e[1]-e[0])*(s[1]-s[0])+s[0]
+bijection  = lambda x,e,s:(x-e[0])/(e[1]-e[0])*(s[1]-s[0])+s[0]
 
 
-random    = lambda :            tuple([rd.randint(0,255)              for i in range(3)])
-reverse   = lambda color:       tuple([255-c                          for c in color])
-darken    = lambda color,n=0:   tuple([int(c*sigmoid(n/10))           for c in color])
-lighten   = lambda color,n=0:   tuple([int(255-(255-c)*sigmoid(n/10)) for c in color])
-mix       = lambda cl1,cl2:     tuple([(c1+c2)//2                     for (c1,c2) in zip(cl1,cl2)])
-substract = lambda cl1,cl2:     tuple([max(min(2*c1-c2,255),0)        for (c1,c2) in zip(cl1,cl2)])
-increase  = lambda color,n=2:   tuple([int(255*exp(n*log(c/255)))     for c in color])
+random       = lambda :            tuple([rd.randint(0,255)              for i in range(3)])
+inverser     = lambda color:       tuple([255-c                          for c in color])
+assombrir    = lambda color,n=0:   tuple([int(c*sigmoid(n/10))           for c in color])
+eclairer     = lambda color,n=0:   tuple([int(255-(255-c)*sigmoid(n/10)) for c in color])
+melanger     = lambda cl1,cl2:     tuple([(c1+c2)//2                     for (c1,c2) in zip(cl1,cl2)])
+soustraction = lambda cl1,cl2:     tuple([max(min(2*c1-c2,255),0)        for (c1,c2) in zip(cl1,cl2)])
+augmenter    = lambda color,n=2:   tuple([int(255*exp(n*log(c/255)))     for c in color])
 
 
 def setFromWavelength(wavelength):
