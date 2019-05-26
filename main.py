@@ -41,8 +41,8 @@ Faire mini schema des heritage de classe
 if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécuté directement depuis ce fichier et non depuis un autre fichier.
 
     panneau=Panneau(taille=cfg.RESOLUTION_FENETRE,set=False,fullscreen=False) # Crée une fenêtre
-    developpeur1=Developpeur(nom="dev1")
-    developpeur2=Developpeur(nom="dev2")
+    dev1=Developpeur(nom="dev1")
+    dev2=Developpeur(nom="dev2")
     humain=Humain(nom="je suis l'humain n°1 LOL") #Crée un joueur humain.
     humaine=Humain(nom="je suis l'humaine n°2 LOL")
     machine1=ia.IA(nom="machine1") #Crée une intelligence artificielle.
@@ -53,5 +53,5 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     joueur_blanc = dev1
     joueur_noir  = dev2
     # et non ici
-    jeu=Othello(joueurs=[joueur_blanc,joueur_noir],fenetre=fenetre) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
+    jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
     jeu() #Lance le jeu.

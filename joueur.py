@@ -179,17 +179,26 @@ class Developpeur(Joueur):
     def __init__(self,nom=None):
         Joueur.__init__(self,nom)
 
-    def jouer(self,plateau,fenetre):
+    def jouer(self,panneau,plateau,bordure):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
-        while fenetre.open:
-            fenetre.check()
-            curseur=fenetre.point()#Renvoie les coordonnees du curseur
-            position=plateau.obtenirPositionPlateau(curseur,fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
-            plateau.afficher(fenetre)
-            fenetre.flip()
-            click=fenetre.click()
+        while panneau.open:
+            panneau.check()
+            curseur=panneau.point()#Renvoie les coordonnees du curseur
+            position=plateau.obtenirPositionPlateau(curseur,panneau) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
+            self.afficher(panneau,plateau,bordure)
+            click=panneau.click()
             if click:
                 if plateau.estDansGrille(position):
                     self.choix=position
                 break
         return self.choix
+
+    def afficher(self,panneau,plateau,bordure):
+        """Affiche les éléments sur l'écran car le joueur possède la boucle principale ici."""
+        panneau.clear()
+        panneau.coller(plateau.surface,0)
+        panneau.coller(bordure.surface,1)
+        plateau.afficher()
+        bordure.afficher()
+        panneau.afficher()
+        panneau.flip()

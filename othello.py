@@ -125,7 +125,7 @@ class Othello:
         self.panneau.flip() #Rafraîchie la fenêtre.
 
     def afficher(self):
-        """Affiche tout : le plateau"""
+        """Affiche tout : le plateau et la bordure."""
         self.panneau.clear()
         self.panneau.coller(self.plateau.surface,0)
         self.panneau.coller(self.bordure.surface,1)
@@ -142,7 +142,7 @@ class Othello:
         #self.plateau.chargerAnalyse(self.panneau) #Economise du temps de calcul pour les ias qui s'en servent, et peut être affichée pour une démonstration
         self.rang+=1
         if len(self.plateau.mouvements)>=1:#Si des moves sont possibles
-            choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.panneau)
+            choix_du_joueur=joueur_actif.jouer(self.panneau,deepcopy(self.plateau),self.bordure)
             if not choix_du_joueur:
                 return None
             cfg.info("Le choix du joueur est {}".format(repr(choix_du_joueur)),nom_fichier="othello.py")
