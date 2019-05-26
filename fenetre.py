@@ -63,7 +63,6 @@ class Fenetre:
 
     def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
-        self.number=Fenetre.made
         self.name=name
         self.taille=taille
         self.text_font=text_font
