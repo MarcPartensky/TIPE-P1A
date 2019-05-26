@@ -17,9 +17,7 @@ class Bordure:
                 g=int(255-abs(couleurs.bijection((x+y)/2,[0,ftm],[0,255])))
                 b=int(abs(couleurs.bijection(y,[0,fty],[0,255])))
                 couleur=(r,g,b)
-                print(couleur)
                 pygame.draw.rect(self.surface,couleur,[x,y,10,10],0)
-        self.surface.fill(couleurs.NOIR)
 
     def clear(self):
         """nettoie la surface en recoloriant celle-ci par son arrière plan"""
@@ -37,9 +35,10 @@ class Bordure:
 
     def afficherTemps(self,position,couleur=None,taille=50):
         """Affiche l'heure à un instant"""
-        heure=str(time.localtime()[3])
-        minute=str(time.localtime()[4])
-        temps=heure+" : "+(2-len(minute))*"0"+minute
+        heures=str(time.localtime()[3])
+        minutes=str(time.localtime()[4])
+        secondes=str(time.localtime()[5])
+        temps=heures+" : "+(2-len(minutes))*"0"+minutes+" : "+(2-len(secondes))*"0"+secondes
         self.afficherTexte(temps,position,couleur,taille)
 
     def afficherRectangle(self,position,taille,couleur):
@@ -51,11 +50,18 @@ class Bordure:
         """Permet d'afficher des messages d'erreurs."""
         pass
 
+    def afficherTempsPropre(self):
+        """Affiche le temps en se souciant de la présentation."""
+        tx,ty=self.surface.get_size()
+        self.afficherRectangle((0,0),(tx,70),couleurs.BLEU)
+        self.afficherTemps((20,10),couleurs.VERT)
+
+
     def afficher(self):
         """Permet d'afficher la bordure sur sa surface."""
-        #self.afficherFond()
-        self.afficherRectangle((0,0),(200,70),couleurs.BLEU)
-        self.afficherTemps((40,10),couleurs.VERT)
+        self.afficherFond()
+        self.afficherTempsPropre()
+
 
 
 

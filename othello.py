@@ -130,10 +130,11 @@ class Othello:
     def afficher(self):
         """Affiche tout : le plateau"""
         self.panneau.clear()
-        self.plateau.afficher()
-        self.bordure.afficher()
         self.panneau.coller(self.plateau.surface,0)
         self.panneau.coller(self.bordure.surface,1)
+        self.plateau.afficher()
+        self.bordure.afficher()
+        self.panneau.afficher()
         self.panneau.flip()
 
     def faireTour(self) :

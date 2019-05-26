@@ -10,18 +10,39 @@ class Panneau(Fenetre):
         self.decoupages=[] #(px,py,psx,psy),(bx,by,bsx,bsy)
 
 
-    def coller(self,surface,i):
+    def coller(self,surface,compartiment):
         """Pose une surface dans le compartiment."""
         sx,sy=surface.get_size()
-        dx,dy,dsx,dsy=self.decoupages[i]
+        dx,dy,dsx,dsy=self.decoupages[compartiment]
         self.screen.blit(surface,(dx,dy))
 
     def pointer(self):
         pass
 
-    def rect(self,couleurs,dim=(0,0,200,200),fill=0):
-        """a suppr..."""
-        pygame.draw.rect(self.ecran,couleurs.ROUGE,dim,fill)
+    def afficher(self):
+        """Affiche les éléments spécifiques au panneau, c'est à dire par exemple
+        la marge entre les différents compartiments."""
+        self.afficherCadres()
+
+
+    def afficherCadres(self):
+        """Affiche la marge sur l'écran du panneau qui sépare les zones de découpages."""
+        for compartiment in range(len(self.decoupages)):
+            self.afficherCadre(compartiment)
+
+    def afficherCadre(self,compartiment,couleur=couleurs.NOIR,l=3):
+        """Affiche un cadre autour d'un compartiment."""
+        dx,dy,dsx,dsy=self.decoupages[compartiment]
+        p1=(dx,dy)
+        p2=(dx,dy+dsy)
+        p3=(dx+dsx,dy+dsy)
+        p4=(dx+dsx,dy)
+        pygame.draw.line(self.screen,couleur,p1,p2,l)
+        pygame.draw.line(self.screen,couleur,p2,p3,l)
+        pygame.draw.line(self.screen,couleur,p3,p4,l)
+        pygame.draw.line(self.screen,couleur,p4,p1,l)
+
+
 
 if __name__=="__main__":
     panneau=Panneau(taille=[1000,800])
