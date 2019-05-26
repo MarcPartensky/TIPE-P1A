@@ -33,6 +33,7 @@
 # --coding:utf-8--
 
 from plateau_analysable import PlateauAnalysable as Plateau
+from bordure import Bordure
 
 import couleurs
 import joueur as Joueur
@@ -43,62 +44,60 @@ import config as cfg
 
 from copy import deepcopy
 
-
-
 class Othello:
-    def __init__(self,joueurs,fenetre=None,theme=None):
-        self.nom="Othello"
+    def __init__(self,joueurs,panneau=None,nom="Othello"):
+        """Crée un objet de jeu d'Othello en utilisant sa liste de joueurs, sa panneau et son theme."""
+        self.nom=nom
         self.joueurs=joueurs
         for compteur in range(len(self.joueurs)):
             self.joueurs[compteur].attribuerCote(compteur)# i.e. : self.joueurs[compteur].cote=compteur
-        self.state=0
+        self.rang=0
         self.gagnant=None
         self.historique=[]
+        self.plateau=Plateau()
+        self.bordure=Bordure()
+        self.ouvert=True
+        self.fini=False
+        self.chargerPanneau(panneau)
 
-        #Permet de simuler des parties sans fenetre pour des combats machine vs machine
-        if fenetre:
-            self.chargerFenetre(fenetre) #Charge une fenetre existante
-            self.chargerTheme(theme) #Charge un theme même si celui-ci est None
-            cfg.info("Fenetre:",self.fenetre.name,"et theme [couleur_grille,couleur_pieces,couleur_mouvement] :",self.theme,nom_fichier="othello.py")
-            self.plateau=Plateau(theme=self.theme)
-        else:
-            self.fenetre=None
-            self.plateau=Plateau()
+    def chargerPanneau(self,panneau):
+        """Permet de charger la panneau en supposant qu'elle ne soit pas None."""
+        self.panneau=panneau
+        self.panneau.nom=self.nom #Donne un nom a la fenêtre.
+        self.panneau.set() #Charge la fenêtre créée.
+        self.panneau.couleur_de_fond=couleurs.BLANC #Charge la couleur de fond par défaut.
+        prx,pry=cfg.RESOLUTION_PLATEAU
+        brx,bry=cfg.RESOLUTION_BORDURE
+        decoupage1=(0,0,prx,pry)
+        decoupage2=(prx,0,prx+brx,bry)
+        #cfg.
+        self.panneau.decoupages=[decoupage1,decoupage2]
 
-    def chargerFenetre(self,fenetre):
-        """Permet de charger la fenetre en supposant qu'elle ne soit pas None."""
-        fenetre.name=self.nom #Donne un nom a la fenêtre.
-        fenetre.set() #Charge la fenêtre créée.
-        fenetre.couleur_de_fond=couleurs.VERT #Charge la couleur de fond par défaut.
-        self.fenetre=fenetre
-
-    def chargerTheme(self,theme):
-        """Charge un theme peut importe si celui-ci est None"""
-        if theme: #Si celui-ci existe, le définir.
-            self.theme=theme
-        else: #Sinon, le créer.
-            couleur_grille=couleurs.NOIR #Crée la couleur de la grille.
-            couleur_pieces=[couleurs.BLANC,couleurs.NOIR] #Crée la couleur des pieces.
-            couleur_mouvement=couleurs.ROUGE #Crée la couleur des mouvements
-            self.theme=[couleur_grille,couleur_pieces,couleur_mouvement]
-
-    def __call__(self):
+    def __call__(self): #Utilisation de la méthode spécial call qui permet de lancer la boucle principale
         """Boucle principale du jeu Othello."""
-        if self.fenetre: self.afficher()
-        while not self.plateau.estFini():
-            if self.fenetre:
-                self.fenetre.check()
-                if not self.fenetre.open: break
-                self.afficher()
+        if self.panneau: self.afficher()
+        while self.ouvert:
+            self.actualiser()
+
+    def actualiser(self):
+        """Actualise le jeu."""
+        if not self.plateau.estFini():
             self.faireTour()
-
-        self.derterminer_gagnant()
-        cfg.info("le gagnant : {}".format(repr(self.gagnant)),nom_fichier="othello.py")
-        if self.fenetre:
+        else:
+            if not self.fini:
+                self.fini=not(self.fini)
+                self.determinerGagnant()
+                cfg.info("Fin de partie :",nom_fichier="othello.py")
+                cfg.info("le gagnant : {}".format(repr(self.gagnant)),nom_fichier="othello.py")
+        if self.panneau:
+            self.panneau.check()
+            self.ouvert=self.panneau.open
             self.afficher()
-            self.afficherSceneFinale()
+            if self.fini:
+                self.afficherSceneFinale()
 
-    def derterminer_gagnant(self):
+
+    def determinerGagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
         cote_gagnant=self.plateau.obtenirCoteGagnant()
         if cote_gagnant!=None:
@@ -114,39 +113,41 @@ class Othello:
 
     def afficherSceneFinale(self):
         """Afficher le resultat de la partie une fois qu'elle est terminee.
-        Ne peut être exécutée que si la fenetre existe."""
+        Ne peut être exécutée que si la panneau existe."""
         if self.gagnant: #Si il existe un gagnant, l'afficher.
             message=repr(self.gagnant)+" gagne!"
         else: #Sinon, afficher match nul.
             message="Match Nul"
-        position=list(self.fenetre.centerText(message)) #Centre la position du message, ne fonctionne pas correctement.
+        position=list(self.panneau.centerText(message)) #Centre la position du message, ne fonctionne pas correctement.
         position[0]-=50 #Recentre correctement le message.
-        taille=[int(len(message)*self.fenetre.taille_du_texte/2.7),70] #Choisie la taille du message.
-        self.fenetre.print(message,position,taille,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC) #Affiche le message.
-        self.fenetre.flip() #Rafraîchie la fenêtre.
-        cfg.info("Fin de partie :"+message,nom_fichier="othello.py")
-        self.fenetre.pause() #Fais pause en attendant que l'utilisateur appuie sur espace ou escape.
+        taille=[int(len(message)*self.panneau.taille_du_texte/2.7),70] #Choisie la taille du message.
+        self.panneau.print(message,position,taille,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC) #Affiche le message.
+        self.panneau.flip() #Rafraîchie la fenêtre.
 
     def afficher(self):
-        """Affiche tout : le plateau"""
-        self.fenetre.clear()
-        self.plateau.afficher(self.fenetre)
-        self.fenetre.flip()
+        """Affiche tout : le plateau et la bordure."""
+        self.panneau.clear()
+        self.panneau.coller(self.plateau.surface,0)
+        self.panneau.coller(self.bordure.surface,1)
+        self.plateau.afficher()
+        self.bordure.afficher()
+        self.panneau.afficher()
+        self.panneau.flip()
 
     def faireTour(self) :
         """Faire un tour de jeu"""
-        self.tour = self.state % self.plateau.nombre_de_joueurs
+        self.tour = self.rang % self.plateau.nombre_de_joueurs
         joueur_actif=self.joueurs[self.tour]#joueur a qui c'est le tour
         self.plateau.charger(self.tour) #Necessaire pour tous les joueurs
-        #self.plateau.chargerAnalyse(self.fenetre) #Economise du temps de calcul pour les ias qui s'en servent, et peut être affichée pour une démonstration
-        self.state+=1
+        #self.plateau.chargerAnalyse(self.panneau) #Economise du temps de calcul pour les ias qui s'en servent, et peut être affichée pour une démonstration
+        self.rang+=1
         if len(self.plateau.mouvements)>=1:#Si des moves sont possibles
-            choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.fenetre)
+            choix_du_joueur=joueur_actif.jouer(self.panneau,deepcopy(self.plateau),self.bordure)
             if not choix_du_joueur:
                 return None
             cfg.info("Le choix du joueur est {}".format(repr(choix_du_joueur)),nom_fichier="othello.py")
-            self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
-            self.plateau.afficherAnimationPion(self.fenetre,choix_du_joueur)
+            if cfg.PLACER: self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
+            self.plateau.afficherAnimationPion(choix_du_joueur)
             self.historique.append([self.plateau.grille,joueur_actif.cote,choix_du_joueur]) #Permet en théorie au joueur de retourner en arrière.
         else :
             #Sinon aucun mouvement n'est possible et on passe uniquement au tour suivant

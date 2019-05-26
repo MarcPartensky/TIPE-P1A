@@ -1,10 +1,11 @@
-from fenetre import Fenetre
+from panneau import Panneau
 from othello import Othello
 from joueur import Robot,Humain,Developpeur
 #from bruteforce import BruteForce
 
 import ia
 import ia2
+import config as cfg
 
 """
 A faire:
@@ -39,8 +40,7 @@ Faire mini schema des heritage de classe
 
 if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécuté directement depuis ce fichier et non depuis un autre fichier.
 
-    fenetre=Fenetre(taille=(720,720),set=False,fullscreen=False) # Crée une fenêtre
-
+    panneau=Panneau(taille=cfg.RESOLUTION_FENETRE,set=False,fullscreen=False) # Crée une fenêtre
     dev1=Developpeur(nom="dev1")
     dev2=Developpeur(nom="dev2")
     humain=Humain(nom="je suis l'humain n°1 LOL") #Crée un joueur humain.
@@ -52,6 +52,6 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     # mofidié les joueurs ici
     joueur_blanc = dev1
     joueur_noir  = dev2
-    # et non ici 
-    jeu=Othello(joueurs=[joueur_blanc,joueur_noir],fenetre=fenetre) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
+    # et non ici
+    jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
     jeu() #Lance le jeu.

@@ -3,9 +3,6 @@ import outils, joueur, random
 import config as cfg
 from copy import deepcopy
 
-
-
-
 #La liste des différentes zone de jeu :
 ZONE_COIN=4#Ne doit pas etre une liste
 ZONE_BORD=3

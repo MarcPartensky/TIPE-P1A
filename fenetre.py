@@ -52,6 +52,10 @@
 """
 # --coding:utf-8--
 
+from __future__ import division
+
+import couleurs
+
 import pygame
 from pygame.locals import * # permet de récupérer les constante de pygame (utile pour savoir sur quelle touche l'utilisateur appuie)
 from couleurs import *
@@ -76,7 +80,6 @@ class Fenetre:
 
     def load(self):
         """Load builtins attributs of fenetre object."""
-        self.selecter_color=reverseColor(self.couleur_de_fond) # reverseColor est dans le module couleurs
         self.pausing=False
         self.open=False
         self.picture_saved=0
@@ -88,7 +91,7 @@ class Fenetre:
         pygame.init()
         self.info=pygame.display.Info()
         if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
-        self.font = pygame.font.SysFont(self.text_font, self.taille_du_texte)
+        self.font=pygame.font.SysFont(self.text_font, self.taille_du_texte)
         if self.fullscreen:
             self.screen=pygame.display.set_mode(self.taille,FULLSCREEN)
         else:
@@ -158,22 +161,6 @@ class Fenetre:
             if keys[K_SPACE]:
                 self.pausing=False
 
-    def direction(self):
-        """Return keys for arrows pressed. Trigonometric orientation is used."""
-        keys=pygame.key.get_pressed()
-        if keys[K_LEFT]:  left=True
-        else:             left=False
-
-        if keys[K_RIGHT]: right=True
-        else:             right=False
-
-        if keys[K_UP]:    up=True
-        else:             up=False
-
-        if keys[K_DOWN]:  down=True
-        else:             down=False
-
-        return [right,up,left,down]
 
     def select(self):
         """Wait for user to click on screen, then return cursor position."""
@@ -232,7 +219,7 @@ class Fenetre:
     def alert(self,message):
         """Quickly display text on window."""
         position=self.centerText(message)
-        self.print(message,position,color=BLACK,couleur_de_fond=WHITE)
+        self.print(message,position,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC)
         self.flip()
 
     def print(self,text,position,taille=None,color=None,couleur_de_fond=None,font=None):
@@ -242,7 +229,7 @@ class Fenetre:
         if not font: font=self.font
         sx,sy=taille
         x,y=position
-        pygame.draw.rect(self.screen,reverseColor(couleur_de_fond),list(position)+list(taille),0)
+        pygame.draw.rect(self.screen,couleurs.inverser(couleur_de_fond),list(position)+list(taille),0)
         pygame.draw.rect(self.screen,couleur_de_fond,(x+1,y+1,sx-2,sy-2),0)
         label=font.render(text,1,color)
         self.screen.blit(label,position)
