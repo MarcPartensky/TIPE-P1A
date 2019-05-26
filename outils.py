@@ -123,8 +123,9 @@ def obtenirLigneReduite(ligne):
     return ligne
 
 if __name__=="__main__": #Permet de débugger facilement les fonctions du module outils
-    print(obtenirLigneComplete([(1,2),(5,6)]))
-    print(estRemplie([1,1,1,2,1],1))
+    pass
+    #print(obtenirLigneComplete([(1,2),(5,6)]))
+    #print(estRemplie([1,1,1,2,1],1))
 
     #print(intersection([1,2,3],[2,3],[5,3,4]))
     #print(intersection([(1,2),(3,4)],[(1,2),(2,2)]))

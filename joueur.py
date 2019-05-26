@@ -81,24 +81,12 @@ class Joueur:
             text="Joueur"+str(self.cote)
         return text
 
-    __repr__=__str__ # Permet de faire un print sur l'instance et d'obtenir le même résultat que str.
-
 class Humain(Joueur):
     """classe qui hérite de le classe Joueur"""
 
     def __init__(self,nom=None):
         """Crée un humain qui hérite de joueur."""
         Joueur.__init__(self,nom)  #Compatibilité avec python2.7 avec cette écriture théoriquement.
-
-    def old_jouer(self,input,board,fenetre,cote):
-        """Ancienne fonction obselète utilisée au début du jeu pour joueur."""
-        click,cursor=input
-        if click:
-            position=board.adjust(cursor,fenetre)
-            if board.estDansGrille(position):
-                if position in board.mouvements:
-                    self.choix=position
-        return self.choix
 
     def jouer(self,plateau,fenetre):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
@@ -133,7 +121,6 @@ class Humain(Joueur):
             text="Joueur Humain"
         return text
 
-    __repr__=__str__
 
 class Robot(Joueur):
     """classe qui hérite de le classe Joueur"""
@@ -171,7 +158,6 @@ class Robot(Joueur):
             text="Joueur Robot"
         return text
 
-    __repr__=__str__
 
 class Developpeur(Joueur):
     """classe qui hérite de le classe Joueur"""
@@ -179,17 +165,26 @@ class Developpeur(Joueur):
     def __init__(self,nom=None):
         Joueur.__init__(self,nom)
 
-    def jouer(self,plateau,fenetre):
+    def jouer(self,panneau,plateau,bordure):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
-        while fenetre.open:
-            fenetre.check()
-            curseur=fenetre.point()#Renvoie les coordonnees du curseur
-            position=plateau.obtenirPositionPlateau(curseur,fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
-            plateau.afficher(fenetre)
-            fenetre.flip()
-            click=fenetre.click()
+        while panneau.open:
+            panneau.check()
+            curseur=panneau.point()#Renvoie les coordonnees du curseur
+            position=plateau.obtenirPositionPlateau(curseur,panneau) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
+            self.afficher(panneau,plateau,bordure)
+            click=panneau.click()
             if click:
                 if plateau.estDansGrille(position):
                     self.choix=position
                 break
         return self.choix
+
+    def afficher(self,panneau,plateau,bordure):
+        """Affiche les éléments sur l'écran car le joueur possède la boucle principale ici."""
+        panneau.clear()
+        panneau.coller(plateau.surface,0)
+        panneau.coller(bordure.surface,1)
+        plateau.afficher()
+        bordure.afficher()
+        panneau.afficher()
+        panneau.flip()
