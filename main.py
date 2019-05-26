@@ -50,8 +50,8 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     #bruteforce=BruteForce(level=3) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
 
     # mofidié les joueurs ici
-    joueur_blanc = dev1
-    joueur_noir  = dev2
+    joueur_blanc = humain
+    joueur_noir  = humain
     # et non ici
     jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
     jeu() #Lance le jeu.

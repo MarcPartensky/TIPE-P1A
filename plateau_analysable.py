@@ -2,9 +2,44 @@ from plateau import Plateau
 from config import debug
 
 import config as cfg
-import outils
+import outils,couleurs
 import couleurs
 import copy
+
+#La liste des différentes zone de jeu :
+
+ZONE_COIN=4#Ne doit pas etre une liste
+ZONE_BORD=3
+ZONE_BLANCHE=2
+ZONE_ROUGE=1
+ZONE_NOIR=0
+ZONE_TOUT=-1
+
+LISTE_ZONES=[ZONE_COIN,ZONE_BORD,ZONE_BLANCHE,ZONE_ROUGE,ZONE_NOIR, ZONE_TOUT]
+
+PLATEAU_COLORE=[[ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_NOIR ,ZONE_COIN],
+                [ZONE_NOIR, ZONE_NOIR ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIR ,ZONE_NOIR],
+                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
+                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
+                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
+                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
+                [ZONE_NOIR, ZONE_NOIR ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIR ,ZONE_NOIR],
+                [ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_NOIR ,ZONE_COIN]]
+
+LISTE_POSITION_ZONE={}
+
+def generer_constante() :
+    """Permet de generer LISTE_POSITION_ZONE"""
+    for i in range(len(LISTE_ZONES)):
+        result=[]
+        key=LISTE_ZONES[i]
+        for x in range(len(PLATEAU_COLORE)) :
+            for y in range(len(PLATEAU_COLORE[x])):
+                if PLATEAU_COLORE[x][y]==key or key==ZONE_TOUT :
+                    result.append((x,y))
+        LISTE_POSITION_ZONE[key]=result
+
+generer_constante()
 
 class PlateauAnalysable(Plateau):
 
@@ -194,3 +229,196 @@ class PlateauAnalysable(Plateau):
     def obtenirTriangles(self,cote):
         """Renvoie la liste des triangles de pions dans le plateau qui appartiennent au joueur du côté 'cote'."""
         raise NotImplementedError #A compléter
+
+    #Les fonctions suivantes sont les méthodes de la classe ia.py deplacés dans plateau_analyable
+
+    def test_parite_avantageuse(self):
+        """Determine si la parite est a priori avantageuse pour le joueur qui est sur le point de jouer
+        On fait l'approximation suivante :
+        Si le nombre de case restante est impaire c'est avantageux"""
+        return self.obtenirNombrePionsRestant()%2==1
+
+    def obtenir_couleur_position(self, position):
+        """Retourne la couleur de la position position, il s'agit également de la zone dans laquelle est la position"""
+        return PLATEAU_COLORE[position[0]][position[1]]
+
+    def obtenirCoinQuartier(self, pos):
+        """Retourne la position du coin le plus proche de la position pos"""
+        return [[(0,0),(0,0),(0,0),(0,0),(0,7),(0,7),(0,7),(0,7)],
+                [(0,0),(0,0),(0,0),(0,0),(0,7),(0,7),(0,7),(0,7)],
+                [(0,0),(0,0),(0,0),(0,0),(0,7),(0,7),(0,7),(0,7)],
+                [(0,0),(0,0),(0,0),(0,0),(0,7),(0,7),(0,7),(0,7)],
+                [(7,0),(7,0),(7,0),(7,0),(7,7),(7,7),(7,7),(7,7)],
+                [(7,0),(7,0),(7,0),(7,0),(7,7),(7,7),(7,7),(7,7)],
+                [(7,0),(7,0),(7,0),(7,0),(7,7),(7,7),(7,7),(7,7)],
+                [(7,0),(7,0),(7,0),(7,0),(7,7),(7,7),(7,7),(7,7)]][pos[0]][pos[1]]
+
+    def possessionCoinDuQuartier(self,pos, cote):
+        """Retourne si le joueur cote possede le coin le plus proche de la position pos dans le plateau plateau"""
+        return self.estCaseJoueur(self.obtenirCoinQuartier(pos),cote)
+
+    def testSiJoueurCotePossedeUneDeCesPositions(self, cote, positions):
+        """Prend une liste de positions dans le plateau est verifie si le joueur de cote
+        cote possede un pion à l'une des position de la liste positions"""
+        resultat=False
+        for position in positions:
+            if self.estCaseJoueur(position, cote):
+                resultat=True
+                break
+        return resultat
+
+    def testSiJoueurCotePossedeTouesCesPositions(self, cote, positions):
+        """Prend une liste de positions dans le plateau est verifie si le joueur de cote
+        cote possede tout les pions sur les position de la liste"""
+        resultat=True
+        for position in positions:
+            if not(self.estCaseJoueur(position, cote)):
+                resultat=False
+                break
+        return resultat
+
+    def test_si_le_joueur_cote_peut_prendre_position(self, cote, positions):
+        """On a un plateau, c'est le tour de joueur cote est on souhaite determiner, si dans ses mouvements possibles,
+        un permet d'avoir une pion de sa couleur dans une des positions de la liste positions dans le plateau
+        positions peut etre une liste ou simple coo (si )
+        """
+        from copy import deepcopy
+        resultat=False
+        if isinstance(positions, tuple) :
+            if len(positions)==2 : #positions n'est pas une liste de positions mais jsute une couplde coo:
+                postions=[positions]
+        mouvements_possible_cote=self.obtenirMouvementsValides(cote)
+        for position_posible_joueur_cote in mouvements_possible_cote :
+            plateau_simulation=deepcopy(self)
+            plateau_simulation.placerPion(position_posible_joueur_cote, cote)
+            if self.testSiJoueurCotePossedeUneDeCesPositions(positions, cote) :#on verif si le  coup à permit de prendre une des positions
+                resultat=True
+                break
+        return resultat
+
+    def est_coup_bourbier_par_cote(self, pos, cote):
+        """Dertermine si le coup à la positions pos joué par le joueur cote empeche l'adversaire de jouer au prochain tour"""
+        cote_oppose=1-cote
+        plateau_simulation = copy.deepcopy(self)
+        plateau_simulation.placerPion(pos, cote)
+        return len(plateau_simulation.obtenirMouvementsValides(cote_oppose)) == 0
+
+    def obtenir_coups_bourbier(self, cote):
+        """Retroune la liste de tout les coups bourbier parmi les coup possible pour le joueur de coté cote"""
+        MouvementsValides=self.obtenirMouvementsValides(cote)
+        return [mouvement for mouvement in MouvementsValides if self.est_coup_bourbier_par_cote(mouvement, cote)]
+
+    def Nombre_pion_retourne(self, pos, cote):
+        """"Renvoie le nombre de pion qui sont retourne lorsque self pose un pion à la position pos sur le plateau plateau."""
+        plateau_simulation = copy.deepcopy(self)
+        nombre_init=plateau_simulation.obtenirNombrePionsJoueur(pos)
+        plateau_simulation.placerPion(pos, cote)
+        nombre_final=plateau_simulation.obtenirNombrePionsJoueur(pos)
+        return nombre_final-nombre_init-1#-1 car on pose un pion et ce pion n'a pas ete retourne
+
+
+    def Augmentation_coup_possible_adv_dans_zone(self, pos, zone, cote):
+        """"Renvoie de combien augmente le nombe de coup possible de l'adversaire dans la zone zone apres que self ait joué à pos"""
+        cote_oppose=1-cote
+        plateau_simulation = copy.deepcopy(self)
+        coup_possible_dans_zone=outils.intersection(outils.liste_liste_vers_liste_tuple(plateau_simulation.obtenirMouvementsValides(cote_oppose)), LISTE_POSITION_ZONE[zone])
+        nombre_coup_possible_dans_zone=len(coup_possible_dans_zone)
+        plateau_simulation.placerPion(pos, cote)
+        final_coup_possible_dans_zone=outils.intersection(outils.liste_liste_vers_liste_tuple(plateau_simulation.obtenirMouvementsValides(cote_oppose)), LISTE_POSITION_ZONE[zone])
+        final_nombre_coup_possible_dans_zone=len(final_coup_possible_dans_zone)
+        return final_nombre_coup_possible_dans_zone-nombre_coup_possible_dans_zone
+
+    def Nombre_pion_stable_zone(self, cote, zone):
+        resultat=0
+        position_pion_zone=outils.intersection(outils.liste_liste_vers_liste_tuple(self.obtenirPions(cote)), LISTE_POSITION_ZONE[zone])
+        for pos in position_pion_zone :
+            #if self.est_stable_pour_cote([pos], cote) :
+            if self.position_stable_pour_cote(pos, cote) :
+                resultat+=1
+        return resultat
+
+    def Augmentation_pion_stable_dans_zone(self, cote, zone, pos):
+        """"Renvoie de combien augmente le nombe de pion stable de cote dans la zone zone apres que cote ait joué à pos"""
+        nombre_initial=self.Nombre_pion_stable_zone(cote, zone)
+        plateau_simulation = copy.deepcopy(self)
+        plateau_simulation.placerPion(pos, cote)
+        nombre_final = plateau_simulation.Nombre_pion_stable_zone(cote, zone)
+        return nombre_final-nombre_initial
+
+
+    def Augmentation_pion_dans_zone(self, cote, zone, pos):
+        """"Renvore de cb on augmente le nombre de pion de cote dans la zone zone apres que cote joue à pos"""
+        plateau_simulation = copy.deepcopy(self)
+        nombre_initial=len(outils.intersection(outils.liste_liste_vers_liste_tuple(plateau_simulation.obtenirPions(cote)), LISTE_POSITION_ZONE[zone]))
+        plateau_simulation.placerPion(pos, cote)
+        nombre_final = len(outils.intersection(outils.liste_liste_vers_liste_tuple(plateau_simulation.obtenirPions(cote)), LISTE_POSITION_ZONE[zone]))
+        return nombre_final-nombre_initial
+
+    def Nombre_coin_adjacent_pris(self, cote, pos_coin):#todo debug ?
+        resultat=0
+        x,y=pos_coin
+        size=self.taille_x-1#=7
+        modulo=2*size
+        if self.estCaseJoueur(((x+size)%modulo, y), cote) :
+            resultat+=1
+        if self.estCaseJoueur((x, (y+size)%modulo), cote) :
+            resultat+=1
+        return resultat
+
+
+    def position_stable_pour_cote(self, position, cote):#todo debug cette fonction
+        #Si on renomme cette fonction faut renommer egalement son appel recursif plus bas
+        cote_oppose=1-cote
+        liste_des_cas_particuliers={}
+        mouv_valide_adv=self.obtenirMouvementsValides(cote_oppose)
+        for mouv in mouv_valide_adv :
+            plateau_simulation = copy.deepcopy(self)
+            plateau_simulation.placerPion(mouv, cote_oppose)
+            if plateau_simulation.estCaseJoueur(position, cote_oppose) :
+                #On est dans le deuxième cas
+                liste_des_cas_particuliers[tuple(mouv)]=plateau_simulation
+        if liste_des_cas_particuliers=={}:
+            #L'adv ne peut pas prendre la position quelque soit son coup
+            return True
+        else :
+            for mouv_cas_particulier in liste_des_cas_particuliers:
+                #la position est alors stable si pour tout les mouv, la position est instable pour cote oppose
+                plateau_de_ce_cas=liste_des_cas_particuliers[mouv_cas_particulier]
+                if plateau_de_ce_cas.position_stable_pour_cote(position, cote_oppose) :
+                    #l'adv a reussi a former une position satble, cela signifie la position de depart n'etait pas stable
+                    return False
+            #L'adv ne peut pas former une position stable en prenant notre pion, notre position est donc stable
+            return True
+
+    '''
+    def est_stable_pour_cote(self, liste_de_position, cote):#todo debug cette fonction, ne pas utiliser cette fonction dans version finale
+        cote_oppose=1-cote
+        liste_des_cas_particuliers={}
+        mouv_valide_adv=self.obtenirMouvementsValides(cote_oppose)
+        for mouv in mouv_valide_adv :
+            plateau_simulation = copy.deepcopy(self)
+            plateau_simulation.placerPion(mouv, cote_oppose)
+            #if self.testSiJoueurCotePossedeUneDeCesPositions(plateau_simulation, cote_oppose, liste_de_position):
+            if plateau_simulation.testSiJoueurCotePossedeTouesCesPositions(cote_oppose, liste_de_position): #On est dans le deuxième cas
+                liste_des_cas_particuliers[tuple(mouv)]=plateau_simulation#verif que plateau simul est pas ecraser à la prochaine iteration
+
+        if liste_des_cas_particuliers=={}:
+            #L'adv ne peut pas prendre les positions quelque soit ses mouvements
+            return True
+        else :
+            for mouv_cas_particulier in liste_des_cas_particuliers:
+                #la liste est alors stable si pour tout les mouv, liste_de_position+[mouv_cas_particulier] est instable pour cote oppose
+                nouvelle_ligne=liste_de_position+[mouv_cas_particulier]
+                plateau_de_ce_cas=liste_des_cas_particuliers[mouv_cas_particulier]
+                if plateau_de_ce_cas.est_stable_pour_cote(nouvelle_ligne, cote_oppose) :
+                    #l'adv a reussi a former une ligne stable, cela signifie la ligne de depart etait instable
+                    return False
+            #L'adv ne peut pas former une ligne stable en prenant notre ligne, notre ligne est donc stable
+            return True
+
+
+    def position_stable_pour_cote2(self, position,cote):#Ne pas use dans version finale
+        plateau_simulation = copy.deepcopy(self)
+        plateau_simulation.placerPion(position, cote)
+        return self.est_stable_pour_cote(plateau_simulation, [position], cote)
+    '''

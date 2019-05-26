@@ -81,24 +81,12 @@ class Joueur:
             text="Joueur"+str(self.cote)
         return text
 
-    __repr__=__str__ # Permet de faire un print sur l'instance et d'obtenir le même résultat que str.
-
 class Humain(Joueur):
     """classe qui hérite de le classe Joueur"""
 
     def __init__(self,nom=None):
         """Crée un humain qui hérite de joueur."""
         Joueur.__init__(self,nom)  #Compatibilité avec python2.7 avec cette écriture théoriquement.
-
-    def old_jouer(self,input,board,fenetre,cote):
-        """Ancienne fonction obselète utilisée au début du jeu pour joueur."""
-        click,cursor=input
-        if click:
-            position=board.adjust(cursor,fenetre)
-            if board.estDansGrille(position):
-                if position in board.mouvements:
-                    self.choix=position
-        return self.choix
 
     def jouer(self,plateau,fenetre):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
@@ -133,7 +121,6 @@ class Humain(Joueur):
             text="Joueur Humain"
         return text
 
-    __repr__=__str__
 
 class Robot(Joueur):
     """classe qui hérite de le classe Joueur"""
@@ -171,7 +158,6 @@ class Robot(Joueur):
             text="Joueur Robot"
         return text
 
-    __repr__=__str__
 
 class Developpeur(Joueur):
     """classe qui hérite de le classe Joueur"""
