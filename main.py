@@ -44,10 +44,14 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     developpeur1=Developpeur(nom="dev1")
     developpeur2=Developpeur(nom="dev2")
     humain=Humain(nom="je suis l'humain n°1 LOL") #Crée un joueur humain.
+    humaine=Humain(nom="je suis l'humaine n°2 LOL")
     machine1=ia.IA(nom="machine1") #Crée une intelligence artificielle.
     machine2=ia.IA(nom="machine2")
-    machine3=ia2.IA(nom="machine3") # semble ne pas fonctionner
     #bruteforce=BruteForce(level=3) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
 
-    jeu=Othello(joueurs=[machine1,machine2],panneau=panneau) #Crée un jeu.
+    # mofidié les joueurs ici
+    joueur_blanc = dev1
+    joueur_noir  = dev2
+    # et non ici
+    jeu=Othello(joueurs=[joueur_blanc,joueur_noir],fenetre=fenetre) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
     jeu() #Lance le jeu.
