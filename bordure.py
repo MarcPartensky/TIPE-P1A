@@ -47,7 +47,7 @@ class Bordure:
         minutes=str(time.localtime()[4])
         secondes=str(time.localtime()[5])
         temps=heures+" : "+(2-len(minutes))*"0"+minutes+" : "+(2-len(secondes))*"0"+secondes
-        self.afficherTexte(temps,position,couleur,taille)
+        self.afficherTexte(temps,position,taille,couleur)
 
     def afficherRectangle(self,position,taille,couleur):
         """Affiche un rectangle sur la surface de la bordure avec sa position
@@ -90,13 +90,18 @@ class Bordure:
 
 
 if __name__=="__main__":
-    from fenetre import Fenetre
-    fenetre=Fenetre()
-    surface=pygame.Surface((500,500))
-    surface.fill(couleurs.BLEU)
-    bordure=Bordure(surface)
-    bordure.clear()
-    bordure.afficherTemps(0,0,couleurs.VERT)
-    bordure.afficherTexte("message",100,100,couleurs.BLEU)
-    fenetre.ecran=bordure
-    fenetre()
+    from panneau import Panneau
+    panneau=Panneau()
+    #surface=pygame.Surface((500,500))
+    #surface.fill(couleurs.BLEU)
+    bordure=Bordure()
+    panneau.decoupages=[(0,0,100,100),(100,0,100,100)]
+    #bordure.clear()
+    bordure.surface.fill(couleurs.BLEU)
+    bordure.afficherTemps((0,0),40,couleurs.VERT)
+    bordure.afficherTexte("message",(10,10),10,couleurs.BLEU)
+    panneau.coller(bordure.surface,0)
+    panneau.coller(bordure.surface,1)
+    panneau.afficher()
+    panneau.flip()
+    panneau()

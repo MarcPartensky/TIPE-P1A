@@ -384,6 +384,18 @@ class PlateauAnalysable(Plateau):
             #L'adv ne peut pas former une position stable en prenant notre pion, notre position est donc stable
             return True
 
+
+    def __deepcopy__(self,memoire_inutile):
+        """Renvoie une copie du plateau juste en lui copiant tous ses éléments
+        sauf la surface de pygame dont seulement la référence est copiée."""
+        plateau=PlateauAnalysable()
+        for key in self.__dict__.keys():
+            if key!="surface":
+                plateau.__dict__[key]=copy.deepcopy(self.__dict__[key])
+            else:
+                plateau.__dict__[key]=copy.copy(self.__dict__[key])
+        return plateau
+
     '''
     def est_stable_pour_cote(self, liste_de_position, cote):#todo debug cette fonction, ne pas utiliser cette fonction dans version finale
         cote_oppose=1-cote

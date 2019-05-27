@@ -91,7 +91,6 @@ class Plateau:
         self.nombre_de_joueurs=2
         self.demonstration=True
         self.surface=pygame.Surface(cfg.RESOLUTION_PLATEAU)
-        self.surface.get_size #Traduction de la fonction pour la simplicité
 
     def afficherFond(self):
         """Permet de charger un arriere plan sur la surface."""
@@ -220,17 +219,6 @@ class Plateau:
         else:
             x,y=coordonnees
             return self.grille[y][x]
-
-    def __deepcopy__(self,plateau): # wtf
-        """Renvoie une copie du plateau juste en lui copiant la grille."""
-        plateau=Plateau()
-        plateau.__dict__=self.__dict__
-        #print(plateau.__dict__)
-        #del plateau.__dict__["surface"]
-        #plateau.grille=self.grille
-        #plateau.mouvements=self.mouvements
-        return plateau
-
 
     def obtenirPions(self,cotes):
         """Obtenir toute les position de toutes les pieces de cotes de joueurs"""
