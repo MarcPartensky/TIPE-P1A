@@ -1,4 +1,5 @@
 from outils import intersection, est_superieur, deco_debug
+from plateau_analysable import PlateauAnalysable
 import outils, joueur, random
 import config as cfg
 from copy import deepcopy
