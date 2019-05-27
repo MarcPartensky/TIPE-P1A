@@ -13,7 +13,7 @@ class Bordure:
 
     def actualiser(self,tour):
         """Actualise la bordure."""
-
+        self.tour=tour
 
     def afficherFond(self):
         """Affiche l'arrière plan de la bordure."""
@@ -31,7 +31,7 @@ class Bordure:
         """nettoie la surface en recoloriant celle-ci par son arrière plan"""
         self.surface.fill(cfg.THEME_BORDURE["arriere plan"])
 
-    def afficherTexte(self,texte,position,couleur=None,taille=None):
+    def afficherTexte(self,texte,position,taille=None,couleur=None):
         """Affiche du texte à l'écran"""
         if not couleur: couleur=cfg.THEME_BORDURE["couleur texte"]
         if not taille: taille=cfg.THEME_BORDURE["taille texte"]
@@ -41,7 +41,7 @@ class Bordure:
         surface_texte=font.render(texte,1,couleur)
         self.surface.blit(surface_texte,position)
 
-    def afficherTemps(self,position,couleur=None,taille=50):
+    def afficherTemps(self,position,taille=30,couleur=couleurs.BLANC):
         """Affiche l'heure à un instant"""
         heures=str(time.localtime()[3])
         minutes=str(time.localtime()[4])
@@ -60,6 +60,7 @@ class Bordure:
 
     def afficherTempsPropre(self):
         """Affiche le temps en se souciant de la présentation."""
+        #Ne peut pas être utilisé car le temps n'est pas actualisé lorsque les joueurs jouent
         tx,ty=self.surface.get_size()
         self.afficherRectangle((0,0),(tx,70),couleurs.BLEU)
         self.afficherTemps((20,10),couleurs.VERT)
@@ -78,7 +79,12 @@ class Bordure:
 
     def afficherTourPropre(self):
         """Affiche qui est le joueur qui doit jouer."""
-        pass
+        self.afficherTour((10,10))
+
+    def afficherTour(self,position,taille=30,couleur=couleurs.BLANC):
+        """Affiche le tour et la personne qui doit joueur."""
+        texte="Tour du joueur: "+str(self.noms_des_joueurs[self.tour])
+        self.afficherTexte(texte,position,taille,couleur)
 
 
 

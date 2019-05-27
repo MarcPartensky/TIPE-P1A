@@ -56,6 +56,7 @@ class Othello:
         self.historique=[]
         self.plateau=Plateau()
         self.bordure=Bordure()
+        self.bordure.recupererNomDesJoueurs([joueur.nom for joueur in self.joueurs])
         self.ouvert=True
         self.fini=False
         self.chargerPanneau(panneau)
@@ -75,12 +76,12 @@ class Othello:
 
     def __call__(self): #Utilisation de la méthode spécial call qui permet de lancer la boucle principale
         """Boucle principale du jeu Othello."""
-        if self.panneau: self.afficher()
         while self.ouvert:
             self.actualiser()
 
     def actualiser(self):
         """Actualise le jeu."""
+        self.bordure.actualiser(self.rang%2)
         if self.panneau:
             self.panneau.check()
             self.ouvert=self.panneau.open

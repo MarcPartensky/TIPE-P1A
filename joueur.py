@@ -45,10 +45,12 @@
 
 import time
 import random
+import math
 import json
 import config as cfg
 import pygame
 import couleurs
+
 
 
 class Joueur:
