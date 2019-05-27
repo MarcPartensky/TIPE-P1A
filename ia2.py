@@ -3,9 +3,6 @@ from config import debug
 import config as cfg
 import outils, random, copy, couleurs
 
-
-
-
 class IA(Joueur):
     def __init__(self,nom=None):
         """Creer une instance de joueur."""

@@ -2,17 +2,16 @@
 
 from myminimax import Minimax
 #from joueur import Joueur
-from ia2 import IA
+from joueur import Robot
 
 from copy import deepcopy
 from random import choice
 
-#from config import log
 import config as cfg
 
-
-class BruteForce(IA): #a ete rajoute pour faire des tests, ne sera pas present a la fin du projet
-    def __init__(self,level=1):
+class BruteForce(Robot): #Permet d'évaluer d'autres intelligences artificielles en fixant une échelle de niveau
+    def __init__(self,nom="Brute Force",level=1):
+        super().__init__(nom)
         self.level=level
         self.advantage=[[ 9,-2, 1, 1, 1, 1,-2, 9],
                         [-2,-2,-1,-1,-1,-1,-2,-2],
@@ -22,7 +21,6 @@ class BruteForce(IA): #a ete rajoute pour faire des tests, ne sera pas present a
                         [ 1,-1, 0, 0, 0, 0,-1, 1],
                         [-2,-2,-1,-1,-1,-1,-2,-2],
                         [ 9,-2, 1, 1, 1, 1,-2, 9]]
-        super().__init__()
 
     def jouer(self,board,window):
         #board.presenterPionsStables(window) #Pas encore au point

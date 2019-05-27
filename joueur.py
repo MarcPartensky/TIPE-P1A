@@ -45,10 +45,12 @@
 
 import time
 import random
+import math
 import json
 import config as cfg
 import pygame
 import couleurs
+
 
 
 class Joueur:
@@ -94,7 +96,7 @@ class Humain(Joueur):
             fenetre.check()
             curseur=fenetre.point()#Renvoie les coordonnees du curseur
             position=plateau.obtenirPositionPlateau(curseur,fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
-            plateau.afficher(fenetre)
+            #plateau.afficher(fenetre)
             #plateau.colorerCase(position,couleurs.BLEU,fenetre)
             fenetre.flip()
             click=fenetre.click()
@@ -158,20 +160,50 @@ class Robot(Joueur):
             text="Joueur Robot"
         return text
 
+    def distance(self,p1,p2):
+        """Renvoie la distance entre les positions p1 et p2."""
+        x1,y1=p1
+        x2,y2=p2
+        return math.sqrt((x1-x2)**2+(y1-y2)**2)
 
-class Developpeur(Joueur):
-    """classe qui hérite de le classe Joueur"""
+    def distanceDuCentre(self,position,plateau):
+        """Renvoie la distance d'une position par rapport au centre."""
+        tx,ty=plateau.taille
+        centre=(tx/2,ty/2)
+        return self.distance(position,centre)
+
+    def distanceTotale(self,pions):
+        """Renvoie la somme des distances entre tous les pions 2 à 2."""
+        somme=0
+        l=len(pions)
+        for i in range(l):
+            for j in range(i+1,l):
+                somme+=self.distance(pions[i],pions[j])
+        return somme
+
+    def distanceMoyenne(self,pions):
+        """Renvoie la distance moyenne entre tous les pions 2 à 2."""
+        nombre_de_distances_calculees=(len(pions)+1)*len(pions)/2
+        return self.distanceTotale(pions)/nombre_de_distances_calculees
+
+
+
+
+
+class Developpeur(Humain):
+    """classe qui hérite de le classe Humain"""
 
     def __init__(self,nom=None):
         Joueur.__init__(self,nom)
 
-    def jouer(self,panneau,plateau,bordure):
+    def jouer(self,plateau,panneau):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
         while panneau.open:
             panneau.check()
-            curseur=panneau.point()#Renvoie les coordonnees du curseur
-            position=plateau.obtenirPositionPlateau(curseur,panneau) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
-            self.afficher(panneau,plateau,bordure)
+            #curseur=panneau.point()#Renvoie les coordonnees du curseur
+            position=plateau.obtenirPositionPlateau(panneau)
+            #position=plateau.obtenirPositionPlateau(curseur,panneau) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
+            #self.afficher(panneau,plateau,bordure)
             click=panneau.click()
             if click:
                 if plateau.estDansGrille(position):

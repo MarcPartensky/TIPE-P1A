@@ -103,8 +103,7 @@ class Fenetre:
 
     def clear(self,color=None):
         """Clear to background color."""
-        if not color:
-            color=self.couleur_de_fond
+        if not color: color=self.couleur_de_fond
         self.screen.fill(color)
 
     def scale(self,picture,taille):
@@ -122,7 +121,7 @@ class Fenetre:
                 if event.key == K_ESCAPE:
                     self.open=False
             if event.type == pygame.VIDEORESIZE and not self.fullscreen:
-                # There's some code to add back window content here.
+                #Ne fonctionne pas je pense
                 self.size=[event.w,event.h]
                 self.screen=pygame.display.set_mode(self.size,pygame.RESIZABLE)
                 self.flip()
@@ -160,15 +159,6 @@ class Fenetre:
             keys=pygame.key.get_pressed()
             if keys[K_SPACE]:
                 self.pausing=False
-
-
-    def select(self):
-        """Wait for user to click on screen, then return cursor position."""
-        while self.open:
-            self.check()
-            for event in pygame.event.get():
-                if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                    return (event.pos[0],event.pos[1])
 
     def point(self):
         """Return cursor position on screen."""
@@ -248,17 +238,6 @@ class Fenetre:
         x,y=(rcx-wcx,rcy-wcy)
         w,h=(rcsx*wsx/wcsx,rcsy*wsy/wcsy)
         pygame.draw.rect(self.screen,color,(x,y,w,h),0)
-
-    def place(self,position):
-        """Return position relative to window's fiducials."""
-        wcx,wcy,wcsx,wcsy=self.coordonnates
-        pcx,pcy=position
-        x,y=(rcx-wcx,rcy-wcy)
-        return (x,y)
-
-    def kill(self):
-        """Quit pygame."""
-        pygame.quit()
 
     def infoConsole(self,message):
         """Print message with window mention."""

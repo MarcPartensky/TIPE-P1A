@@ -5,7 +5,15 @@ class Bordure:
     def __init__(self):
         """Créer une bordure en utilisant une surface et un thème."""
         self.surface=pygame.Surface(cfg.RESOLUTION_BORDURE)
+        self.texte=""
 
+    def recupererNomDesJoueurs(self,noms_des_joueurs):
+        """Permet à la bordure de récupérer le nom des joueurs qu'elle doit afficher."""
+        self.noms_des_joueurs=noms_des_joueurs
+
+    def actualiser(self,tour):
+        """Actualise la bordure."""
+        self.tour=tour
 
     def afficherFond(self):
         """Affiche l'arrière plan de la bordure."""
@@ -23,7 +31,7 @@ class Bordure:
         """nettoie la surface en recoloriant celle-ci par son arrière plan"""
         self.surface.fill(cfg.THEME_BORDURE["arriere plan"])
 
-    def afficherTexte(self,texte,position,couleur=None,taille=None):
+    def afficherTexte(self,texte,position,taille=None,couleur=None):
         """Affiche du texte à l'écran"""
         if not couleur: couleur=cfg.THEME_BORDURE["couleur texte"]
         if not taille: taille=cfg.THEME_BORDURE["taille texte"]
@@ -33,7 +41,7 @@ class Bordure:
         surface_texte=font.render(texte,1,couleur)
         self.surface.blit(surface_texte,position)
 
-    def afficherTemps(self,position,couleur=None,taille=50):
+    def afficherTemps(self,position,taille=30,couleur=couleurs.BLANC):
         """Affiche l'heure à un instant"""
         heures=str(time.localtime()[3])
         minutes=str(time.localtime()[4])
@@ -52,15 +60,31 @@ class Bordure:
 
     def afficherTempsPropre(self):
         """Affiche le temps en se souciant de la présentation."""
+        #Ne peut pas être utilisé car le temps n'est pas actualisé lorsque les joueurs jouent
         tx,ty=self.surface.get_size()
         self.afficherRectangle((0,0),(tx,70),couleurs.BLEU)
         self.afficherTemps((20,10),couleurs.VERT)
 
+    def afficherTextePropre(self):
+        """Affiche le texte contenu dans la bordure proprement."""
+        position=(50,0)
+        self.afficherTexte(self.texte,position)
 
     def afficher(self):
         """Permet d'afficher la bordure sur sa surface."""
         self.afficherFond()
-        self.afficherTempsPropre()
+        #self.afficherTempsPropre() #Pas utilisable
+        self.afficherTextePropre()
+        self.afficherTourPropre()
+
+    def afficherTourPropre(self):
+        """Affiche qui est le joueur qui doit jouer."""
+        self.afficherTour((10,10))
+
+    def afficherTour(self,position,taille=30,couleur=couleurs.BLANC):
+        """Affiche le tour et la personne qui doit joueur."""
+        texte="Tour du joueur: "+str(self.noms_des_joueurs[self.tour])
+        self.afficherTexte(texte,position,taille,couleur)
 
 
 
