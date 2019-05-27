@@ -45,7 +45,6 @@ class Panneau(Fenetre):
 
     def positionRelative(self):
         """Renvoie la position relative au compartiment dans lequel la souris se place."""
-        print("position relative")
         px,py=pygame.mouse.get_pos()
         wsx,wsy=self.taille
         for decoupage in self.decoupages:

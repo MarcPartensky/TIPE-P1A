@@ -96,11 +96,9 @@ class Humain(Joueur):
             fenetre.check()
             curseur=fenetre.point()#Renvoie les coordonnees du curseur
             position=plateau.obtenirPositionPlateau(curseur,fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
-            #plateau.afficher(fenetre)
-            #plateau.colorerCase(position,couleurs.BLEU,fenetre)
-            fenetre.flip()
             click=fenetre.click()
-            #print(click,position,plateau.mouvements)
+            fenetre.coller(plateau.surface)
+            fenetre.flip()
             if click:
                 if plateau.estDansGrille(position):
                     if position in plateau.mouvements: #On regarde si le clique est une possibilité propose par le plateau
@@ -204,20 +202,9 @@ class Developpeur(Humain):
             #curseur=panneau.point()#Renvoie les coordonnees du curseur
             position=plateau.obtenirPositionPlateau(panneau)
             #position=plateau.obtenirPositionPlateau(curseur,panneau) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
-            #self.afficher(panneau,plateau,bordure)
             click=panneau.click()
             if click:
                 if plateau.estDansGrille(position):
                     self.choix=position
                 break
         return self.choix
-
-    def afficher(self,panneau,plateau,bordure):
-        """Affiche les éléments sur l'écran car le joueur possède la boucle principale ici."""
-        panneau.clear()
-        panneau.coller(plateau.surface,0)
-        panneau.coller(bordure.surface,1)
-        plateau.afficher()
-        bordure.afficher()
-        panneau.afficher()
-        panneau.flip()

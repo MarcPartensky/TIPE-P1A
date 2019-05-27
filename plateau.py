@@ -129,19 +129,11 @@ class Plateau:
 
     def obtenirPositionPlateau(self,panneau):
         """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la panneau en pixels."""
-        #wsx,wsy=panneau.taille
         position_brute=panneau.point()
-        #print(curseur)
-        #position_brute=panneau.positionRelative()
-        #print(position_brute)
-        #wsx,wsy=panneau.decoupages[0][2:]
-        #print(wsx,wsy)
-        #print(position_brute)
         wsx,wsy=self.surface.get_size()
         sx,sy=self.taille
         rx,ry=position_brute
         px,py=(int(rx*sx/wsx),int(ry*sy/wsy))
-        print(px,py)
         return (px,py)
 
     def obtenirPositionBrute(self,position_plateau):
@@ -232,7 +224,11 @@ class Plateau:
     def __deepcopy__(self,plateau): # wtf
         """Renvoie une copie du plateau juste en lui copiant la grille."""
         plateau=Plateau()
-        plateau.grille=self.grille
+        plateau.__dict__=self.__dict__
+        #print(plateau.__dict__)
+        #del plateau.__dict__["surface"]
+        #plateau.grille=self.grille
+        #plateau.mouvements=self.mouvements
         return plateau
 
 

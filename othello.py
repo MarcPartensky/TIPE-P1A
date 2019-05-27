@@ -132,10 +132,10 @@ class Othello:
     def afficher(self):
         """Affiche tout : le plateau et la bordure."""
         self.panneau.clear()
-        self.panneau.coller(self.plateau.surface,0)
-        self.panneau.coller(self.bordure.surface,1)
         self.plateau.afficher()
         self.bordure.afficher()
+        self.panneau.coller(self.plateau.surface,0)
+        self.panneau.coller(self.bordure.surface,1)
         self.panneau.afficher()
         self.panneau.flip()
 
@@ -143,10 +143,11 @@ class Othello:
         """Faire un tour de jeu"""
         self.tour=self.rang%self.plateau.nombre_de_joueurs
         joueur_actif=self.joueurs[self.tour]#joueur a qui c'est le tour
-        self.plateau.charger(self.tour) #Necessaire pour tous les joueurs
-        if self.panneau: self.afficher()
+        self.plateau.charger(self.tour) #Nécessaire pour tous les joueurs
+        print(self.rang,self.plateau.mouvements)
+        if self.panneau: self.afficher(); print("les mouvements devraient etre affiches"); self.plateau.afficherMouvements()
         self.rang+=1
-        if len(self.plateau.mouvements)>=1:#Si des mouvements sont possibles
+        if len(self.plateau.mouvements)>0:#Si des mouvements sont possibles
             choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.panneau)
             if not choix_du_joueur:
                 return None

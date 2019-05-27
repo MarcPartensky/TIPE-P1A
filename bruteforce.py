@@ -45,7 +45,7 @@ class BruteForce(Robot): #Permet d'évaluer d'autres intelligences artificielles
         else:
             tree=[]
             self.board.grille=grid
-            moves=self.board.obtenirMouvementsValides(cote)
+            moves=self.board.mouvements
             for move in moves:
                 sub_grid=deepcopy(grid)
                 x,y=move

@@ -54,10 +54,8 @@ class Interieur(Robot):
     def jouer(self,plateau,panneau=None):
         """Joue le coup le plus au centre que possible."""
         coups_possibles=plateau.obtenirMouvementsValides(self.cote)
-        print(coups_possibles)
         self.choix=coups_possibles[0]
         for coup in coups_possibles[1:]:
-            print(self.choix,coup)
             self.choix=self.plusProcheDuCentre(self.choix,coup,plateau)
         return self.choix
 
