@@ -64,4 +64,4 @@ def info(*txt,nom_fichier="NO_NAME"):
     cette fonction est presque équivalente à un print.
     Ne pas oublier de donner le nom du fichier dans le quelle la fonction est appeler"""
     if INFO:
-        print("[INFO]["+nom_fichier+"]",*txt)
+        print("[INFOS]["+nom_fichier+"]",*txt)

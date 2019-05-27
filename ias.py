@@ -2,6 +2,7 @@ from joueur import Robot
 
 import outils
 import math
+import copy
 
 class DefinivitementStable(Robot):
     """Robot qui essaie seulement de maximiser ses pions définitivement stables."""
@@ -12,7 +13,7 @@ class DefinivitementStable(Robot):
     def jouer(self,plateau,panneau=None):
         """Joue en maximisant les pions définivitement stables."""
         stables=plateau.obtenirTousLesPionsDefinitivementStables()
-        coups_possibles=plateau.obtenirMouvementsValides(self.cote)
+        coups_possibles=plateau.mouvements
         intersection=outils.intersection(stables,coups_possibles)
         if intersections:
             choix=intersections[0]
@@ -38,9 +39,10 @@ class PremierCoup(Robot):
         """Crée le robot avec les arguments de la classe mère 'Robot'."""
         super().__init__(*args,**kwargs)
 
+    @outils.timer
     def jouer(self,plateau,panneau=None):
         """Joue le premier coup proposé."""
-        coups_possibles=plateau.obtenirMouvementsValides(self.cote)
+        coups_possibles=plateau.mouvements
         self.choix=coups_possibles[0]
         return self.choix
 
@@ -53,7 +55,7 @@ class Interieur(Robot):
 
     def jouer(self,plateau,panneau=None):
         """Joue le coup le plus au centre que possible."""
-        coups_possibles=plateau.obtenirMouvementsValides(self.cote)
+        coups_possibles=plateau.mouvements
         self.choix=coups_possibles[0]
         for coup in coups_possibles[1:]:
             self.choix=self.plusProcheDuCentre(self.choix,coup,plateau)
@@ -78,7 +80,7 @@ class Exterieur(Robot):
 
     def jouer(self,plateau,panneau=None):
         """Joue le coup le plus au centre que possible."""
-        coups_possibles=plateau.obtenirMouvementsValides(self.cote)
+        coups_possibles=plateau.mouvements
         self.choix=coups_possibles[0]
         for coup in coups_possibles[1:]:
             self.choix=self.plusLoinDuCentre(self.choix,coup,plateau)
@@ -106,7 +108,7 @@ class Groupe(Robot):
     def jouer(self,plateau,panneau=None):
         """Joue en plaçant ses pions en groupes si possible."""
         mes_pions=plateau.obtenirPions(self.cote)
-        coups_possibles=plateau.obtenirMouvementsValides(self.cote)
+        coups_possibles=plateau.mouvements
         self.choix=coups_possibles[0]
         for coup in coups_possibles[1:]:
             self.choix=self.plusProcheDUnGroupe(coup,self.choix,coups_possibles)
@@ -133,7 +135,7 @@ class Eparpille(Robot):
     def jouer(self,plateau,panneau=None):
         """Joue en plaçant ses pions de façon éparpillé si possible."""
         mes_pions=plateau.obtenirPions(self.cote)
-        coups_possibles=plateau.obtenirMouvementsValides(self.cote)
+        coups_possibles=plateau.mouvements
         self.choix=coups_possibles[0]
         for coup in coups_possibles[1:]:
             self.choix=self.plusLoinDUnGroupe(coup,self.choix,coups_possibles)
@@ -172,7 +174,7 @@ class Direct(Robot):
 
     def jouer(self,plateau,panneau=None):
         """Joue de façon à avoir le plus de pions possibles sur le tour actuel."""
-        coups_possibles=self.obtenirMouvementsValides(self.cote)
+        coups_possibles=plateau.mouvements
         self.choix=coups_possibles[0]
         for coup in coups_possibles[1:]:
             self.choix=self.meilleurCoup(coup,self.choix,plateau)

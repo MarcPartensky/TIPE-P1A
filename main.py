@@ -58,11 +58,11 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     machine10=ias.Direct(nom="Direct") #Joue en essayant de maximiser son nombre de pions sur 1 tour seulement
     bruteforce1=bf.BruteForce(nom="Brute Force niveau 1", level=1) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
     bruteforce2=bf.BruteForce(nom="Brute Force niveau 2", level=2) #Joue en pensant 2 coups à l'avance
-    bruteforce3=bf.BruteForce(nom="Brute Force niveau 3",level=3)  #Joue en pensant 3 coups à l'avance
+    bruteforce3=bf.BruteForce(nom="Brute Force niveau 3", level=4)  #Joue en pensant 3 coups à l'avance
 
     #puis on  choisit les joueurs ici
-    joueur_blanc = developpeur1
-    joueur_noir  = machine1
+    joueur_blanc = machine1
+    joueur_noir  = humain2
 
     #et non ici
     jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc

@@ -56,7 +56,8 @@ class Othello:
         self.historique=[]
         self.plateau=Plateau()
         self.bordure=Bordure()
-        self.bordure.recupererNomDesJoueurs([joueur.nom for joueur in self.joueurs])
+        self.noms=[joueur.nom for joueur in self.joueurs]
+        self.bordure.recupererNomDesJoueurs(self.noms)
         self.ouvert=True
         self.fini=False
         self.chargerPanneau(panneau)
@@ -143,9 +144,9 @@ class Othello:
         """Faire un tour de jeu"""
         self.tour=self.rang%self.plateau.nombre_de_joueurs
         joueur_actif=self.joueurs[self.tour]#joueur a qui c'est le tour
+        cfg.debug("C'est au tour du joueur:"+str(joueur_actif))
         self.plateau.charger(self.tour) #Nécessaire pour tous les joueurs
-        print(self.rang,self.plateau.mouvements)
-        if self.panneau: self.afficher(); print("les mouvements devraient etre affiches"); self.plateau.afficherMouvements()
+        if self.panneau: self.afficher()
         self.rang+=1
         if len(self.plateau.mouvements)>0:#Si des mouvements sont possibles
             choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.panneau)

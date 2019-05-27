@@ -396,6 +396,10 @@ class PlateauAnalysable(Plateau):
                 plateau.__dict__[key]=copy.copy(self.__dict__[key])
         return plateau
 
+    def compterPions(self,cote):
+        """Compte les pions du joueur de côté 'cote'."""
+        return len(self.obtenirPions(cote))
+
     '''
     def est_stable_pour_cote(self, liste_de_position, cote):#todo debug cette fonction, ne pas utiliser cette fonction dans version finale
         cote_oppose=1-cote

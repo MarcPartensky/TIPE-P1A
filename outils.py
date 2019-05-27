@@ -1,6 +1,7 @@
 import random
 from config import debug
 import config
+import time
 
 def intersection_(liste):#todo revoir
     """Intersection."""
@@ -130,10 +131,24 @@ def obtenirLigneReduite(ligne):
     ligne=[ligne[0],ligne[-1]]
     return ligne
 
-if __name__=="__main__": #Permet de débugger facilement les fonctions du module outils
-    pass
-    #print(obtenirLigneComplete([(1,2),(5,6)]))
-    #print(estRemplie([1,1,1,2,1],1))
 
-    #print(intersection([1,2,3],[2,3],[5,3,4]))
-    #print(intersection([(1,2),(3,4)],[(1,2),(2,2)]))
+
+
+def timer(fonction):
+    """Permet de calculer le temps d'exécution d'une fonction."""
+    def nouvelleFonction(*args,**kwargs):
+        """Fonction à tester."""
+        ti=time.time()
+        resultat=fonction(*args,**kwargs)
+        tf=time.time()
+        dt=tf-ti
+        print("[TIMER]: La fonction "+str(fonction.__name__)+" a pris "+str(dt)+" secondes.")
+        return resultat
+    return nouvelleFonction
+
+if __name__=="__main__": #Permet de débugger facilement les fonctions du module outils
+    print(obtenirLigneComplete([(1,2),(5,6)]))
+    print(estRemplie([1,1,1,2,1],1))
+
+    print(intersection([1,2,3],[2,3],[5,3,4]))
+    print(intersection([(1,2),(3,4)],[(1,2),(2,2)]))

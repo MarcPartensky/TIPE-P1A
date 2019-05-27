@@ -95,10 +95,8 @@ class Humain(Joueur):
         while fenetre.open:
             fenetre.check()
             curseur=fenetre.point()#Renvoie les coordonnees du curseur
-            position=plateau.obtenirPositionPlateau(curseur,fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
+            position=plateau.obtenirPositionPlateau(fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
             click=fenetre.click()
-            fenetre.coller(plateau.surface)
-            fenetre.flip()
             if click:
                 if plateau.estDansGrille(position):
                     if position in plateau.mouvements: #On regarde si le clique est une possibilité propose par le plateau
