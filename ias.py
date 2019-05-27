@@ -44,8 +44,8 @@ class PremierCoup(Robot):
 
 
 class RobotPosition(Robot):
-    """Classe mère des robots 'Interieur' et 'Exterieur' qui fournit des fonctions
-    supplémentaires pour l'analyse des positions."""
+    """Classe mère de robot qui fournit des fonctions supplémentaires pour
+    l'analyse des positions et des distances."""
 
     def distance(self,p1,p2):
         """Renvoie la distance entre les positions p1 et p2."""
@@ -58,6 +58,22 @@ class RobotPosition(Robot):
         tx,ty=plateau.taille
         centre=(tx/2,ty/2)
         return self.distance(position,centre)
+
+    def distanceTotale(self,pions):
+        """Renvoie la somme des distances entre tous les pions 2 à 2."""
+        somme=0
+        l=len(pions)
+        for i in range(l):
+            for j in range(i+1,l):
+                somme+=self.distance(pions[i],pions[j])
+        return somme
+
+    def distanceMoyenne(self,pions):
+        """Renvoie la distance moyenne entre tous les pions 2 à 2."""
+        nombre_de_distances_calculees=(len(pions)+1)*len(pions)/2
+        return self.distanceTotale(pions)/nombre_de_distances_calculees
+
+
 
 
 class Interieur(RobotPosition):
@@ -111,8 +127,8 @@ class Exterieur(Robot):
 
 
 
-class Groupe(Robot):
-    """Robot qui essaie d'obtenir de placer ses pions en groupes les plus larges possibles."""
+class Groupe(RobotPosition):
+    """Robot qui essaie de placer ses pions en groupes les plus larges possibles."""
 
     def __init__(self,*args,**kwargs):
         """Crée le robot avec les arguments de la classe mère 'Robot'."""
@@ -122,11 +138,59 @@ class Groupe(Robot):
         """Joue en plaçant ses pions en groupes si possible."""
         mes_pions=plateau.obtenirPions(self.cote)
         coups_possibles=plateau.obtenirMouvementsValides()
+        self.choix=coups_possibles[0]
+        for coup in coups_possibles[1:]:
+            self.choix=self.plusProcheDUnGroupe(coup,self.choix,coups_possibles)
+        return self.choix
 
-        for coup in coups_possibles:
-            pass
+    def plusProcheDUnGroupe(self,p1,p2,mes_pions):
+        """Renvoie l'une des positions p1 ou p2 pour laquelle la distance totale
+        par rapport aux autres pions est la plus faible."""
+        d1=self.distanceTotale(mes_pions+[p1])
+        d2=self.distanceTotale(mes_pions+[p2])
+        if d1>d2:
+            resultat=p1
+        else:
+            resultat=p2
+        return resultat
 
-    def procheDUnGroupe(self,coup,mes_pions):
-        """Renvoie un nombre qui est correspond a la proximité d'un coup 'coup' par rapport
-        a un groupe de formé par les pions 'mes_pions'."""
+class Eparpille(Robot):
+    """Robot qui essaie de placer ses pions de la façon la plus éparpillé possible."""
+
+    def __init__(self,*args,**kwargs):
+        """"Crée le robot avec les arguments de la classe mère 'Robot'."""
+        super().__init__(*args,**kwargs)
+
+    def jouer(self,plateau,panneau=None):
+        """Joue en plaçant ses pions de façon éparpillé si possible."""
+        mes_pions=plateau.obtenirPions(self.cote)
+        coups_possibles=plateau.obtenirMouvementsValides()
+        self.choix=coups_possibles[0]
+        for coup in coups_possibles[1:]:
+            self.choix=self.plusLoinDUnGroupe(coup,self.choix,coups_possibles)
+        return self.choix
+
+    def plusProcheDUnGroupe(self,p1,p2,mes_pions):
+        """Renvoie l'une des positions p1 ou p2 pour laquelle la distance totale
+        par rapport aux autres pions est la plus faible."""
+        d1=self.distanceTotale(mes_pions+[p1])
+        d2=self.distanceTotale(mes_pions+[p2])
+        if d1>d2:
+            resultat=p2
+        else:
+            resultat=p1
+        return resultat
+
+class Ligne(RobotPosition):
+    """Robot qui essaie de maximiser le nombre de lignes formées par ses pions."""
+
+    def __init__(self,*args,**kwargs):
+        """"Crée le robot avec les arguments de la classe mère 'Robot'."""
+        super().__init__(*args,**kwargs)
+
+    def jouer(self,plateau,panneau=None):
+        """Joue de façon à maximiser le nombre de lignes formées par ses pions."""
         pass
+
+    def estEnLigne(self,position,ligne):
+        """Renvoie si une position est."""
