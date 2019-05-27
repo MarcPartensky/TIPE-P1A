@@ -46,12 +46,12 @@ from copy import deepcopy
 
 class Othello:
     def __init__(self,joueurs,panneau=None,nom="Othello"):
-        """Crée un objet de jeu d'Othello en utilisant sa liste de joueurs, sa panneau et son theme."""
+        """Crée un objet de jeu d'Othello en récupérant une liste de joueurs, un panneau et un theme."""
         self.nom=nom
         self.joueurs=joueurs
         for compteur in range(len(self.joueurs)):
             self.joueurs[compteur].attribuerCote(compteur)# i.e. : self.joueurs[compteur].cote=compteur
-        self.rang=0
+        self.rang=0 # indique le moment dans la partie. exemple: rang =10 signifie que l'on est au 10ème tours
         self.gagnant=None
         self.historique=[]
         self.plateau=Plateau()

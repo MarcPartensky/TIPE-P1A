@@ -26,11 +26,8 @@ Pour marc :9
 Indiquer dans la fenetre à qui c'est le tour
 La fonction board.conquerir doit renvoyer le nombre de pion retourne
 
-La deco inutile à faire :
-Mini animation pour indiquer le dernier pion posé : colorer ses rebord de la couleur NEW_COLOR_PIECES, à ajouter dans les constantes
-
 Ajouter les 4 points noirs sur le plateau.
-Ajouter un menu très basique=>nouvelle class est nouveau fichier .py
+Ajouter un menu très basique => nouvelle class est nouveau fichier .py
 
 Pour dossier :
 expliquer demarche dans cahier de bord
@@ -50,8 +47,8 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     #bruteforce=BruteForce(level=3) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
 
     # mofidié les joueurs ici
-    joueur_blanc = humain
-    joueur_noir  = humain
+    joueur_blanc = machine1
+    joueur_noir  = machine2
     # et non ici
     jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
     jeu() #Lance le jeu.
