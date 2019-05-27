@@ -85,17 +85,22 @@ class Othello:
         if self.panneau:
             self.panneau.check()
             self.ouvert=self.panneau.open
-            self.afficher()
-            if self.fini:
-                self.afficherSceneFinale()
+
         if not self.plateau.estFini():
+            if self.panneau:
+                self.afficher()
             self.faireTour()
         else:
+            if self.panneau:
+                self.afficher()
             if not self.fini:
                 self.fini=not(self.fini)
                 self.determinerGagnant()
                 cfg.info("Fin de partie :",nom_fichier="othello.py")
                 cfg.info("le gagnant : {}".format(repr(self.gagnant)),nom_fichier="othello.py")
+            else:
+                if self.panneau:
+                    self.afficherSceneFinale()
 
     def determinerGagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""

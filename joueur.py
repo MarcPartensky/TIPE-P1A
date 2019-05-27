@@ -142,7 +142,8 @@ class Robot(Joueur):
 
     def jouerAleatoire(self,plateau):
         """Le joueur choisi un des mouvements possibles aléatoirement."""
-        self.choix=random.choice(plateau.mouvements)
+        mouvements=plateau.obtenirMouvementsValides(self.cote)
+        self.choix=random.choice(mouvements)
         return self.choix
 
     def __str__(self):

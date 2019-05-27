@@ -64,8 +64,8 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     bruteforce3=bf.BruteForce(nom="Brute Force niveau 3",level=3)  #Joue en pensant 3 coups à l'avance
 
     #puis on  choisit les joueurs ici
-    joueur_blanc = developpeur1
-    joueur_noir  = machine3
+    joueur_blanc = bruteforce1
+    joueur_noir  = machine10
 
     #et non ici
     jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc

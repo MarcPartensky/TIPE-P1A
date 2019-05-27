@@ -29,7 +29,7 @@ class Aleatoire(Robot):
 
     def jouer(self,plateau,panneau=None):
         """Joue aléatoirement."""
-        self.jouerAleatoire(plateau)
+        return self.jouerAleatoire(plateau)
 
 class PremierCoup(Robot):
     """Robot qui joue toujours le premier coup parmi les coups proposés."""
@@ -141,7 +141,7 @@ class Eparpille(Robot):
             self.choix=self.plusLoinDUnGroupe(coup,self.choix,coups_possibles)
         return self.choix
 
-    def plusProcheDUnGroupe(self,p1,p2,mes_pions):
+    def plusLoinDUnGroupe(self,p1,p2,mes_pions):
         """Renvoie l'une des positions p1 ou p2 pour laquelle la distance totale
         par rapport aux autres pions est la plus faible."""
         d1=self.distanceTotale(mes_pions+[p1])
