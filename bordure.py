@@ -64,9 +64,13 @@ class Bordure:
     def afficher(self):
         """Permet d'afficher la bordure sur sa surface."""
         self.afficherFond()
-        #self.afficherTempsPropre()
-        #self.texte+="test\n"
+        #self.afficherTempsPropre() #Pas utilisable
         self.afficherTextePropre()
+        self.afficherTourPropre()
+
+    def afficherTourPropre(self):
+        """Affiche qui est le joueur qui doit jouer."""
+        pass
 
 
 

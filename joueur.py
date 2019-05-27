@@ -158,6 +158,35 @@ class Robot(Joueur):
             text="Joueur Robot"
         return text
 
+    def distance(self,p1,p2):
+        """Renvoie la distance entre les positions p1 et p2."""
+        x1,y1=p1
+        x2,y2=p2
+        return math.sqrt((x1-x2)**2+(y1-y2)**2)
+
+    def distanceDuCentre(self,position,plateau):
+        """Renvoie la distance d'une position par rapport au centre."""
+        tx,ty=plateau.taille
+        centre=(tx/2,ty/2)
+        return self.distance(position,centre)
+
+    def distanceTotale(self,pions):
+        """Renvoie la somme des distances entre tous les pions 2 à 2."""
+        somme=0
+        l=len(pions)
+        for i in range(l):
+            for j in range(i+1,l):
+                somme+=self.distance(pions[i],pions[j])
+        return somme
+
+    def distanceMoyenne(self,pions):
+        """Renvoie la distance moyenne entre tous les pions 2 à 2."""
+        nombre_de_distances_calculees=(len(pions)+1)*len(pions)/2
+        return self.distanceTotale(pions)/nombre_de_distances_calculees
+
+
+
+
 
 class Developpeur(Humain):
     """classe qui hérite de le classe Humain"""

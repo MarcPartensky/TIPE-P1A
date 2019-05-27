@@ -249,17 +249,6 @@ class Fenetre:
         w,h=(rcsx*wsx/wcsx,rcsy*wsy/wcsy)
         pygame.draw.rect(self.screen,color,(x,y,w,h),0)
 
-    def place(self,position):
-        """Return position relative to window's fiducials."""
-        wcx,wcy,wcsx,wcsy=self.coordonnates
-        pcx,pcy=position
-        x,y=(rcx-wcx,rcy-wcy)
-        return (x,y)
-
-    def kill(self):
-        """Quit pygame."""
-        pygame.quit()
-
     def infoConsole(self,message):
         """Print message with window mention."""
         text="["+self.name+"] "+message
