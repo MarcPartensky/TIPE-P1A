@@ -40,7 +40,7 @@ Faire mini schema des heritage de classe
 
 if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécuté directement depuis ce fichier et non depuis un autre fichier.
 
-    panneau=Panneau(taille=cfg.RESOLUTION_FENETRE,set=False,fullscreen=False) # Crée une fenêtre
+    panneau=Panneau(nom="Othello",taille=cfg.RESOLUTION_FENETRE,set=False,fullscreen=False) # Crée une fenêtre
     dev1=Developpeur(nom="dev1")
     dev2=Developpeur(nom="dev2")
     humain=Humain(nom="je suis l'humain n°1 LOL") #Crée un joueur humain.
@@ -50,8 +50,8 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     #bruteforce=BruteForce(level=3) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
 
     # mofidié les joueurs ici
-    joueur_blanc = humain
-    joueur_noir  = humain
+    joueur_blanc = dev1
+    joueur_noir  = dev2
     # et non ici
     jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
     jeu() #Lance le jeu.

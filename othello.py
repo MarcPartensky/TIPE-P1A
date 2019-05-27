@@ -81,6 +81,12 @@ class Othello:
 
     def actualiser(self):
         """Actualise le jeu."""
+        if self.panneau:
+            self.panneau.check()
+            self.ouvert=self.panneau.open
+            self.afficher()
+            if self.fini:
+                self.afficherSceneFinale()
         if not self.plateau.estFini():
             self.faireTour()
         else:
@@ -89,13 +95,6 @@ class Othello:
                 self.determinerGagnant()
                 cfg.info("Fin de partie :",nom_fichier="othello.py")
                 cfg.info("le gagnant : {}".format(repr(self.gagnant)),nom_fichier="othello.py")
-        if self.panneau:
-            self.panneau.check()
-            self.ouvert=self.panneau.open
-            self.afficher()
-            if self.fini:
-                self.afficherSceneFinale()
-
 
     def determinerGagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
@@ -136,13 +135,13 @@ class Othello:
 
     def faireTour(self) :
         """Faire un tour de jeu"""
-        self.tour = self.rang % self.plateau.nombre_de_joueurs
+        self.tour=self.rang%self.plateau.nombre_de_joueurs
         joueur_actif=self.joueurs[self.tour]#joueur a qui c'est le tour
         self.plateau.charger(self.tour) #Necessaire pour tous les joueurs
-        #self.plateau.chargerAnalyse(self.panneau) #Economise du temps de calcul pour les ias qui s'en servent, et peut être affichée pour une démonstration
+        if self.panneau: self.afficher()
         self.rang+=1
-        if len(self.plateau.mouvements)>=1:#Si des moves sont possibles
-            choix_du_joueur=joueur_actif.jouer(self.panneau,deepcopy(self.plateau),self.bordure)
+        if len(self.plateau.mouvements)>=1:#Si des mouvements sont possibles
+            choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.panneau)
             if not choix_du_joueur:
                 return None
             cfg.info("Le choix du joueur est {}".format(repr(choix_du_joueur)),nom_fichier="othello.py")

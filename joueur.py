@@ -94,7 +94,7 @@ class Humain(Joueur):
             fenetre.check()
             curseur=fenetre.point()#Renvoie les coordonnees du curseur
             position=plateau.obtenirPositionPlateau(curseur,fenetre) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
-            plateau.afficher(fenetre)
+            #plateau.afficher(fenetre)
             #plateau.colorerCase(position,couleurs.BLEU,fenetre)
             fenetre.flip()
             click=fenetre.click()
@@ -159,19 +159,20 @@ class Robot(Joueur):
         return text
 
 
-class Developpeur(Joueur):
-    """classe qui hérite de le classe Joueur"""
+class Developpeur(Humain):
+    """classe qui hérite de le classe Humain"""
 
     def __init__(self,nom=None):
         Joueur.__init__(self,nom)
 
-    def jouer(self,panneau,plateau,bordure):
+    def jouer(self,plateau,panneau):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
         while panneau.open:
             panneau.check()
-            curseur=panneau.point()#Renvoie les coordonnees du curseur
-            position=plateau.obtenirPositionPlateau(curseur,panneau) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
-            self.afficher(panneau,plateau,bordure)
+            #curseur=panneau.point()#Renvoie les coordonnees du curseur
+            position=plateau.obtenirPositionPlateau(panneau)
+            #position=plateau.obtenirPositionPlateau(curseur,panneau) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
+            #self.afficher(panneau,plateau,bordure)
             click=panneau.click()
             if click:
                 if plateau.estDansGrille(position):

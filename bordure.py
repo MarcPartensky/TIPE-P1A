@@ -5,7 +5,7 @@ class Bordure:
     def __init__(self):
         """Créer une bordure en utilisant une surface et un thème."""
         self.surface=pygame.Surface(cfg.RESOLUTION_BORDURE)
-
+        self.texte=""
 
     def afficherFond(self):
         """Affiche l'arrière plan de la bordure."""
@@ -56,11 +56,17 @@ class Bordure:
         self.afficherRectangle((0,0),(tx,70),couleurs.BLEU)
         self.afficherTemps((20,10),couleurs.VERT)
 
+    def afficherTextePropre(self):
+        """Affiche le texte contenu dans la bordure proprement."""
+        position=(50,0)
+        self.afficherTexte(self.texte,position)
 
     def afficher(self):
         """Permet d'afficher la bordure sur sa surface."""
         self.afficherFond()
-        self.afficherTempsPropre()
+        #self.afficherTempsPropre()
+        #self.texte+="test\n"
+        self.afficherTextePropre()
 
 
 

@@ -127,12 +127,22 @@ class Plateau:
         y_=y%(sy-1)
         return (x_,y_)==(0,0)
 
-    def obtenirPositionPlateau(self,position_brute):
+    def obtenirPositionPlateau(self,panneau):
         """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la panneau en pixels."""
+        #wsx,wsy=panneau.taille
+        position_brute=panneau.point()
+        #print(curseur)
+        #position_brute=panneau.positionRelative()
+        #print(position_brute)
+        #wsx,wsy=panneau.decoupages[0][2:]
+        #print(wsx,wsy)
+        #print(position_brute)
         wsx,wsy=self.surface.get_size()
         sx,sy=self.taille
         rx,ry=position_brute
-        return (int(rx*sx/wsx),int(ry*sy/wsy))
+        px,py=(int(rx*sx/wsx),int(ry*sy/wsy))
+        print(px,py)
+        return (px,py)
 
     def obtenirPositionBrute(self,position_plateau):
         """Renvoie la position brute en pixel a l'aide d'une position dans le systeme de coordonnees du plateau."""
@@ -140,13 +150,6 @@ class Plateau:
         sx,sy=self.taille
         px,py=position_plateau
         return (int((px+1/2)*wsx/sx),int((py+1/2)*wsy/sy))
-
-    def obtenirPositionPlateau(self,position_brute,fenetre):
-        """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la fenetre en pixels."""
-        wsx,wsy=fenetre.taille
-        sx,sy=self.taille
-        rx,ry=position_brute
-        return (int(rx*sx/wsx),int(ry*sy/wsy))
 
     def estComplet(self):
         """Renvoie si le plateau est complet ou non."""
