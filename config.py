@@ -29,13 +29,13 @@ def bijection(x,ensemble_entree,ensemble_sortie):
 THEME_BORDURE={
                     "police"          :   "monospace",
                     "couleur texte"   :   couleurs.BLANC,
-                    "taille texte"    :   50             }
+                    "taille texte"    :   50                  }
 
 THEME_PLATEAU={
-                    "couleur pieces"       :  [couleurs.BLANC,couleurs.NOIR],
-                    "couleur grille"      :   couleurs.NOIR,
-                    "couleur mouvement"  :    couleurs.ROUGE,
-                    "couleur points"      :   couleurs.NOIR}
+                    "couleur pieces"     :  [couleurs.BLANC,couleurs.NOIR],
+                    "couleur grille"     :  couleurs.NOIR,
+                    "couleur mouvement"  :  couleurs.ROUGE,
+                    "couleur points"     :  couleurs.NOIR     }
 
 THEME_FENETRE={
 
@@ -55,13 +55,13 @@ RESOLUTION_BORDURE=(m-n,m)
 
 def debug(*txt):
     """Fonction de debug,
-    cette fonction est équivalente à un print"""
+    cette fonction est presque équivalente à un print"""
     if DEBUGING:
         print("[DEBUG]:",*txt)
 
 def info(*txt,nom_fichier="NO_NAME"):
     """Fonction donnant des information en direct sur l'état du programme,
-    cette fonction est équivalente à un print.
+    cette fonction est presque équivalente à un print.
     Ne pas oublier de donner le nom du fichier dans le quelle la fonction est appeler"""
     if INFO:
         print("[INFO]["+nom_fichier+"]",*txt)

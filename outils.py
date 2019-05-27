@@ -29,12 +29,16 @@ def ajouter_coeff_alea(l1,l2) :
     l1.append(alea_coeff[0])
     l2.append(alea_coeff[1])
 
-def liste_tuple_vers_liste_liste(liste_de_tuple) :
+def liste_tuple_vers_liste_liste(liste_de_tuple):
+    """Transforme une liste de tuple en liste de liste"""
     return [list(elem) for elem in liste_de_tuple]
-def liste_liste_vers_liste_tuple(liste_liste) :
+def liste_liste_vers_liste_tuple(liste_liste):
+    """Transforme une liste de liste en liste de tuple"""
     return [tuple(l) for l in liste_liste]
 
 def deco_debug(fonction):
+    """Décorateur de fonction qui aide au débuguage.
+    Affiche les paramètre entrant et sortant, de la fonction décoré"""
     def new_fct(*args, **kwargs) :
         config.debug("~{}({},{})".format(fonction.__name__, args, kwargs))
         result=fonction(*args, **kwargs)
@@ -44,28 +48,32 @@ def deco_debug(fonction):
 
 def intersection(*args) :
     """fait intersection de liste
-exemple :
-    intersection([1,2,3],[2,3],[5,3,4])==[3]
-    intersection([(1,2),(3,4)],[(1,2),(2,2)])==[(1,2)]
+    exemple :
+        intersection( [1,2,3], [2,3], [5,3,4]) == [3]
+        intersection( [ (1,2), (3,4) ], [ (1,2), (2,2)] ) == [(1,2)]
     """
-    def intersection2(l1, l2):
+    def intersection2(l1, l2): # devrait s'appeler intersection2a2()
+        """On définit une fonction dans une fonction"""
         resultat = []
         for i in l1:
             if i in l2:
                 resultat.append(i)
         #print("l1",l1)
         #print("l2",l2)
-        #print("r:",resultat)
+        #print("resultat:",resultat)
         return resultat
-    #print("a:",args)
+
+    #print("args:",args)
     if len(args)==1:
         return args[0]
+
     elif len(args)==2:
         return intersection2(args[0], args[1])
+
     return intersection(intersection2(args[0], args[1]), *args[2:])
 
 
-def arrangementsConsecutifs(liste,n):
+def arrangementsConsecutifs(liste,n): # mieux expliciter ce que fait cette fonction (ajouter des exemples)
     """Renvoie la liste des arrangements consécutifs de taille n."""
     arrangements=[]
     for i in range(len(liste)):

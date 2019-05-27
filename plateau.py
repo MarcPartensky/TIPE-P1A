@@ -108,7 +108,7 @@ class Plateau:
         """Cree une grille."""
         sx,sy=self.taille
         self.grille=[[cfg.CASE_VIDE for x in range(sx)] for y in range(sy)]
-        mx=sx//2-1
+        mx=sx//2-1 # 4èmes case sur une ligne de 8 cases
         my=sy//2-1
         self.insererPion([(mx,my),(mx+1,my+1)],0) #Place les pions du joueur de côté 0.
         self.insererPion([(mx+1,my),(mx,my+1)],1) #Place les pions du joueur de côté 1.
@@ -229,7 +229,7 @@ class Plateau:
             x,y=coordonnees
             return self.grille[y][x]
 
-    def __deepcopy__(self,plateau):
+    def __deepcopy__(self,plateau): # wtf
         """Renvoie une copie du plateau juste en lui copiant la grille."""
         plateau=Plateau()
         plateau.grille=self.grille
@@ -453,7 +453,7 @@ class Plateau:
 
     def afficherDecorationGrille(self):
         """Affiche les 4 points pour délimiter le carré central du plateau."""
-        pass #A Valentin de faire, son expérience dans le domaine est sans égal
+        pass # Marc tu faids chier
 
     def presenter(self,positions,couleur,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
         """Permet de debuger en 1 commande."""

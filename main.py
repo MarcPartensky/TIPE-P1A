@@ -27,11 +27,8 @@ Pour marc :9
 Indiquer dans la fenetre à qui c'est le tour
 La fonction board.conquerir doit renvoyer le nombre de pion retourne
 
-La deco inutile à faire :
-Mini animation pour indiquer le dernier pion posé : colorer ses rebord de la couleur NEW_COLOR_PIECES, à ajouter dans les constantes
-
 Ajouter les 4 points noirs sur le plateau.
-Ajouter un menu très basique=>nouvelle class est nouveau fichier .py
+Ajouter un menu très basique => nouvelle class est nouveau fichier .py
 
 Pour dossier :
 expliquer demarche dans cahier de bord
