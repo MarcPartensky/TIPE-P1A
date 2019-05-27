@@ -222,14 +222,6 @@ class PlateauAnalysable(Plateau):
                 break
         return stable
 
-    def obtenirCarres(self,cote):
-        """Renvoie l'ensemble des carrés de pions dans le plateau qui appartiennent au joueur du côté 'cote'."""
-        raise NotImplementedError #A compléter
-
-    def obtenirTriangles(self,cote):
-        """Renvoie la liste des triangles de pions dans le plateau qui appartiennent au joueur du côté 'cote'."""
-        raise NotImplementedError #A compléter
-
     #Les fonctions suivantes sont les méthodes de la classe ia.py deplacés dans plateau_analyable
 
     def test_parite_avantageuse(self):
@@ -329,6 +321,7 @@ class PlateauAnalysable(Plateau):
         return final_nombre_coup_possible_dans_zone-nombre_coup_possible_dans_zone
 
     def Nombre_pion_stable_zone(self, cote, zone):
+        """Détermine le nombre de pions stables avec le côté et la zone."""
         resultat=0
         position_pion_zone=outils.intersection(outils.liste_liste_vers_liste_tuple(self.obtenirPions(cote)), LISTE_POSITION_ZONE[zone])
         for pos in position_pion_zone :
@@ -355,6 +348,7 @@ class PlateauAnalysable(Plateau):
         return nombre_final-nombre_initial
 
     def Nombre_coin_adjacent_pris(self, cote, pos_coin):#todo debug ?
+        """Renvoie le nombre de coin adjacents pris, avec le côté du joueur 'cote' et la position du coin."""
         resultat=0
         x,y=pos_coin
         size=self.taille_x-1#=7
@@ -367,6 +361,7 @@ class PlateauAnalysable(Plateau):
 
 
     def position_stable_pour_cote(self, position, cote):#todo debug cette fonction
+        """Détermine si une position est stable pour un côté avec la position 'position' et le côté 'cote'."""
         #Si on renomme cette fonction faut renommer egalement son appel recursif plus bas
         cote_oppose=1-cote
         liste_des_cas_particuliers={}
