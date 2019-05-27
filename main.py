@@ -52,7 +52,7 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     machine4=ias.Exterieur(nom="Exterieur") #Joue toujours le plus loin possible du centre du plateau
     machine5=ias.Groupe(nom="Groupe") #Joue de façon à former des groupes de pions
     machine6=ias.Eparpille(nom="Eparpille") #Joue de façon à avoir des pions éparpillés
-    machine7=ias.DefinivitementStable(nom="Definivitement Stable") #Joue les pions définitivement stables si possibles
+    machine7=ias.DefinivitementStable(nom="Definivitement Stable") #Joue les pions définitivement stables si possibles sinon joue aleatoirement
     machine8=ias.Aleatoire(nom="Aleatoire") #Joue aléatoirement
     machine9=ias.PremierCoup(nom="Premier Coup") #Joue toujours le premier coup parmi ceux proposé
     machine10=ias.Direct(nom="Direct") #Joue en essayant de maximiser son nombre de pions sur 1 tour seulement
@@ -61,8 +61,8 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     bruteforce3=bf.BruteForce(nom="Brute Force niveau 3",level=3)  #Joue en pensant 3 coups à l'avance
 
     #puis on  choisit les joueurs ici
-    joueur_blanc = bruteforce1
-    joueur_noir  = machine10
+    joueur_blanc = developpeur1
+    joueur_noir  = machine5
 
     #et non ici
     jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc

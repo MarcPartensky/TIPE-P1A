@@ -25,6 +25,7 @@ class BruteForce(Robot): #Permet d'évaluer d'autres intelligences artificielles
     def jouer(self,board,window):
         #board.presenterPionsStables(window) #Pas encore au point
         self.board=board
+        board.mouvements=self.board.obtenirMouvementsValides(self.cote)
         tree=self.treePlay(board.grille,self.cote)
         cfg.debug("[BruteForce]: arbre des possibilitees",tree)
         if self.container(tree):
