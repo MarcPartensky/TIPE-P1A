@@ -7,6 +7,14 @@ class Bordure:
         self.surface=pygame.Surface(cfg.RESOLUTION_BORDURE)
         self.texte=""
 
+    def recupererNomDesJoueurs(self,noms_des_joueurs):
+        """Permet à la bordure de récupérer le nom des joueurs qu'elle doit afficher."""
+        self.noms_des_joueurs=noms_des_joueurs
+
+    def actualiser(self,tour):
+        """Actualise la bordure."""
+
+
     def afficherFond(self):
         """Affiche l'arrière plan de la bordure."""
         ftx,fty=self.surface.get_size()

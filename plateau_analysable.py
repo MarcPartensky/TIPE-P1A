@@ -338,7 +338,6 @@ class PlateauAnalysable(Plateau):
         nombre_final = plateau_simulation.Nombre_pion_stable_zone(cote, zone)
         return nombre_final-nombre_initial
 
-
     def Augmentation_pion_dans_zone(self, cote, zone, pos):
         """"Renvore de cb on augmente le nombre de pion de cote dans la zone zone apres que cote joue à pos"""
         plateau_simulation = copy.deepcopy(self)

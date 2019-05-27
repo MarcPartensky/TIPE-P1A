@@ -47,8 +47,8 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
 
     humain1=Humain(nom="Humain1") #Crée un joueur humain.
     humain2=Humain(nom="Humain2") #Même humain
-    dev1=Developpeur(nom="Developpeur1") #Crée un joueur humain qui n'obéit pas aux règles de l'Othello, cela permet de faire des tests
-    dev2=Developpeur(nom="Developpeur2") #Même développeur
+    developpeur1=Developpeur(nom="Developpeur1") #Crée un joueur humain qui n'obéit pas aux règles de l'Othello, cela permet de faire des tests
+    developpeur2=Developpeur(nom="Developpeur2") #Même développeur
     machine1=ia.IA(nom="Stable1") #Crée une intelligence artificielle utilisant la notion de stabilite
     machine2=ia.IA(nom="Stable2") #Même ia
     machine3=ias.Interieur(nom="Interieur") #Joue toujours le plus proche possible du centre du plateau
@@ -58,10 +58,13 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     machine7=ias.DefinivitementStable(nom="Definivitement Stable") #Joue les pions définitivement stables si possibles
     machine8=ias.Aleatoire(nom="Aleatoire") #Joue aléatoirement
     machine9=ias.PremierCoup(nom="Premier Coup") #Joue toujours le premier coup parmi ceux proposé
-    machine10=bf.BruteForce(nom="Brute Force",level=3) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
+    machine10=ias.Direct(nom="Direct") #Joue en essayant de maximiser son nombre de pions sur 1 tour seulement
+    bruteforce1=bf.BruteForce(nom="Brute Force niveau 1", level=1) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
+    bruteforce2=bf.BruteForce(nom="Brute Force niveau 2", level=2) #Joue en pensant 2 coups à l'avance
+    bruteforce3=bf.BruteForce(nom="Brute Force niveau 3",level=3)  #Joue en pensant 3 coups à l'avance
 
     #puis on  choisit les joueurs ici
-    joueur_blanc = dev1
+    joueur_blanc = developpeur1
     joueur_noir  = machine3
 
     #et non ici
