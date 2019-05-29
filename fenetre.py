@@ -57,7 +57,7 @@ from __future__ import division
 import couleurs
 
 import pygame
-from pygame.locals import * # permet de récupérer les constante de pygame (utile pour savoir sur quelle touche l'utilisateur appuie)
+from pygame.locals import RESIZABLE,KEYDOWN,K_ESCAPE,FULLSCREEN,K_SPACE
 from couleurs import BLANC,NOIR
 import time
 
