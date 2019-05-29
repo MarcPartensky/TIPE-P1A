@@ -1,4 +1,4 @@
-from outils import intersection, est_superieur, deco_debug
+from outils import intersection, est_superieur
 from plateau_analysable import PlateauAnalysable
 import outils, joueur, random
 import config as cfg
@@ -13,45 +13,18 @@ ZONE_NOIR=0
 ZONE_TOUT=-1
 
 
-LISTE_ZONES=[ZONE_COIN,ZONE_BORD,ZONE_BLANCHE,ZONE_ROUGE,ZONE_NOIR, ZONE_TOUT]
-
-PLATEAU_COLORE=[[ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_NOIR ,ZONE_COIN],
-                [ZONE_NOIR, ZONE_NOIR ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIR ,ZONE_NOIR],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_NOIR, ZONE_NOIR ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIR ,ZONE_NOIR],
-                [ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_NOIR ,ZONE_COIN]]
-
-
-
-
-LISTE_POSITION_ZONE={}
-for i in range(len(LISTE_ZONES)):#Permet de generer LISTE_POSITION_ZONE
-    result=[]
-    key=LISTE_ZONES[i]
-    for x in range(len(PLATEAU_COLORE)) :
-        for y in range(len(PLATEAU_COLORE[x])):
-            if PLATEAU_COLORE[x][y]==key or key==ZONE_TOUT :
-                result.append((x,y))
-    LISTE_POSITION_ZONE[key]=result
-
-
 class IA(joueur.Robot) :
     def __init__(self,nom=None):
         "Lance l'__init__ de la classe joueur.Robot"
         super().__init__(nom)
 
     def reinitialiser(self, plateau):
-        """Lancer au debut de chaque tour par la methode main
-        Ici on definit des variables qui ne vont pas etre modifie pendant tout le tour afin d'economiser du temps..."""
-        self.plateau=plateau#il ne faut surtout pas faire des simulations sur ce plateau !!
+        """Cette fonction est lancée au debut de chaque tour
+        Ici on definit des variables qui ne vont pas etre modifiées pendant tout le tour afin d'economiser du temps..."""
+        self.plateau=plateau#il ne faut pas faire de simulations sur ce plateau !
         self.mouvements_possibles=plateau.obtenirMouvementsValides(self.cote)
         self.parite_desavantageuse = not(plateau.test_parite_avantageuse())
 
-
-    @deco_debug
     def comparer_blanc(self, pos1, pos2):
         coeff1,coeff2=[],[]
         #On produit ci dessous est en fait une astuce :
@@ -75,7 +48,7 @@ class IA(joueur.Robot) :
         else :
             return pos2
 
-    @deco_debug
+
     def comparer_rouge(self, pos1, pos2):
         coeff1,coeff2=[],[]
         #On produit ci dessous est en fait une astuce :
@@ -101,7 +74,6 @@ class IA(joueur.Robot) :
         else :
             return pos2
 
-    @deco_debug
     def comparer_vert(self, pos1, pos2):
         coeff1,coeff2=[],[]
         #On produit ci dessous est en fait une astuce :
@@ -137,7 +109,7 @@ class IA(joueur.Robot) :
         else :
             return pos2
 
-    @deco_debug
+
     def comparer_noir(self, pos1, pos2):
         coeff1,coeff2=[],[]
         #On produit ci dessous est en fait une astuce :
@@ -194,7 +166,6 @@ class IA(joueur.Robot) :
         else :
             return pos2
 
-    @deco_debug
     def comparer_blanc_rouge(self, blanc, rouge):
 
         cfg.debug("on a bourre comapre blacn et rouge")
@@ -225,7 +196,6 @@ class IA(joueur.Robot) :
 
 
 
-    @deco_debug
     def comparer_blanc_vert(self, blanc, vert):#todo faire un debug affichable
 
         coeff_blanc, coeff_vert = [], []
@@ -246,7 +216,7 @@ class IA(joueur.Robot) :
         else:
             return vert
 
-    @deco_debug
+
     def comparer_blanc_noir(self, blanc, noir):#todo faire un debug affichable
         cfg.debug("on a bourre comparer blanc rouge")
         return blanc
@@ -271,11 +241,11 @@ class IA(joueur.Robot) :
         else:
             return noir
 
-    @deco_debug
+
     def comparer_blanc_coin(self, blanc, coin):
         return coin
 
-    @deco_debug
+
     def comparer_rouge_vert(self, rouge, vert):#todo revoir ca + debug affichage
 
         coeff_rouge, coeff_vert=[],[]
@@ -297,7 +267,7 @@ class IA(joueur.Robot) :
 
 
 
-    @deco_debug
+
     def comparer_rouge_noir(self, rouge, noir):#todo revoir ca + debug affichage
 
         coeff_rouge, coeff_noir = [], []
@@ -323,11 +293,11 @@ class IA(joueur.Robot) :
         else:
             return noir
 
-    @deco_debug
+
     def comparer_rouge_coin(self, rouge, coin):
         return coin
 
-    @deco_debug
+
     def comparer_vert_noir(self, vert, noir):
 
         coeff_vert, coeff_noir = [], []
@@ -360,11 +330,11 @@ class IA(joueur.Robot) :
         else:
             return noir
 
-    @deco_debug
+
     def comparer_vert_coin(self, vert, coin):
         return coin
 
-    @deco_debug
+
     def comparer_noir_coin(self, noir, coin):
         return coin
 

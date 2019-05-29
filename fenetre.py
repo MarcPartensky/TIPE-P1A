@@ -58,14 +58,14 @@ import couleurs
 
 import pygame
 from pygame.locals import * # permet de récupérer les constante de pygame (utile pour savoir sur quelle touche l'utilisateur appuie)
-from couleurs import *
+from couleurs import BLANC,NOIR
 import time
 
 
 class Fenetre:
     draw=pygame.draw # permet juste d'écrire un peu moins dans le code
 
-    def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
+    def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=BLANC,background_color=NOIR,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
         self.name=name
         self.taille=taille

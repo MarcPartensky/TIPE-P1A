@@ -19,29 +19,11 @@ JAUNE      = (255,255,  0)
 VIOLET     = (100,  0,100)
 ORANGE     = (255,200,  0)
 ROSE       = (255,192,203)
-
-BLUE       = (  0,  0,255)
-RED        = (255,  0,  0)
-GREEN      = (  0,255,  0)
-YELLOW     = (255,255,  0)
-BLACK      = (  0,  0,  0)
-WHITE      = (255,255,255)
-GREY       = (100,100,100)
-PURPLE     = (100,  0,100)
-HALFGREY   = ( 50, 50, 50)
-DARKGREY   = ( 20, 20, 20)
-DARKRED    = ( 10, 10, 10)
-DARKGREEN  = ( 10, 10, 10)
-DARKBLUE   = ( 10, 10, 10)
-LIGHTBROWN = (229,219,222)
-LIGHTGREY  = (200,200,200)
 BEIGE      = (199,175,138)
 
 
 sigmoid = s = lambda x:1/(1+math.exp(-x))
 reverse_sigmoid = lambda x:log(x/(1-x))
-#r=reverse_sigmoid()
-
 bijection  = lambda x,e,s:(x-e[0])/(e[1]-e[0])*(s[1]-s[0])+s[0]
 
 
@@ -74,14 +56,13 @@ def setFromWavelength(wavelength):
     r,g,b=adjust(r,factor),adjust(g,factor),adjust(b,factor)
     return (r,g,b)
 
-if __name__=="__main__":
+if __name__=="__main__":#Ceci est exécuté uniquement si ce fichier est directement exécuté tout seul sans passer par "import coulerus.py"
+    #Quelques fonctions de test du module
     print(darken(RED,10))
     print(mix(YELLOW,RED))
     print(reverse(LIGHTBROWN))
     print(substract(LIGHTBROWN,ORANGE))
     print(increase(LIGHTBROWN))
-
     for i in range(380,780,10):
         print(setFromWavelength(i))
 
-    #print("mycolors imported")

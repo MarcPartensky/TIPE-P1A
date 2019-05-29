@@ -15,6 +15,10 @@ TAILLE_FENETRE=(1200,800)
 TAILLE_PLATEAU=(800,800)
 TAILLE_BORDURE=(400,800)
 
+TAILLE_FENETRE=(600,400)
+TAILLE_PLATEAU=(400,400)
+TAILLE_BORDURE=(400,400)
+
 RESOLUTION_FENETRE=TAILLE_FENETRE
 RESOLUTION_PLATEAU=TAILLE_PLATEAU # les dimensions des arriere_plan comme celle-ci n'ont pas d'importance vu qu'elle seront redimensionnées
 RESOLUTION_BORDURE=TAILLE_BORDURE
@@ -43,15 +47,6 @@ THEME_FENETRE={
 
 
 
-
-
-"""
-n=min(RESOLUTION_FENETRE)
-m=max(RESOLUTION_FENETRE)
-
-RESOLUTION_PLATEAU=(n,n)
-RESOLUTION_BORDURE=(m-n,m)
-"""
 
 def debug(*txt):
     """Fonction de debug,
