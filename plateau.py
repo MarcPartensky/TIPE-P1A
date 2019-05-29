@@ -200,9 +200,11 @@ class Plateau:
                     break
         return self.gagne
 
+
     def charger(self,cote):
         """Charge les attributs du plateau afin d'être préchargé pour les ias et ainsi économiser le temps de calcul."""
         self.mouvements=self.obtenirMouvementsValides(cote)
+
 
     def obtenirCase(self,coordonnees):
         """Retourne le contenu d'une case"""

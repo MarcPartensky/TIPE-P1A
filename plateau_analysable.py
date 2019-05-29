@@ -41,16 +41,22 @@ def generer_constante() :
 
 generer_constante()
 
+
+
 class PlateauAnalysable(Plateau):
 
     def __init__(self,*args,**kwargs):
         """Creer un plateau analysable."""
+        if kwargs.get("ne_pas_initialiser", False) :
+            return None
         self.vitesse_demonstration=1 #Possibilité de changer la vitesse de démonstration
-        self.pions_definitivement_stables=None
-        self.pions_stables=None
+        #self.pions_definitivement_stables=None
+        #self.pions_stables=None
         super().__init__(*args,**kwargs)
 
+    '''
     def chargerAnalyse(self,fenetre):
+        raise NotImplementedError
         """Charge l'ensemble des ses attributs d'analyse pour les ias qui s'en servent."""
         pions0_definitivement_stables=self.obtenirTousLesPionsDefinitivementStables(0,fenetre)
         pions1_definitivement_stables=self.obtenirTousLesPionsDefinitivementStables(1,fenetre)
@@ -66,6 +72,7 @@ class PlateauAnalysable(Plateau):
             self.presenter(self.pions_stables[i],self.pieces_couleur[i],fenetre,"stables")
             self.presenter(self.pions_prenables[i],self.pieces_couleur[i],fenetre,"prenables")
             self.presenter(self.pions_definitivement_stables[i],self.pieces_couleur[i],fenetre,"definitivement_stables")
+    '''
 
     def obtenirToutesLesLignes(self):
         """Renvoie la liste de toutes les lignes possibles de la grille."""
@@ -388,13 +395,15 @@ class PlateauAnalysable(Plateau):
     def __deepcopy__(self,memoire_inutile):
         """Renvoie une copie du plateau juste en lui copiant tous ses éléments
         sauf la surface de pygame dont seulement la référence est copiée."""
-        plateau=PlateauAnalysable()
-        for key in self.__dict__.keys():
-            if key!="surface":
-                plateau.__dict__[key]=copy.deepcopy(self.__dict__[key])
+        plateau=PlateauAnalysable(ne_pas_initialiser=True)
+        keys=self.__dict__.keys()
+        for key in keys :
+            if key in ("taille","vitesse_demonstration","surface","taille_x","taille_y","nombre_de_joueurs","demonstration"):
+                plateau.__dict__[key] = (self.__dict__[key])
             else:
-                plateau.__dict__[key]=copy.copy(self.__dict__[key])
+                plateau.__dict__[key] = copy.deepcopy(self.__dict__[key])
         return plateau
+
 
     def compterPions(self,cote):
         """Compte les pions du joueur de côté 'cote'."""
