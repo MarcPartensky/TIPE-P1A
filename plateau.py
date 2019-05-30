@@ -54,16 +54,16 @@
 #    1.33  ------> conquerir (self,position,p_cote)  ................. ligne
 #    1.34  ------> conquerirLigne (self,cote,ligne)  ................. ligne
 #    1.35  ------> manger (self,mangeables,personne)  ................ ligne
-#    1.36  ------> afficher (self,fenetre)  .......................... ligne
-#    1.37  ------> presenter (self, (etc).)  ......................... ligne
-#    1.38  ------> afficherMessage(self,(etc).)  ..................... ligne
-#    1.39  ------> colorerCase (self,positions,couleur,fenetre)  ..... ligne
-#    1.40  ------> colorerLigne (self,ligne,couleur,fenetre)  ........ ligne
-#    1.41  ------> afficherFond (self,fenetre)  ...................... ligne
-#    1.42  ------> afficherDecorationGrille (self,fenetre)  .......... ligne
-#    1.43  ------> afficherMouvements (self,(etc).)  ................. ligne
-#    1.44  ------> afficherGrille (self,fenetre)  .................... ligne
-#    1.45  ------> afficherPions (self,fenetre)  ..................... ligne
+#    1.36  ------> presenter (self, (etc).)  ......................... ligne
+#    1.37  ------> afficherMessage(self,(etc).)  ..................... ligne
+#    1.38  ------> colorerCase (self,positions,couleur,fenetre)  ..... ligne
+#    1.39  ------> colorerLigne (self,ligne,couleur,fenetre)  ........ ligne
+#    1.40  ------> afficher (self,fenetre)  .......................... ligne
+#    1.41  ------> afficherFond (self)  .............................. ligne
+#    1.42  ------> afficherGrille (self)  ............................ ligne
+#    1.43  ------> afficherDecorationGrille (self)  .................. ligne
+#    1.44  ------> afficherPions (self)  ............................. ligne
+#    1.45  ------> afficherMouvements (self,(etc).)  ................. ligne
 #    1.46  ------> afficherAnimationPion(self,(etc).)  ............... ligne
 #
 ###############################################################################
@@ -91,17 +91,6 @@ class Plateau:
         self.nombre_de_joueurs=2
         self.demonstration=True
         self.surface=pygame.Surface(cfg.RESOLUTION_PLATEAU)
-
-    def afficherFond(self):
-        """Permet de charger un arriere plan sur la surface."""
-        ftx,fty=self.surface.get_size()
-        for y in range(0,fty,10):
-            for x in range(0,ftx,10):
-                r=abs(bijection(x,[0,ftx],[-100,100]))
-                g=255-abs(bijection((x+y)/2,[0,ftx],[-100,100]))
-                b=abs(bijection(y,[0,fty],[-100,100]))
-                couleur=(r,g,b)
-                pygame.draw.rect(self.surface,couleur,[x,y,10,10],0)
 
     def creerGrille(self):
         """Cree une grille."""
@@ -395,8 +384,8 @@ class Plateau:
 
     def obtenirDirections(self):
         """Recupere les directions avec les vecteurs orientés selon chaque axe,
-        ranger dans un ordre afin de tourner dans le sens trigo (important)"""
-        #directions=[(x,y) for x in range(-1,2) for y in range(-1,2) if (x,y)!=(0,0)]
+        ranger dans un ordre afin de tourner dans le sens trigo"""
+        #directions=[(x,y) for x in range(-1,2) for y in range(-1,2) if (x,y)!=(0,0)] # crée la même liste mais pas ranger dans le sens trigo
         directions=[(1,0),(1,1),(0,1),(-1,1),(-1,0),(-1,-1),(0,-1),(1,-1)]
         return directions
 
@@ -429,18 +418,6 @@ class Plateau:
         """Assigne aux cases mangeables la valeur de pion de la personne"""
         self.insererPion(mangeables,personne)
 
-    def afficher(self):
-        """Affiche l'ensemble des éléments du plateau."""
-        self.afficherFond()
-        self.afficherGrille()
-        self.afficherDecorationGrille()
-        self.afficherPions()
-        self.afficherMouvements()
-
-    def afficherDecorationGrille(self):
-        """Affiche les 4 points pour délimiter le carré central du plateau."""
-        pass # Marc tu faids chier
-
     def presenter(self,positions,couleur,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
         """Permet de debuger en 1 commande."""
         if self.demonstration:
@@ -451,7 +428,6 @@ class Plateau:
                 self.colorerCase(positions,couleur)
                 if message:
                     self.afficherMessage(message,positions[0],couleur_texte)
-
 
     def afficherMessage(self,message,position,couleur):
         """Affiche un message en utilisant une position plateau, une couleur, et une panneau."""
@@ -466,12 +442,12 @@ class Plateau:
         if not type(positions)==list: positions=[positions]
         for position in positions:
             x,y=self.obtenirPositionBrute(position)
-            wsx,wsy=self.surface.get_size() #Taille de la panneau en coordonnees de la panneau
+            wsx,wsy=self.surface.get_size() #Taille d'un panneau en coordonnees de ce panneau
             sx,sy=self.taille #Taille du plateau en coordonnes du plateau
             cx=wsx/sx #Taille d'une case en x en coordonnees de la panneau
             cy=wsy/sy #Taille d'une case en y en coordonnees de la panneau
-            mx=x-cx//2+1 #Position d'une case en x en coordonnees de la panneau
-            my=y-cy//2+1 #Position d'une case en y en coordonnees de la panneau
+            mx=x-cx//2+1 #Position d'une case en x en coordonnees du panneau
+            my=y-cy//2+1 #Position d'une case en y en coordonnees du panneau
             for i in range(2,6):
                 pygame.draw.rect(self.surface,couleur,[mx+i,my+i,cx-2*i,cy-2*i],1)
 
@@ -481,20 +457,24 @@ class Plateau:
         ligne=outils.obtenirLigne(ligne[0],ligne[-1])
         self.colorerCase(ligne,couleur)
 
-    def afficherMouvements(self,mouvements=None,couleur=None):
-        """Afficher les coups possible. (point rouge sur la fenêtre)"""
-        if not mouvements: mouvements=self.mouvements
-        if not couleur: couleur=cfg.THEME_PLATEAU["couleur mouvement"]
-        #devrait  marcher si il n'y a que un moment.
-        for move in mouvements:
-            wsx,wsy=self.surface.get_size()
-            sx,sy=self.taille
-            rayon=int(min(wsx,wsy)/min(sx,sy)/4)
-            x,y=move
-            position_brute=self.obtenirPositionBrute((x,y))
-            pygame.draw.circle(self.surface,(100,0,0),position_brute,rayon+2,0) #affiche des bord aux couleurs, bonne idees mais mal implemente
-            pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)
+    def afficher(self):
+        """Affiche l'ensemble des éléments du plateau."""
+        self.afficherFond()
+        self.afficherGrille()
+        self.afficherDecorationGrille()
+        self.afficherPions()
+        self.afficherMouvements()
 
+    def afficherFond(self):
+        """Permet de charger un arriere plan sur la surface."""
+        ftx,fty=self.surface.get_size()
+        for y in range(0,fty,10):
+            for x in range(0,ftx,10):
+                r=abs(bijection(x,[0,ftx],[-100,100]))
+                g=255-abs(bijection((x+y)/2,[0,ftx],[-100,100]))
+                b=abs(bijection(y,[0,fty],[-100,100]))
+                couleur=(r,g,b)
+                pygame.draw.rect(self.surface,couleur,[x,y,10,10],0)
 
     def afficherGrille(self):
         """Affiche la grille."""
@@ -511,18 +491,16 @@ class Plateau:
             end=(_x,wsy)
             pygame.draw.line(self.surface,cfg.THEME_PLATEAU["couleur grille"],start,end,1)
 
-    def afficherAnimationPion(self,choix_du_joueur):
-        """Permet d'affichier l'animation du placement d'un nouveau pion en faisant clicgnoter son contour."""
-        wsx,wsy=self.surface.get_size()
+    def afficherDecorationGrille(self):
+        """Affiche les 4 points pour délimiter le carré central du plateau.
+        Aspect uniquement graphique et décoratif afin d'améliorer le confort de l'utilisateur"""
+        wsx,wsy=fenetre.taille
         sx,sy=self.taille
-        rayon=int(min(wsx,wsy)/min(sx,sy)/2.5)
-        x,y=choix_du_joueur
-        position_brute=self.obtenirPositionBrute((x,y))
-        case=self.obtenirCase(choix_du_joueur)
-        #pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur piece"],position_brute,rayon+2,0)
-        pygame.draw.circle(self.surface,couleurs.BLANC,position_brute,rayon+2,0) #tres mal implemente
-        pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur pieces"][case],position_brute,rayon,0)
-        #Cette fonction est devenue purement inutile suite aux nouvelles modifications
+        d=wsy//sy # distance entre deux ligne ou colonne
+        positions_points_graphic=[(2*d,2*d),(2*d,wsy-2*d),(wsx-2*d,2*d),(wsx-2*d,wsy-2*d)]
+        rayon = 5
+        for position in positions_points_graphic:
+            fenetre.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur grille"],position,rayon,0)
 
     def afficherPions(self):
         """Affiche les pions"""
@@ -538,3 +516,30 @@ class Plateau:
                     couleur=cfg.THEME_PLATEAU["couleur pieces"][case]
                     pygame.draw.circle(self.surface,couleurs.inverser(couleur),position_brute,rayon+2,0)
                     pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)
+
+    def afficherMouvements(self,mouvements=None,couleur=None):
+        """Afficher les coups possible. (rond rouge sur le plateau)"""
+        if not mouvements: mouvements=self.mouvements
+        if not couleur: couleur=cfg.THEME_PLATEAU["couleur mouvement"]
+        #devrait  marcher si il n'y a que un moment.
+        for move in mouvements:
+            wsx,wsy=self.surface.get_size()
+            sx,sy=self.taille
+            rayon=int(min(wsx,wsy)/min(sx,sy)/4)
+            x,y=move
+            position_brute=self.obtenirPositionBrute((x,y))
+            pygame.draw.circle(self.surface,(100,0,0),position_brute,rayon+2,0) #affiche des bord aux couleurs, bonne idees mais mal implemente
+            pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)
+
+    def afficherAnimationPion(self,choix_du_joueur):
+        """Permet d'afficher l'animation du placement d'un nouveau pion en faisant clicgnoter son contour."""
+        wsx,wsy=self.surface.get_size()
+        sx,sy=self.taille
+        rayon=int(min(wsx,wsy)/min(sx,sy)/2.5)
+        x,y=choix_du_joueur
+        position_brute=self.obtenirPositionBrute((x,y))
+        case=self.obtenirCase(choix_du_joueur)
+        #pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur piece"],position_brute,rayon+2,0)
+        pygame.draw.circle(self.surface,couleurs.BLANC,position_brute,rayon+2,0) #tres mal implemente
+        pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur pieces"][case],position_brute,rayon,0)
+        #Cette fonction est devenue purement inutile suite aux nouvelles modifications

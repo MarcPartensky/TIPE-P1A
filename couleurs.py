@@ -1,13 +1,13 @@
 """
-Module de variable de couleurs répertoriant des triplet de de valeurs RGB/RVB usuels
-couleurs écrites en majuscule, et en français/anglais
-
-possède également quelque fonctions utile
+Module de couleurs répertoriant quelques constantes de couleurs RGB/RVB
+ainsi que des fonctions simple manipulant ces couleurs RGB/RVB
 """
-from __future__ import division
-import random as rd
+
+from random import randint
 from math import exp,log
-import math
+
+
+# CONSTANTE DE COULEURS RGB
 
 BLEU       = (  0,  0,255)
 ROUGE      = (255,  0,  0)
@@ -21,48 +21,30 @@ ORANGE     = (255,200,  0)
 ROSE       = (255,192,203)
 BEIGE      = (199,175,138)
 
+# FONCTION MATHÉMATIQUE UTILISER PAR LES FONCTIONS SUIVANT CELLES-CI
 
-sigmoid = s = lambda x:1/(1+math.exp(-x))
+sigmoid   = s   = lambda x:1/(1+math.exp(-x))
 reverse_sigmoid = lambda x:log(x/(1-x))
-bijection  = lambda x,e,s:(x-e[0])/(e[1]-e[0])*(s[1]-s[0])+s[0]
+bijection       = lambda x,e,s:(x-e[0])/(e[1]-e[0])*(s[1]-s[0])+s[0]
+
+# FONCTIONS SIMPLE MANIPULANT DES COULEURS
+
+random       = lambda :              tuple([randint(0,255)                 for i in range(3)])
+inverser     = lambda couleur:       tuple([255-c                          for c in couleur])
+assombrir    = lambda couleur,n=0:   tuple([int(c*sigmoid(n/10))           for c in couleur])
+eclairer     = lambda couleur,n=0:   tuple([int(255-(255-c)*sigmoid(n/10)) for c in couleur])
+melanger     = lambda coul1,coul2:   tuple([(c1+c2)//2                     for (c1,c2) in zip(coul1,coul2)])
+soustraction = lambda coul1,coul2:   tuple([max(min(2*c1-c2,255),0)        for (c1,c2) in zip(coul1,coul2)])
+augmenter    = lambda couleur,n=2:   tuple([int(255*exp(n*log(c/255)))     for c in couleur])
 
 
-random       = lambda :            tuple([rd.randint(0,255)              for i in range(3)])
-inverser     = lambda color:       tuple([255-c                          for c in color])
-assombrir    = lambda color,n=0:   tuple([int(c*sigmoid(n/10))           for c in color])
-eclairer     = lambda color,n=0:   tuple([int(255-(255-c)*sigmoid(n/10)) for c in color])
-melanger     = lambda cl1,cl2:     tuple([(c1+c2)//2                     for (c1,c2) in zip(cl1,cl2)])
-soustraction = lambda cl1,cl2:     tuple([max(min(2*c1-c2,255),0)        for (c1,c2) in zip(cl1,cl2)])
-augmenter    = lambda color,n=2:   tuple([int(255*exp(n*log(c/255)))     for c in color])
 
 
-def setFromWavelength(wavelength):
-    """Return a color using wavelength."""
-    gamma,max_intensity=0.80,255
-    def adjust(color, factor):
-        if color==0: return 0
-        else: return round(max_intensity*pow(color*factor,gamma))
-    if 380<=wavelength<=440: r,g,b=-(wavelength-440)/(440-380),0,1
-    elif 440<=wavelength<=490: r,g,b=0,(wavelength-440)/(490-440),1
-    elif 490<=wavelength<=510: r,g,b=0,1,-(wavelength-510)/(510-490)
-    elif 510<=wavelength<=580: r,g,b=(wavelength-510)/(580-510),1,0
-    elif 580<=wavelength<=645: r,g,b=1,-(wavelength-645)/(645-580),0
-    elif 645<=wavelength<=780: r,g,b=1,0,0
-    else: r,g,b=0,0,0
-    if 380<=wavelength<=420: factor=0.3+0.7*(wavelength-380)/(420-380)
-    elif 420<=wavelength<=701: factor=1
-    elif 701<=wavelength<=780: factor=0.3+0.7*(780-wavelength)/(780-700)
-    else: factor=0
-    r,g,b=adjust(r,factor),adjust(g,factor),adjust(b,factor)
-    return (r,g,b)
-
-if __name__=="__main__":#Ceci est exécuté uniquement si ce fichier est directement exécuté tout seul sans passer par "import coulerus.py"
+#Ceci est exécuté uniquement si ce fichier est directement exécuté seul sans passer par "import couleurs" ou "from couleurs import ..."
+if __name__=="__main__":
     #Quelques fonctions de test du module
-    print(darken(RED,10))
-    print(mix(YELLOW,RED))
-    print(reverse(LIGHTBROWN))
-    print(substract(LIGHTBROWN,ORANGE))
-    print(increase(LIGHTBROWN))
-    for i in range(380,780,10):
-        print(setFromWavelength(i))
-
+    print(assombrir(RED,10))
+    print(melanger(YELLOW,RED))
+    print(inverser(LIGHTBROWN))
+    print(soustraction(LIGHTBROWN,ORANGE))
+    print(augmenter(LIGHTBROWN))
