@@ -56,7 +56,7 @@ class Bordure:
 
     def error_message(self,message):
         """Permet d'afficher des messages d'erreurs."""
-        pass
+        raise NotImplementedError
 
     def afficherTempsPropre(self):
         """Affiche le temps en se souciant de la présentation."""
