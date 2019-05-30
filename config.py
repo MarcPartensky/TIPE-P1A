@@ -24,7 +24,7 @@ THEME_BORDURE = {   "police"             :  "monospace",
                     "couleur texte"      :  couleurs.BLANC,
                     "taille texte"       :  50                }
 
-THEME_PLATEAU = {   "couleur pions"     :  [couleurs.BLANC,couleurs.NOIR],
+THEME_PLATEAU = {   "couleur pions"      :  [couleurs.BLANC,couleurs.NOIR],
                     "couleur grille"     :  couleurs.NOIR,
                     "couleur mouvement"  :  couleurs.ROUGE,
                     "couleur points"     :  couleurs.NOIR     }
