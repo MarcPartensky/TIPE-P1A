@@ -71,7 +71,6 @@
 # --coding:utf-8--
 
 from outils import intersection
-from outils import bijection
 import outils
 import couleurs
 import config as cfg
@@ -224,7 +223,13 @@ class Plateau:
                         positions.append((x,y))
         return positions
 
-    def obtenirNombrePionsJoueur(self, cote):
+    def __contains__(self,pion):
+        """Determine si le plateau contient un pion.
+        Méthode spécial permèttant d'utiliser le mot clé 'in' """
+        case=self.obtenirCase(pion)
+        return bool(case!=cfg.CASE_VIDE)
+
+    def obtenirNombrePionsJoueur(self, cote):#Todo à optimiser
         """Determine le nombre de pions d'un joueur en utilisant son cote."""
         nombre=0
         sx, sy = self.taille
@@ -464,9 +469,9 @@ class Plateau:
         ftx,fty=self.surface.get_size()
         for y in range(0,fty,10):
             for x in range(0,ftx,10):
-                r=abs(bijection(x,[0,ftx],[-100,100]))
-                g=255-abs(bijection((x+y)/2,[0,ftx],[-100,100]))
-                b=abs(bijection(y,[0,fty],[-100,100]))
+                r=abs(couleurs.bijection(x,[0,ftx],[-100,100]))
+                g=255-abs(couleurs.bijection((x+y)/2,[0,ftx],[-100,100]))
+                b=abs(couleurs.bijection(y,[0,fty],[-100,100]))
                 couleur=(r,g,b)
                 pygame.draw.rect(self.surface,couleur,[x,y,10,10],0)
 
@@ -488,13 +493,13 @@ class Plateau:
     def afficherDecorationGrille(self):
         """Affiche les 4 points pour délimiter le carré central du plateau.
         Aspect uniquement graphique et décoratif afin d'améliorer le confort de l'utilisateur"""
-        wsx,wsy=self.surface.get_size()
+        wsx,wsy=fenetre.taille
         sx,sy=self.taille
         d=wsy//sy # distance entre deux ligne ou colonne
         positions_points_graphic=[(2*d,2*d),(2*d,wsy-2*d),(wsx-2*d,2*d),(wsx-2*d,wsy-2*d)]
         rayon = 5
         for position in positions_points_graphic:
-            pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur grille"],position,rayon,0)
+            fenetre.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur grille"],position,rayon,0)
 
     def afficherPions(self):
         """Affiche les pions"""
@@ -506,8 +511,8 @@ class Plateau:
             for x in range(sx):
                 case=self.obtenirCase((x,y))
                 position_brute=self.obtenirPositionBrute((x,y))
-                if 0<=case<=len(cfg.THEME_PLATEAU["couleur pieces"])-1 :
-                    couleur=cfg.THEME_PLATEAU["couleur pieces"][case]
+                if 0<=case<=len(cfg.THEME_PLATEAU["couleur pions"])-1 :
+                    couleur=cfg.THEME_PLATEAU["couleur pions"][case]
                     pygame.draw.circle(self.surface,couleurs.inverser(couleur),position_brute,rayon+2,0)
                     pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)
 
@@ -535,5 +540,5 @@ class Plateau:
         case=self.obtenirCase(choix_du_joueur)
         #pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur piece"],position_brute,rayon+2,0)
         pygame.draw.circle(self.surface,couleurs.BLANC,position_brute,rayon+2,0) #tres mal implemente
-        pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur pieces"][case],position_brute,rayon,0)
+        pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur pions"][case],position_brute,rayon,0)
         #Cette fonction est devenue purement inutile suite aux nouvelles modifications
