@@ -9,22 +9,22 @@ import copy
 #La liste des différentes zone de jeu :
 
 ZONE_COIN=4#Ne doit pas etre une liste
-ZONE_BORD=3
+ZONE_VERTE=3
 ZONE_BLANCHE=2
 ZONE_ROUGE=1
-ZONE_NOIR=0
+ZONE_NOIRE=0
 ZONE_TOUT=-1
 
-LISTE_ZONES=[ZONE_COIN,ZONE_BORD,ZONE_BLANCHE,ZONE_ROUGE,ZONE_NOIR, ZONE_TOUT]
+LISTE_ZONES=[ZONE_COIN,ZONE_VERTE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_NOIRE, ZONE_TOUT]
 
-PLATEAU_COLORE=[[ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_NOIR ,ZONE_COIN],
-                [ZONE_NOIR, ZONE_NOIR ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIR ,ZONE_NOIR],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_NOIR, ZONE_NOIR ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIR ,ZONE_NOIR],
-                [ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_NOIR ,ZONE_COIN]]
+PLATEAU_COLORE=[[ZONE_COIN, ZONE_NOIRE ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_NOIRE ,ZONE_COIN],
+                [ZONE_NOIRE, ZONE_NOIRE ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIRE ,ZONE_NOIRE],
+                [ZONE_VERTE, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_VERTE],
+                [ZONE_VERTE, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_VERTE],
+                [ZONE_VERTE, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_VERTE],
+                [ZONE_VERTE, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_VERTE],
+                [ZONE_NOIRE, ZONE_NOIRE ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIRE ,ZONE_NOIRE],
+                [ZONE_COIN, ZONE_NOIRE ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_NOIRE ,ZONE_COIN]]
 
 LISTE_POSITION_ZONE={}
 
@@ -54,25 +54,6 @@ class PlateauAnalysable(Plateau):
         #self.pions_stables=None
         super().__init__(*args,**kwargs)
 
-    '''
-    def chargerAnalyse(self,fenetre):
-        raise NotImplementedError
-        """Charge l'ensemble des ses attributs d'analyse pour les ias qui s'en servent."""
-        pions0_definitivement_stables=self.obtenirTousLesPionsDefinitivementStables(0,fenetre)
-        pions1_definitivement_stables=self.obtenirTousLesPionsDefinitivementStables(1,fenetre)
-        self.pions_definitivement_stables=[pions0_definitivement_stables,pions1_definitivement_stables]
-        pions0_prenables=self.obtenirTousLesPionsPrenables(0,fenetre)
-        pions1_prenables=self.obtenirTousLesPionsPrenables(1,fenetre)
-        self.pions_prenables=[pions0_prenables,pions1_prenables]
-        pions0_stables=self.obtenirTousLesPionsStables(0,fenetre)
-        pions1_stables=self.obtenirTousLesPionsStables(1,fenetre)
-        self.pions_stables=[pions0_stables,pions1_stables]
-        #Un petit peu de présentation pour faire joli
-        for i in range(2):
-            self.presenter(self.pions_stables[i],self.pieces_couleur[i],fenetre,"stables")
-            self.presenter(self.pions_prenables[i],self.pieces_couleur[i],fenetre,"prenables")
-            self.presenter(self.pions_definitivement_stables[i],self.pieces_couleur[i],fenetre,"definitivement_stables")
-    '''
 
     def obtenirToutesLesLignes(self):
         """Renvoie la liste de toutes les lignes possibles de la grille."""
@@ -392,14 +373,19 @@ class PlateauAnalysable(Plateau):
             return True
 
 
-    def __deepcopy__(self,dictionnaire_inutile):
-        """Renvoie une copie du plateau juste en lui copiant tous ses éléments
-        sauf la surface de pygame dont seulement la référence est copiée.
-        Le 'dictionnaire inutile' est nécessaire pour la surcharge de deepcopy."""
-        plateau=PlateauAnalysable(ne_pas_initialiser=True)
+    def __deepcopy__(self,memoire_inutile):
+        """Ils s'agit d'une méthode spéciale qui est executée lorsque deepcopy du module copy souhaite faire une copie
+        d'un plateau analysable.
+        Renvoie une copie du plateau juste en lui copiant tous ses attributs sauf les attributs suivant :
+        taille, vitesse_demonstration, surface, taille_x, taille_y, nombre_de_joueurs et demonstration
+        """
+        plateau=PlateauAnalysable(ne_pas_initialiser=True)#ce paramètre optionnel permet de ne pas initialiser l'objet
+        #comme les autres : plateau ne recoit aucun attributs lors de son initialisaiton, on les lui donne
+        # "manuellement" avec les lignes suivantes :
         keys=self.__dict__.keys()
         for key in keys :
-            if key in ("taille","vitesse_demonstration","surface","taille_x","taille_y","nombre_de_joueurs","demonstration"):
+            if key in ("taille","vitesse_demonstration","surface","taille_x","taille_y","nombre_de_joueurs",
+                                                                                                    "demonstration"):
                 plateau.__dict__[key] = (self.__dict__[key])
             else:
                 plateau.__dict__[key] = copy.deepcopy(self.__dict__[key])
@@ -410,35 +396,3 @@ class PlateauAnalysable(Plateau):
         """Compte les pions du joueur de côté 'cote'."""
         return len(self.obtenirPions(cote))
 
-    '''
-    def est_stable_pour_cote(self, liste_de_position, cote):#todo debug cette fonction, ne pas utiliser cette fonction dans version finale
-        cote_oppose=1-cote
-        liste_des_cas_particuliers={}
-        mouv_valide_adv=self.obtenirMouvementsValides(cote_oppose)
-        for mouv in mouv_valide_adv :
-            plateau_simulation = copy.deepcopy(self)
-            plateau_simulation.placerPion(mouv, cote_oppose)
-            #if self.testSiJoueurCotePossedeUneDeCesPositions(plateau_simulation, cote_oppose, liste_de_position):
-            if plateau_simulation.testSiJoueurCotePossedeTouesCesPositions(cote_oppose, liste_de_position): #On est dans le deuxième cas
-                liste_des_cas_particuliers[tuple(mouv)]=plateau_simulation#verif que plateau simul est pas ecraser à la prochaine iteration
-
-        if liste_des_cas_particuliers=={}:
-            #L'adv ne peut pas prendre les positions quelque soit ses mouvements
-            return True
-        else :
-            for mouv_cas_particulier in liste_des_cas_particuliers:
-                #la liste est alors stable si pour tout les mouv, liste_de_position+[mouv_cas_particulier] est instable pour cote oppose
-                nouvelle_ligne=liste_de_position+[mouv_cas_particulier]
-                plateau_de_ce_cas=liste_des_cas_particuliers[mouv_cas_particulier]
-                if plateau_de_ce_cas.est_stable_pour_cote(nouvelle_ligne, cote_oppose) :
-                    #l'adv a reussi a former une ligne stable, cela signifie la ligne de depart etait instable
-                    return False
-            #L'adv ne peut pas former une ligne stable en prenant notre ligne, notre ligne est donc stable
-            return True
-
-
-    def position_stable_pour_cote2(self, position,cote):#Ne pas use dans version finale
-        plateau_simulation = copy.deepcopy(self)
-        plateau_simulation.placerPion(position, cote)
-        return self.est_stable_pour_cote(plateau_simulation, [position], cote)
-    '''

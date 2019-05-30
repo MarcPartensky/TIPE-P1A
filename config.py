@@ -2,9 +2,10 @@
 Module de configuration du script et déclaration de variables constantes nécéssaire
 """
 import couleurs
-import pygame
 
-CASE_VIDE =   -1   #Ne pas mettre 0 ou 1
+# CONSTANTES
+
+CASE_VIDE =   -1   # Ne pas mettre 0 ou 1
 DEBUGING  = True
 INFO      = True
 PLACER    = True
@@ -15,41 +16,34 @@ TAILLE_FENETRE=(1200,800)
 TAILLE_PLATEAU=(800,800)
 TAILLE_BORDURE=(400,800)
 
-#TAILLE_FENETRE=(600,400)
-#TAILLE_PLATEAU=(400,400)
-#TAILLE_BORDURE=(400,400)
+
 
 RESOLUTION_FENETRE=TAILLE_FENETRE
 RESOLUTION_PLATEAU=TAILLE_PLATEAU # les dimensions des arriere_plan comme celle-ci n'ont pas d'importance vu qu'elle seront redimensionnées
 RESOLUTION_BORDURE=TAILLE_BORDURE
 
+THEME_BORDURE = {   "police"             :  "monospace",
+                    "couleur texte"      :  couleurs.BLANC,
+                    "taille texte"       :  50                }
 
-
-THEME_BORDURE={
-                    "police"          :   "monospace",
-                    "couleur texte"   :   couleurs.BLANC,
-                    "taille texte"    :   50                  }
-
-THEME_PLATEAU={
-                    "couleur pieces"     :  [couleurs.BLANC,couleurs.NOIR],
+THEME_PLATEAU = {   "couleur pions"      :  [couleurs.BLANC,couleurs.NOIR],
                     "couleur grille"     :  couleurs.NOIR,
                     "couleur mouvement"  :  couleurs.ROUGE,
                     "couleur points"     :  couleurs.NOIR     }
 
-THEME_FENETRE={
+THEME_FENETRE = {}
 
-}
 
+# FONCTION  D'AFFICHAGE CONSOLE
 
 def debug(*txt):
-    """Fonction de debug,
-    cette fonction est presque équivalente à un print"""
+    """Fonction de debug, cette fonction n'est qu'un print personaliser."""
     if DEBUGING:
         print("[DEBUG]:",*txt)
 
 def info(*txt,nom_fichier="NO_NAME"):
     """Fonction donnant des information en direct sur l'état du programme,
-    cette fonction est presque équivalente à un print.
+    Cette fonction n'est qu'un print personaliser.
     Ne pas oublier de donner le nom du fichier dans le quelle la fonction est appeler"""
     if INFO:
         print("[INFOS]["+nom_fichier+"]",*txt)

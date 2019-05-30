@@ -31,6 +31,7 @@ def est_superieur(liste1, liste2) :
 def liste_tuple_vers_liste_liste(liste_de_tuple):
     """Transforme une liste de tuple en liste de liste"""
     return [list(elem) for elem in liste_de_tuple]
+
 def liste_liste_vers_liste_tuple(liste_liste):
     """Transforme une liste de liste en liste de tuple"""
     return [tuple(l) for l in liste_liste]
@@ -87,3 +88,14 @@ def obtenirLigneReduite(ligne):
     ligne=[ligne[0],ligne[-1]]
     return ligne
 
+def timer(fonction):
+    """Décorateur qui permet de calculer le temps d'exécution d'une fonction."""
+    def nouvelleFonction(*args,**kwargs):
+        """Fonction à tester."""
+        ti=time.time()
+        resultat=fonction(*args,**kwargs)
+        tf=time.time()
+        dt=tf-ti
+        print("[TIMER]: La fonction "+str(fonction.__name__)+" a pris "+str(dt)+" secondes.")
+        return resultat
+    return nouvelleFonction
