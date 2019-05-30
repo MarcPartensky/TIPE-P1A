@@ -418,12 +418,12 @@ class Plateau:
         """Assigne aux cases mangeables la valeur de pion de la personne"""
         self.insererPion(mangeables,personne)
 
-    def presenter(self,positions,couleur,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
+    def presenter(self,*positions,couleur,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
         """Permet de debuger en 1 commande."""
+        print(positions)
         if self.demonstration:
-            if not type(positions)==list: positions=[positions]
-            if clear:
-                self.afficher()
+            if type(positions)!=list: positions=[positions]
+            if clear: self.afficher()
             if positions:
                 self.colorerCase(positions,couleur)
                 if message:

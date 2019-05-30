@@ -144,7 +144,7 @@ class Othello:
         """Faire un tour de jeu"""
         self.tour=self.rang%self.plateau.nombre_de_joueurs
         joueur_actif=self.joueurs[self.tour]#joueur a qui c'est le tour
-        cfg.debug("C'est au tour du joueur:"+str(joueur_actif))
+        cfg.debug("C'est au tour du joueur: "+str(joueur_actif))
         self.plateau.charger(self.tour) #Nécessaire pour tous les joueurs
         if self.panneau: self.afficher()
         self.rang+=1

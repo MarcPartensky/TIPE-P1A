@@ -3,7 +3,6 @@ from othello import Othello
 from joueur import Robot,Humain,Developpeur
 
 import ia
-import ia2
 import ias
 import bruteforce as bf
 import config as cfg

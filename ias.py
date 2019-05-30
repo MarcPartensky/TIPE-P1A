@@ -12,14 +12,16 @@ class DefinivitementStable(Robot):
 
     def jouer(self,plateau,panneau=None):
         """Joue en maximisant les pions définivitement stables."""
-        stables=plateau.obtenirTousLesPionsDefinitivementStables()
+        stables=plateau.obtenirTousLesPionsDefinitivementStables(self.cote)
         coups_possibles=plateau.mouvements
+        print(stables,coups_possibles)
         intersection=outils.intersection(stables,coups_possibles)
-        if intersections:
-            choix=intersections[0]
+        print(intersection)
+        if intersection:
+            choix=intersection[0]
             return choix
         else:
-            self.jouerAleatoire(plateau)
+            return self.jouerAleatoire(plateau)
 
 
 class Aleatoire(Robot):
@@ -39,7 +41,7 @@ class PremierCoup(Robot):
         """Crée le robot avec les arguments de la classe mère 'Robot'."""
         super().__init__(*args,**kwargs)
 
-    
+
     def jouer(self,plateau,panneau=None):
         """Joue le premier coup proposé."""
         coups_possibles=plateau.mouvements

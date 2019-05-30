@@ -70,18 +70,7 @@ class Joueur:
 
     def __str__(self):
         """Renvoie une représentation du joueur en string."""
-        #Habituellement le joueur ne connait pas sa couleur et ne possede pas de nom
-        #mais ce celui-ci connait toujours son coté.
-        #Effectivement c'est le plateau qui affiche une couleur prédéfinie dans le thème.
-        if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
-            text="Joueur"+str(self.nom)
-        elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
-            #Pourrait fonctionner si l'on créer une classe de couleur
-            #mais c'est un peu exagéré.
-            text="Joueur"+str(self.couleur)
-        else: #Sinon dans la plupart des cas on affiche uniquement son côté.
-            text="Joueur"+str(self.cote)
-        return text
+        return self.nom
 
 class Humain(Joueur):
     """classe qui hérite de le classe Joueur"""
@@ -104,22 +93,6 @@ class Humain(Joueur):
                         break
         return self.choix
 
-    def __str__(self):
-        """Renvoie une représentation du joueur en string."""
-        #Habituellement le joueur ne connait pas sa couleur et ne possede pas de nom
-        #mais ce celui-ci connait toujours son coté.
-        #Effectivement c'est le plateau qui affiche une couleur prédéfinie dans le thème.
-        if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
-            text="Joueur"+str(self.nom)
-        elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
-            #Pourrait fonctionner si l'on créer une classe de couleur
-            #mais c'est un peu exagéré.
-            text="Joueur"+str(self.couleur)
-        else: #Sinon dans la plupart des cas on affiche uniquement son type.
-            text="Joueur Humain"
-        return text
-
-
 class Robot(Joueur):
     """classe qui hérite de le classe Joueur"""
 
@@ -141,21 +114,6 @@ class Robot(Joueur):
         mouvements=plateau.obtenirMouvementsValides(self.cote)
         self.choix=random.choice(mouvements)
         return self.choix
-
-    def __str__(self):
-        """Renvoie une représentation du joueur en string."""
-        #Habituellement le joueur ne connait pas sa couleur et ne possede pas de nom
-        #mais ce celui-ci connait toujours son coté.
-        #Effectivement c'est le plateau qui affiche une couleur prédéfinie dans le thème.
-        if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
-            text="Joueur"+str(self.nom)
-        elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
-            #Pourrait fonctionner si l'on créer une classe de couleur
-            #mais c'est un peu exagéré.
-            text="Joueur"+str(self.couleur)
-        else: #Sinon dans la plupart des cas on affiche uniquement son type.
-            text="Joueur Robot"
-        return text
 
     def distance(self,p1,p2):
         """Renvoie la distance entre les positions p1 et p2."""

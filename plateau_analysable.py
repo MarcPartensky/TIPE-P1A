@@ -124,17 +124,17 @@ class PlateauAnalysable(Plateau):
             fenetre.attendre() #Par défaut la fenetre attend 1 seconde
 
 
-    def obtenirTousLesPionsDefinitivementStables(self,cote,fenetre):
+    def obtenirTousLesPionsDefinitivementStables(self,cote):
         """Renvoie la liste de tous les pions qui sont definitivement stables."""
         stables=[]
         pions=self.obtenirPions(cote)
         #plateau.presenter(pions,couleurs.ROUGE,fenetre,"pions"+str(cote))
         for pion in pions:
-            if self.estUnPionDefinitivementStable(pion,fenetre):
+            if self.estUnPionDefinitivementStable(pion):
                 stables.append(pion)
         return stables
 
-    def estUnPionDefinitivementStable(self,pion,fenetre):
+    def estUnPionDefinitivementStable(self,pion):
         """Determine si un pion est définivement stable en déterminant pour chaque ligne auquel il appartient, si il peut être définitivement stable.
         Pour cela, on se ramène à un problème plus simple: c'est à dire vérifier la stabilité d'un pion dans une ligne.
         Ainsi on vérifie pour chaque ligne auquelle ce pion appartient, si celui-ci peut-être définitivment stable, et si c'est bien le cas,
@@ -155,9 +155,9 @@ class PlateauAnalysable(Plateau):
                 if (cote_oppose in cases_opposees) or (cfg.CASE_VIDE in cases_opposees):
                     stable=False
             """Présentation des lignes sur l'écran pour le mode démonstration."""
-            self.presenter(ligne,couleurs.BLEU,fenetre,message="ligne",pause=False)
-            self.presenter(ligne_oppose,couleurs.VIOLET,fenetre,message="ligne_oppose",clear=False,pause=False)
-            self.presenter(pion,couleurs.ROUGE,fenetre,"pion considéré",clear=False)
+            self.presenter(ligne,couleurs.BLEU,"ligne",pause=False)
+            self.presenter(ligne_oppose,couleurs.VIOLET,"ligne oppose",clear=False,pause=False)
+            self.presenter(pion,couleurs.ROUGE,"pion considere",clear=False)
             if not stable:
                 break
         return stable
