@@ -55,17 +55,15 @@
 from __future__ import division
 
 import couleurs
-
-import pygame
-from pygame.locals import * # permet de récupérer les constante de pygame (utile pour savoir sur quelle touche l'utilisateur appuie)
-from couleurs import *
-import time
+import pygame,time
+from pygame.locals import RESIZABLE,KEYDOWN,K_ESCAPE,FULLSCREEN,K_SPACE
+from couleurs import BLANC,NOIR
 
 
 class Fenetre:
     draw=pygame.draw # permet juste d'écrire un peu moins dans le code
 
-    def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=WHITE,background_color=BLACK,fullscreen=False,set=True):
+    def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=BLANC,background_color=NOIR,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
         self.name=name
         self.taille=taille
@@ -230,7 +228,7 @@ class Fenetre:
         label=font.render(text,1,couleur)
         self.screen.blit(label,position)
 
-    def drawRect(self,coordonnates,color):
+    def drawRect(self,coordonnates,color): # inutile ? de plus utilise un attribut self.coordonnates qui n'existe pas !!!!
         """Draw a rectangle on the screen using color and coordonnates relative to window's fiducials."""
         wsx,wsy=self.taille
         wcx,wcy,wcsx,wcsy=self.coordonnates
@@ -249,7 +247,7 @@ class Fenetre:
         text="Fenêtre créé par Marc Partensky afin de faciliter l'utilisation des fonctions de pygame."
         return text
 
-    __repr__=__help__=__str__
+    __repr__=__str__
 
     def __call__(self):
         """Refresh and pause."""

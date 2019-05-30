@@ -392,9 +392,10 @@ class PlateauAnalysable(Plateau):
             return True
 
 
-    def __deepcopy__(self,memoire_inutile):
+    def __deepcopy__(self,dictionnaire_inutile):
         """Renvoie une copie du plateau juste en lui copiant tous ses éléments
-        sauf la surface de pygame dont seulement la référence est copiée."""
+        sauf la surface de pygame dont seulement la référence est copiée.
+        Le 'dictionnaire inutile' est nécessaire pour la surcharge de deepcopy."""
         plateau=PlateauAnalysable(ne_pas_initialiser=True)
         keys=self.__dict__.keys()
         for key in keys :

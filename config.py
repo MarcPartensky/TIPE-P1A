@@ -14,16 +14,14 @@ TEMPS_ANIMATION_PION = 0.15
 TAILLE_FENETRE=(1200,800)
 TAILLE_PLATEAU=(800,800)
 TAILLE_BORDURE=(400,800)
+TAILLE_FENETRE=(600,400)
+TAILLE_PLATEAU=(400,400)
+TAILLE_BORDURE=(400,400)
 
 RESOLUTION_FENETRE=TAILLE_FENETRE
 RESOLUTION_PLATEAU=TAILLE_PLATEAU # les dimensions des arriere_plan comme celle-ci n'ont pas d'importance vu qu'elle seront redimensionnées
 RESOLUTION_BORDURE=TAILLE_BORDURE
 
-def bijection(x,ensemble_entree,ensemble_sortie):
-    """Renvoie la valeur de f(x) par la bijection de l'ensemble_entree et l'ensemble_sortie."""
-    min1,max1=ensemble_entree
-    min2,max2=ensemble_sortie
-    return (x-min1)/(max1-min1)*(max2-min2)+min2
 
 
 THEME_BORDURE={
@@ -41,17 +39,6 @@ THEME_FENETRE={
 
 }
 
-
-
-
-
-"""
-n=min(RESOLUTION_FENETRE)
-m=max(RESOLUTION_FENETRE)
-
-RESOLUTION_PLATEAU=(n,n)
-RESOLUTION_BORDURE=(m-n,m)
-"""
 
 def debug(*txt):
     """Fonction de debug,
