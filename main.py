@@ -2,9 +2,7 @@ from panneau import Panneau
 from othello import Othello
 from joueur import Robot,Humain,Developpeur
 
-import ia
-import ia2
-import ias
+import ia,ias
 import bruteforce as bf
 import config as cfg
 
@@ -36,8 +34,8 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
     #puis on  choisit les joueurs ici
 
     joueur_blanc = machine1
-    joueur_noir  = humain1
+    joueur_noir  = machine2
 
     #et non ici
     jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
-    jeu() #Lance le jeu.
+    jeu.lancer_partie() #Lance le jeu.

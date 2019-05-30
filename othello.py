@@ -75,7 +75,7 @@ class Othello:
         #cfg.
         self.panneau.decoupages=[decoupage1,decoupage2]
 
-    def __call__(self): #Utilisation de la méthode spécial call qui permet de lancer la boucle principale
+    def lancer_partie(self): #Utilisation de la méthode spécial call qui permet de lancer la boucle principale
         """Boucle principale du jeu Othello."""
         while self.ouvert:
             self.actualiser()

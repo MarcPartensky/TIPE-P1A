@@ -224,13 +224,7 @@ class Plateau:
                         positions.append((x,y))
         return positions
 
-    def __contains__(self,pion):
-        """Determine si le plateau contient un pion.
-        Méthode spécial permèttant d'utiliser le mot clé 'in' """
-        case=self.obtenirCase(pion)
-        return bool(case!=cfg.CASE_VIDE)
-
-    def obtenirNombrePionsJoueur(self, cote):#Todo à optimiser
+    def obtenirNombrePionsJoueur(self, cote):
         """Determine le nombre de pions d'un joueur en utilisant son cote."""
         nombre=0
         sx, sy = self.taille
