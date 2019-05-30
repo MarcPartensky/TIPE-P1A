@@ -1,4 +1,4 @@
-from outils import intersection, est_superieur, deco_debug
+from outils import intersection, est_superieur
 from plateau_analysable import PlateauAnalysable
 import outils, joueur, random
 import config as cfg
@@ -13,53 +13,29 @@ ZONE_NOIR=0
 ZONE_TOUT=-1
 
 
-LISTE_ZONES=[ZONE_COIN,ZONE_BORD,ZONE_BLANCHE,ZONE_ROUGE,ZONE_NOIR, ZONE_TOUT]
+class IA(joueur.Robot):
+    """Classe d'IA NON-naïve"""
 
-PLATEAU_COLORE=[[ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_NOIR ,ZONE_COIN],
-                [ZONE_NOIR, ZONE_NOIR ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIR ,ZONE_NOIR],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_BORD, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_BORD],
-                [ZONE_NOIR, ZONE_NOIR ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIR ,ZONE_NOIR],
-                [ZONE_COIN, ZONE_NOIR ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_BORD   ,ZONE_NOIR ,ZONE_COIN]]
-
-
-
-
-LISTE_POSITION_ZONE={}
-for i in range(len(LISTE_ZONES)):#Permet de generer LISTE_POSITION_ZONE
-    result=[]
-    key=LISTE_ZONES[i]
-    for x in range(len(PLATEAU_COLORE)) :
-        for y in range(len(PLATEAU_COLORE[x])):
-            if PLATEAU_COLORE[x][y]==key or key==ZONE_TOUT :
-                result.append((x,y))
-    LISTE_POSITION_ZONE[key]=result
-
-
-class IA(joueur.Robot) :
     def __init__(self,nom=None):
         "Lance l'__init__ de la classe joueur.Robot"
         super().__init__(nom)
 
     def reinitialiser(self, plateau):
-        """Lancer au debut de chaque tour par la methode main
-        Ici on definit des variables qui ne vont pas etre modifie pendant tout le tour afin d'economiser du temps..."""
-        self.plateau=plateau#il ne faut surtout pas faire des simulations sur ce plateau !!
+        """Cette fonction est lancée au debut de chaque tour
+        Ici on definit des variables qui ne vont pas etre modifiées pendant tout le tour afin d'economiser du temps..."""
+        self.plateau=plateau#il ne faut pas faire de simulations sur ce plateau !
         self.mouvements_possibles=plateau.obtenirMouvementsValides(self.cote)
         self.parite_desavantageuse = not(plateau.test_parite_avantageuse())
 
-
-    @deco_debug
     def comparer_blanc(self, pos1, pos2):
+        """ On produit ci dessous est en fait une astuce :
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+            des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans  la selection du coup"""
         coeff1,coeff2=[],[]
-        #On produit ci dessous est en fait une astuce :
-        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
-        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
-        #des coups proposes.
-        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
-        #il n'influe donc pas dans  la selection du coup
+
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
         coeff2.append(self.plateau.est_coup_bourbier_par_cote(pos2, self.cote)*self.parite_desavantageuse)
 
@@ -75,15 +51,16 @@ class IA(joueur.Robot) :
         else :
             return pos2
 
-    @deco_debug
+
     def comparer_rouge(self, pos1, pos2):
+        """ On produit ci dessous est en fait une astuce :
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+            des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans  la selection du coup """
         coeff1,coeff2=[],[]
-        #On produit ci dessous est en fait une astuce :
-        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
-        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
-        #des coups proposes.
-        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
-        #il n'influe donc pas dans  la selection du coup
+
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
         coeff2.append(self.plateau.est_coup_bourbier_par_cote(pos2, self.cote)*self.parite_desavantageuse)
 
@@ -101,15 +78,15 @@ class IA(joueur.Robot) :
         else :
             return pos2
 
-    @deco_debug
     def comparer_vert(self, pos1, pos2):
+        """ On produit ci dessous est en fait une astuce :
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+            des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans  la selection du coup"""
         coeff1,coeff2=[],[]
-        #On produit ci dessous est en fait une astuce :
-        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
-        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
-        #des coups proposes.
-        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
-        #il n'influe donc pas dans  la selection du coup
+
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
         coeff2.append(self.plateau.est_coup_bourbier_par_cote(pos2, self.cote)*self.parite_desavantageuse)
 
@@ -137,15 +114,16 @@ class IA(joueur.Robot) :
         else :
             return pos2
 
-    @deco_debug
+
     def comparer_noir(self, pos1, pos2):
+        """ On produit ci dessous est en fait une astuce :
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+            des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans  la selection du coup"""
         coeff1,coeff2=[],[]
-        #On produit ci dessous est en fait une astuce :
-        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
-        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
-        #des coups proposes.
-        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
-        #il n'influe donc pas dans  la selection du coup
+
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
         coeff2.append(self.plateau.est_coup_bourbier_par_cote(pos2, self.cote)*self.parite_desavantageuse)
 
@@ -169,13 +147,14 @@ class IA(joueur.Robot) :
             return pos2
 
     def comparer_coin(self, pos1, pos2):
+        """ On produit ci dessous est en fait une astuce :
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+            des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans  la selection du coup"""
         coeff1,coeff2=[],[]
-        #On produit ci dessous est en fait une astuce :
-        #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
-        #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
-        #des coups proposes.
-        #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
-        #il n'influe donc pas dans  la selection du coup
+
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
         coeff2.append(self.plateau.est_coup_bourbier_par_cote(pos2, self.cote)*self.parite_desavantageuse)
 
@@ -194,10 +173,10 @@ class IA(joueur.Robot) :
         else :
             return pos2
 
-    @deco_debug
     def comparer_blanc_rouge(self, blanc, rouge):
 
-        cfg.debug("on a bourre comapre blacn et rouge")
+        cfg.debug("on a bourre comapre blacn et rouge","<[vient de ia.py de la fonction comparer_blanc_rouge, alexandre explique cet ligne, elle veut rien dire]>")
+        cfs
         return blanc
         coeff_blanc, coeff_rouge = [], []
 
@@ -225,7 +204,6 @@ class IA(joueur.Robot) :
 
 
 
-    @deco_debug
     def comparer_blanc_vert(self, blanc, vert):#todo faire un debug affichable
 
         coeff_blanc, coeff_vert = [], []
@@ -246,9 +224,9 @@ class IA(joueur.Robot) :
         else:
             return vert
 
-    @deco_debug
+
     def comparer_blanc_noir(self, blanc, noir):#todo faire un debug affichable
-        cfg.debug("on a bourre comparer blanc rouge")
+        cfg.debug("on a bourre comparer blanc rouge","<[vient de ia.py de la fonction comparer_blanc_noir, alexandre explique cet ligne, elle veut rien dire]>")
         return blanc
         coeff_blanc, coeff_noir = [], []
 
@@ -271,11 +249,11 @@ class IA(joueur.Robot) :
         else:
             return noir
 
-    @deco_debug
+
     def comparer_blanc_coin(self, blanc, coin):
         return coin
 
-    @deco_debug
+
     def comparer_rouge_vert(self, rouge, vert):#todo revoir ca + debug affichage
 
         coeff_rouge, coeff_vert=[],[]
@@ -297,7 +275,7 @@ class IA(joueur.Robot) :
 
 
 
-    @deco_debug
+
     def comparer_rouge_noir(self, rouge, noir):#todo revoir ca + debug affichage
 
         coeff_rouge, coeff_noir = [], []
@@ -323,18 +301,18 @@ class IA(joueur.Robot) :
         else:
             return noir
 
-    @deco_debug
+
     def comparer_rouge_coin(self, rouge, coin):
         return coin
 
-    @deco_debug
+
     def comparer_vert_noir(self, vert, noir):
 
         coeff_vert, coeff_noir = [], []
 
         coeff_noir.append(int(self.plateau.possessionCoinDuQuartier(noir, self.cote)))
         coeff_vert.append(1)
-        cfg.debug("on a bourre vert noir")
+        cfg.debug("on a bourre vert noir","<[vient de ia.py de la fonction comparer_vert_noir, alexandre explique cet ligne, elle veut rien dire]>")
 
         coeff_noir.append(1)
         coeff_vert.append(0)
@@ -360,39 +338,40 @@ class IA(joueur.Robot) :
         else:
             return noir
 
-    @deco_debug
+
     def comparer_vert_coin(self, vert, coin):
         return coin
 
-    @deco_debug
+
     def comparer_noir_coin(self, noir, coin):
         return coin
 
     def comparer(self, position1, position2):
-        liste_degueulasse={ZONE_BLANCHE:{ZONE_BLANCHE:self.comparer_blanc,
-                                         ZONE_ROUGE:self.comparer_blanc_rouge,
-                                         ZONE_BORD:self.comparer_blanc_vert,
-                                         ZONE_NOIR:self.comparer_blanc_noir,
-                                         ZONE_COIN:self.comparer_blanc_coin},
+        liste_degueulasse = { ZONE_BLANCHE  : { ZONE_BLANCHE : self.comparer_blanc,
+                                                ZONE_ROUGE   : self.comparer_blanc_rouge,
+                                                ZONE_BORD    : self.comparer_blanc_vert,
+                                                ZONE_NOIR    : self.comparer_blanc_noir,
+                                                ZONE_COIN    : self.comparer_blanc_coin },
 
-                           ZONE_ROUGE:{  ZONE_ROUGE:self.comparer_rouge,
-                                         ZONE_BORD:self.comparer_rouge_vert,
-                                         ZONE_NOIR:self.comparer_rouge_noir,
-                                         ZONE_COIN:self.comparer_rouge_coin},
+                              ZONE_ROUGE    : {   ZONE_ROUGE : self.comparer_rouge,
+                                                ZONE_BORD  : self.comparer_rouge_vert,
+                                                ZONE_NOIR  : self.comparer_rouge_noir,
+                                                ZONE_COIN  : self.comparer_rouge_coin },
 
-                           ZONE_BORD:{   ZONE_BORD:self.comparer_vert,
-                                         ZONE_COIN:self.comparer_vert_coin,
-                                         ZONE_NOIR:self.comparer_vert_noir},
-                           ZONE_NOIR:{ZONE_NOIR:self.comparer_noir,
-                                      ZONE_COIN:self.comparer_noir_coin},
-                           ZONE_COIN:{ZONE_COIN:self.comparer_coin}
+                              ZONE_BORD     : {   ZONE_BORD : self.comparer_vert,
+                                                ZONE_COIN : self.comparer_vert_coin,
+                                                ZONE_NOIR : self.comparer_vert_noir },
 
+                              ZONE_NOIR     : {   ZONE_NOIR : self.comparer_noir,
+                                                ZONE_COIN : self.comparer_noir_coin },
 
-                           }
-        try :
-            fonction_compa=liste_degueulasse[self.plateau.obtenir_couleur_position(position1)][self.plateau.obtenir_couleur_position(position2)]
-            arg=(position1, position2)
-        except KeyError :
+                              ZONE_COIN     : {   ZONE_COIN : self.comparer_coin }
+                            }
+
+        try : # On essaye ce code, si une erreur python est levé on sort du try et on continuer le programme
+            fonction_compa = liste_degueulasse[self.plateau.obtenir_couleur_position(position1)][self.plateau.obtenir_couleur_position(position2)]
+            arg = (position1, position2)
+        except KeyError : # si l'erreur levée précédemment est une KeyError (c'est à dire que on demande un élément du dictionnaire qui n'existe pas) on éxécute ce code ci dessous
             fonction_compa = liste_degueulasse[self.plateau.obtenir_couleur_position(position2)][self.plateau.obtenir_couleur_position(position1)]
             arg = (position2, position1)
 
@@ -417,6 +396,8 @@ class IA(joueur.Robot) :
         return self.compa_diago(fct2,fct2(args[0], args[1]), *args[2:])
 
     def main(self, plateau, fenetre=None):
+        """On surcharge la méthode main de robot (c'est à dire qu'on redéfinie la méthode main lorsque l'on se trouve cette cette sous-classe)
+        Fonction principal qui est appeler par la class robot lorsque l'othello demande au joueur de jouer"""
         self.fenetre=fenetre
         self.reinitialiser(plateau)  # Il faut prednre en compte le nouveau plateau
         cfg.debug("les coup possible :", repr(self.mouvements_possibles))
