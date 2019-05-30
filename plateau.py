@@ -493,13 +493,13 @@ class Plateau:
     def afficherDecorationGrille(self):
         """Affiche les 4 points pour délimiter le carré central du plateau.
         Aspect uniquement graphique et décoratif afin d'améliorer le confort de l'utilisateur"""
-        wsx,wsy=fenetre.taille
+        wsx,wsy=self.surface.get_size()
         sx,sy=self.taille
         d=wsy//sy # distance entre deux ligne ou colonne
         positions_points_graphic=[(2*d,2*d),(2*d,wsy-2*d),(wsx-2*d,2*d),(wsx-2*d,wsy-2*d)]
         rayon = 5
         for position in positions_points_graphic:
-            fenetre.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur grille"],position,rayon,0)
+            pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur grille"],position,rayon,0)
 
     def afficherPions(self):
         """Affiche les pions"""
