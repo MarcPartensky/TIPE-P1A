@@ -71,7 +71,7 @@
 # --coding:utf-8--
 
 from outils import intersection
-from outils import linearBijection as bijection
+from outils import bijection
 import outils
 import couleurs
 import config as cfg

@@ -20,11 +20,6 @@ RESOLUTION_FENETRE=TAILLE_FENETRE
 RESOLUTION_PLATEAU=TAILLE_PLATEAU # les dimensions des arriere_plan comme celle-ci n'ont pas d'importance vu qu'elle seront redimensionnées
 RESOLUTION_BORDURE=TAILLE_BORDURE
 
-def bijection(x,ensemble_entree,ensemble_sortie):
-    """Renvoie la valeur de f(x) par la bijection de l'ensemble_entree et l'ensemble_sortie."""
-    min1,max1=ensemble_entree
-    min2,max2=ensemble_sortie
-    return (x-min1)/(max1-min1)*(max2-min2)+min2
 
 
 THEME_BORDURE={
@@ -41,8 +36,6 @@ THEME_PLATEAU={
 THEME_FENETRE={
 
 }
-
-
 
 
 def debug(*txt):

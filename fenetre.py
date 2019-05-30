@@ -55,11 +55,9 @@
 from __future__ import division
 
 import couleurs
-
-import pygame
+import pygame,time
 from pygame.locals import RESIZABLE,KEYDOWN,K_ESCAPE,FULLSCREEN,K_SPACE
 from couleurs import BLANC,NOIR
-import time
 
 
 class Fenetre:

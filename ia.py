@@ -338,7 +338,7 @@ class IA(joueur.Robot) :
     def comparer_noir_coin(self, noir, coin):
         return coin
 
-    def comparer(self, position1, position2):
+    def comparer_2_positions(self, position1, position2):
         liste_degueulasse={ZONE_BLANCHE:{ZONE_BLANCHE:self.comparer_blanc,
                                          ZONE_ROUGE:self.comparer_blanc_rouge,
                                          ZONE_BORD:self.comparer_blanc_vert,
@@ -356,8 +356,6 @@ class IA(joueur.Robot) :
                            ZONE_NOIR:{ZONE_NOIR:self.comparer_noir,
                                       ZONE_COIN:self.comparer_noir_coin},
                            ZONE_COIN:{ZONE_COIN:self.comparer_coin}
-
-
                            }
         try :
             fonction_compa=liste_degueulasse[self.plateau.obtenir_couleur_position(position1)][self.plateau.obtenir_couleur_position(position2)]
@@ -377,25 +375,20 @@ class IA(joueur.Robot) :
             else :
                 return fonction_compa(arg[0], arg[1])
 
-
-    def compa_diago(self, fct2,*args):
+    def comparer_n_positions(self, *args):
         if len(args) == 1:
             return args[0]
         elif len(args) == 2:
-            return fct2(args[0], args[1])
-        #cfg.debug("le args", args)
-        return self.compa_diago(fct2,fct2(args[0], args[1]), *args[2:])
+            return self.comparer_2_positions(args[0], args[1])
+        return self.comparer_n_positions(self.comparer_2_positions(args[0], args[1]), *args[2:])
 
     def main(self, plateau, fenetre=None):
+        """Méthode principale de la classe.
+        Cette méthode est executé lorsque l'IA doit jouer :
+        elle prend en paramètre le plateau actuel et renvoie la position choisie"""
         self.fenetre=fenetre
-        self.reinitialiser(plateau)  # Il faut prednre en compte le nouveau plateau
-        cfg.debug("les coup possible :", repr(self.mouvements_possibles))
-        return self.compa_diago(self.comparer, *self.mouvements_possibles)
-        #if coups_bourbier!=[] :
-        #    cfg.debug("##Coup Bourbier !")
-        #    return self.compa_diago(self.comparer, *coups_bourbier)
-        #else :
-        #    return self.compa_diago(self.comparer, *self.mouvements_possibles)
+        self.reinitialiser(plateau)  # Il faut prendre en compte le nouveau plateau
+        return self.comparer_n_positions(*self.mouvements_possibles)
 
     def debug_case(self, positions,couleur,message=None,clear=True,pause=True):
         if self.fenetre!=None :

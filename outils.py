@@ -2,17 +2,12 @@ import random,time
 from config import debug
 import config
 
-
-def linearBijection(x,ensemble_entree,ensemble_sortie):
-    """Renvoie la valeur de f(x) par la bijection de l'ensemble_entree et l'ensemble_sortie."""
-    min1,max1=ensemble_entree
-    min2,max2=ensemble_sortie
+def bijection(x,intervalle_entree,intervalle_sortie):
+    """Renvoie l'image de x par une bijection entre l'intervalle_entree et l'intervalle_sortie
+    Les intervalles sont sous forme de liste de deux éléments : la borne inf et sup"""
+    min1,max1=intervalle_entree
+    min2,max2=intervalle_sortie
     return (x-min1)/(max1-min1)*(max2-min2)+min2
-
-def est_superieur(liste1, liste2) :
-    """"demander alex"""
-    ajouter_coeff_alea(liste1,liste2)
-    return liste1>=liste2
 
 def ajouter_coeff_alea(liste1,liste2) :
     """Prend un prametre deux listes.
@@ -21,6 +16,17 @@ def ajouter_coeff_alea(liste1,liste2) :
     random.shuffle(alea_coeff)
     liste1.append(alea_coeff[0])
     liste2.append(alea_coeff[1])
+
+def est_superieur(liste1, liste2) :
+    """"Cette fonction permet de comparer deux liste d'integer. Elle retourne True si la list1 est supérieur à la list2
+    Les premiers entiers de la liste1 et liste2 sont comparés, si un des deux entiers est plus grand, la liste dont il
+    est issu est considéré comme supérieur à l'autre.
+    Si les premiers entiers de la liste1 et la liste2 sont égaux, on compare le deuxième entier de la liste1 avec le
+    deuxième entier de la liste2, si ils sont encore égaux on regarde les nombre en troisième place etc.
+    Si les liste 1 et 2 contiennent les mêmes nombres, ont retourne au hasard vrai ou faux
+    """
+    ajouter_coeff_alea(liste1,liste2)
+    return liste1>=liste2
 
 def liste_tuple_vers_liste_liste(liste_de_tuple):
     """Transforme une liste de tuple en liste de liste"""
@@ -80,16 +86,4 @@ def obtenirLigneReduite(ligne):
     """Renvoie les extrémités d'une ligne."""
     ligne=[ligne[0],ligne[-1]]
     return ligne
-
-def timer(fonction):
-    """Permet de calculer le temps d'exécution d'une fonction."""
-    def nouvelleFonction(*args,**kwargs):
-        """Fonction à tester."""
-        ti=time.time()
-        resultat=fonction(*args,**kwargs)
-        tf=time.time()
-        dt=tf-ti
-        print("[TIMER]: La fonction "+str(fonction.__name__)+" a pris "+str(dt)+" secondes.")
-        return resultat
-    return nouvelleFonction
 
