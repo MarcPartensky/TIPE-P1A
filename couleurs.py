@@ -3,8 +3,9 @@ Module de couleurs répertoriant quelques constantes de couleurs RGB/RVB
 ainsi que des fonctions simple manipulant ces couleurs RGB/RVB
 """
 
+from outils import linearBijection
 from random import randint
-from math import exp,log
+from math   import exp,log
 
 
 # CONSTANTE DE COULEURS RGB
@@ -25,12 +26,15 @@ BEIGE      = (199,175,138)
 
 sigmoid   = s   = lambda x:1/(1+math.exp(-x))
 reverse_sigmoid = lambda x:log(x/(1-x))
-bijection       = lambda x,e,s:(x-e[0])/(e[1]-e[0])*(s[1]-s[0])+s[0]
+bijection = linearBijection # techniquement cela ne sert à rien, on pourrait directement appeler la fonction du module outils mais puisqu'on l'utilise uniquement pour les couleurs, on la définie ici
+
 
 # FONCTIONS SIMPLE MANIPULANT DES COULEURS
 
-random       = lambda :              tuple([randint(0,255)                 for i in range(3)])
 inverser     = lambda couleur:       tuple([255-c                          for c in couleur])
+
+# Fonction non utiliser pour le moment mais pourrait servir si l'on à le temps de faire un menu
+random       = lambda :              tuple([randint(0,255)                 for i in range(3)])
 assombrir    = lambda couleur,n=0:   tuple([int(c*sigmoid(n/10))           for c in couleur])
 eclairer     = lambda couleur,n=0:   tuple([int(255-(255-c)*sigmoid(n/10)) for c in couleur])
 melanger     = lambda coul1,coul2:   tuple([(c1+c2)//2                     for (c1,c2) in zip(coul1,coul2)])
