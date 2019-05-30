@@ -228,7 +228,7 @@ class Fenetre:
         label=font.render(text,1,couleur)
         self.screen.blit(label,position)
 
-    def drawRect(self,coordonnates,color):
+    def drawRect(self,coordonnates,color): # inutile ? de plus utilise un attribut self.coordonnates qui n'existe pas !!!!
         """Draw a rectangle on the screen using color and coordonnates relative to window's fiducials."""
         wsx,wsy=self.taille
         wcx,wcy,wcsx,wcsy=self.coordonnates
@@ -247,7 +247,7 @@ class Fenetre:
         text="Fenêtre créé par Marc Partensky afin de faciliter l'utilisation des fonctions de pygame."
         return text
 
-    __repr__=__help__=__str__
+    __repr__=__str__
 
     def __call__(self):
         """Refresh and pause."""
