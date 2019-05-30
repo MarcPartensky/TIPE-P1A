@@ -34,7 +34,6 @@
 #    1.13  ------> obtenirCase (self,coordonnees)  ................... ligne
 #    1.14  ------> obtenirCases (self,coordonnees)  .................. ligne
 #    1.15  ------> obtenirPions (self,cotes)  ........................ ligne
-#    1.16  ------> __contains__ (self,pion)  ......................... ligne
 #    1.17  ------> obtenirNombrePionsJoueur (self,cote)  ............. ligne
 #    1.18  ------> obtenirNombrePionsRestant (self)  ................. ligne
 #    1.19  ------> obtenirEnvironnement (self,positions)  ............ ligne
@@ -223,11 +222,6 @@ class Plateau:
                         positions.append((x,y))
         return positions
 
-    def __contains__(self,pion):
-        """Determine si le plateau contient un pion.
-        Méthode spécial permèttant d'utiliser le mot clé 'in' """
-        case=self.obtenirCase(pion)
-        return bool(case!=cfg.CASE_VIDE)
 
     def obtenirNombrePionsJoueur(self, cote):#Todo à optimiser
         """Determine le nombre de pions d'un joueur en utilisant son cote."""
