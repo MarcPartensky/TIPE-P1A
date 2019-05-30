@@ -52,20 +52,16 @@
 """
 # --coding:utf-8--
 
-from __future__ import division
-
-import couleurs
-
 import pygame
-from pygame.locals import RESIZABLE,KEYDOWN,K_ESCAPE,FULLSCREEN,K_SPACE
-from couleurs import BLANC,NOIR
+from pygame.locals import RESIZABLE,KEYDOWN,K_ESCAPE,FULLSCREEN,K_SPACE # CONSTANTES de pygame
+import couleurs
 import time
 
 
 class Fenetre:
     draw=pygame.draw # permet juste d'écrire un peu moins dans le code
 
-    def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=BLANC,background_color=NOIR,fullscreen=False,set=True):
+    def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=couleurs.BLANC,background_color=couleurs.NOIR,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
         self.name=name
         self.taille=taille
@@ -261,10 +257,11 @@ class Fenetre:
         self.infoConsole("Window has been closed.")
 
 
+
 """Guide d'utilisation et test de la fenetre."""
 
 if __name__=="__main__":
-    w=Fenetre("WINDOW TEST")
+    w=Fenetre("FENETRE TEST")
     #save(w,"grosse fenetre")
     #w=load("grosse fenetre")
     #print(lighten(BLUE))

@@ -14,48 +14,51 @@
 #
 #    Version : 2019
 #
-###############################################################################
+################################################################################
 #
 #                     SOMMAIRE des classes de joueurs
 #
-#    1.    class Joueur:  ........................................... ligne
-#    1.1   ------> __init__ (self,nom_du_joueur=None)  .............. ligne
-#    1.2   ------> attribuerCote (self,cote)  ....................... ligne
-#    1.3   ------> __str__ (self)  .................................. ligne
+#    1.    class Joueur:  ........................................... ligne  56
+#    1.1   ------> __init__ (self,nom_du_joueur=None)  .............. ligne  60
+#    1.2   ------> attribuerCote (self,cote)  ....................... ligne  65
+#    1.3   ------> __str__ (self)  .................................. ligne  70
 #
-#    2.    class Humain (joueur):  .................................. ligne
-#    2.1   ------> __init__ (self,nom=None)  ........................ ligne
-#    2.2   ------> jouer (self,plateau,fenetre)  .................... ligne
-#    2.3   ------> __str__ (self)  .................................. ligne
+#    2.    class Humain (joueur):  .................................. ligne  92
+#    2.1   ------> __init__ (self,nom=None)  ........................ ligne  95
+#    2.2   ------> jouer (self,plateau,fenetre)  .................... ligne  99
+#    2.3   ------> __str__ (self)  .................................. ligne 113
 #
-#    3.    class Robot (Joueur):  ................................... ligne
-#    3.1   ------> __init__ (self,nom=None)  ........................ ligne
-#    3.2   ------> main (self, plateau)  ............................ ligne
-#    3.3   ------> jouer (self,plateau,fenetre)  .................... ligne
-#    3.4   ------> jouerAleatoire (self,plateau)  ................... ligne
-#    3.5   ------> __str__ (self)  .................................. ligne
+#    3.    class Robot (Joueur):  ................................... ligne 130
+#    3.1   ------> __init__ (self,nom=None)  ........................ ligne 133
+#    3.2   ------> main (self, plateau)  ............................ ligne 137
+#    3.3   ------> jouer (self,plateau,fenetre)  .................... ligne 142
+#    3.4   ------> jouerAleatoire (self,plateau)  ................... ligne 146
+#    3.5   ------> __str__ (self)  .................................. ligne 152
+#    3.6   ------> distance (self,p1,p2)  ........................... ligne 169
+#    3.7   ------> distanceDuCentre (self,position,plateau)  ........ ligne 175
+#    3.8   ------> distanceTotale (self,pions)  ..................... ligne 181
+#    3.9   ------> distanceMoyenne (self,pions)  .................... ligne 190
 #
-#    4.   class Developpeur (Joueur):  .............................. ligne
-#    4.1  ------> __init__ (self,nom=None)  ......................... ligne
-#    4.2  ------> jouer (self,plateau,fenetre)  ..................... ligne
+#    4.   class Developpeur (Joueur):  .............................. ligne 197
+#    4.1  ------> __init__ (self,nom=None)  ......................... ligne 202
+#    4.2  ------> jouer (self,plateau,fenetre)  ..................... ligne 205
 #
-###############################################################################
+################################################################################
 """
 # --coding:utf-8--
 
-import time
 import random
 import math
-import json
 import config as cfg
-import pygame
-import couleurs
 
 
 
 class Joueur:
+    """Classe de tous les joueurs, celle utiliser par l'othello.
+    Cependant il ne faut en aucun cas crée une instance de cette classe car ne possède pas de méthode jouer()"""
+
     def __init__(self,nom_du_joueur=None):
-        """Cree un joueur et défini son choix à rien. Il s'agit de la classe de base de tous les joueurs."""
+        """Cree un joueur et défini son choix à None. Il s'agit de la classe de base de tous les joueurs."""
         self.choix=None
         self.nom=str(nom_du_joueur)
 
@@ -65,8 +68,10 @@ class Joueur:
         self.cote_oppose=1-self.cote
 
     def reinitialiser(self, plateau): # ne sera pas dans le sommaire tant qu'elle ne sera pas défini
-        #A compléter par Alexandre
-        pass
+        #A compléter par Alexandre ou pas
+        raise NotImplementedError("la méthode 'reinitialiser' de la classe Joueur n'est pas implémenter")
+        # si on appelle cette fonction on lève une erreur python pour faire césser le programme
+        # cela permet de ce rendre compte si on utilise une fonction qui existe mais qui n'est pas implémenter
 
     def __str__(self):
         """Renvoie une représentation du joueur en string."""
@@ -76,12 +81,13 @@ class Joueur:
         if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
             text="Joueur"+str(self.nom)
         elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
-            #Pourrait fonctionner si l'on créer une classe de couleur
-            #mais c'est un peu exagéré.
+            #Pourrait fonctionner si le joueur connait sa couleurs
             text="Joueur"+str(self.couleur)
         else: #Sinon dans la plupart des cas on affiche uniquement son côté.
             text="Joueur"+str(self.cote)
         return text
+
+
 
 class Humain(Joueur):
     """classe qui hérite de le classe Joueur"""
@@ -118,6 +124,7 @@ class Humain(Joueur):
         else: #Sinon dans la plupart des cas on affiche uniquement son type.
             text="Joueur Humain"
         return text
+
 
 
 class Robot(Joueur):
@@ -157,6 +164,8 @@ class Robot(Joueur):
             text="Joueur Robot"
         return text
 
+    # FONCTION POUR LES IAS NAÏVENT
+
     def distance(self,p1,p2):
         """Renvoie la distance entre les positions p1 et p2."""
         x1,y1=p1
@@ -185,10 +194,10 @@ class Robot(Joueur):
 
 
 
-
-
 class Developpeur(Humain):
-    """classe qui hérite de le classe Humain"""
+    """classe qui hérite de le classe Humain.
+    Cette classe particulière permet de jouer comme un humain mais sans respecter
+    les règles de l'othello en ce qui conserne l'emdroit où l'on peut jouer """
 
     def __init__(self,nom=None):
         Joueur.__init__(self,nom)
