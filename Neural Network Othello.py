@@ -11,11 +11,14 @@ import random
 
 class Trainer:
     def __init__(self,window,players,affichage=False):
+        """Entraineur de réseau de neurones artificiels."""
         self.window=window
         self.games=[]
         self.players=players
         self.affichage=affichage
+
     def __call__(self,number_of_games):
+        """Permet de lancer une session d'entraînement sur un certain nombre de parties."""
         for i in range(number_of_games):
             #print("Training game:",i)
             game=Othello(self.window,self.players,self.affichage)
@@ -61,13 +64,9 @@ class Trainer:
 
 
 
-
-
-
-
-
 class NeuralNetwork(Player):
     def __init__(self,training_data=[[],[]]):
+        """Crée un réseau de neurones artificiels."""
         Player.__init__(self)
         self.training_data=training_data
         self.model=tf.keras.models.Sequential()
@@ -79,6 +78,7 @@ class NeuralNetwork(Player):
         self.model.compile(optimizer="adam",loss="sparse_categorical_crossentropy",metrics=["accuracy"])
 
     def train(self,epochs=3):
+        """Entraîne le réseau de neurone avec ses données d'entraînement accumulées."""
         if len(self.training_data)>0:
             x_train,y_train=self.training_data
             x_train=self.convert(x_train)

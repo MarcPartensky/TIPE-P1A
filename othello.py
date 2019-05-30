@@ -60,11 +60,11 @@ class Othello:
         self.bordure.recupererNomDesJoueurs(self.noms)
         self.ouvert=True
         self.fini=False
-        self.chargerPanneau(panneau)
+        self.panneau=panneau
+        if self.panneau: self.chargerPanneau()
 
     def chargerPanneau(self,panneau):
         """Permet de charger la panneau en supposant qu'elle ne soit pas None."""
-        self.panneau=panneau
         self.panneau.nom=self.nom #Donne un nom a la fenêtre.
         self.panneau.set() #Charge la fenêtre créée.
         self.panneau.couleur_de_fond=couleurs.BLANC #Charge la couleur de fond par défaut.

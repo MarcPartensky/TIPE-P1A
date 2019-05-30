@@ -142,22 +142,20 @@ class Robot(Joueur):
         return self.distanceTotale(pions)/nombre_de_distances_calculees
 
 
-
-
-
 class Developpeur(Humain):
     """classe qui hérite de le classe Humain"""
 
     def __init__(self,nom=None):
-        Joueur.__init__(self,nom)
+        """Crée un développeur, c'est à dire un humain qui peut jouer sans respecter
+        les règles de l'Othello. Le développeur est très pratique pour débugger et
+        tester des intelligences artificielles."""
+        super().__init__(nom)
 
     def jouer(self,plateau,panneau):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
         while panneau.open:
             panneau.check()
-            #curseur=panneau.point()#Renvoie les coordonnees du curseur
             position=plateau.obtenirPositionPlateau(panneau)
-            #position=plateau.obtenirPositionPlateau(curseur,panneau) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
             click=panneau.click()
             if click:
                 if plateau.estDansGrille(position):

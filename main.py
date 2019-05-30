@@ -34,8 +34,8 @@ if __name__=="__main__": #Ceci est exécuté uniquement si le fichier est exécu
 
     #puis on  choisit les joueurs ici
 
-    joueur_blanc = machine7
-    joueur_noir  = humain1
+    joueur_blanc = machine2
+    joueur_noir  = bruteforce1
 
     #et non ici
     jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
