@@ -18,8 +18,8 @@
 #
 #                           SOMMAIRE du plateau
 #
-#    1.    Class Plateau:  ........................................... ligne  83
-#    1.1   ------> __init__ (self,theme=None)  ....................... ligne  85
+#    1.    Class Plateau:  ........................................... ligne  80
+#    1.1   ------> __init__ (self,theme=None)  ....................... ligne  82
 #    1.2   ------> creerGrille (self)  ............................... ligne
 #    1.3   ------> est_dans_grille (self,position)  .................. ligne
 #    1.4   ------> est_un_coin (self,position)  ...................... ligne

@@ -41,7 +41,6 @@ class PremierCoup(Robot):
         """Crée le robot avec les arguments de la classe mère 'Robot'."""
         super().__init__(*args,**kwargs)
 
-
     def jouer(self,plateau,panneau=None):
         """Joue le premier coup proposé."""
         coups_possibles=plateau.mouvements

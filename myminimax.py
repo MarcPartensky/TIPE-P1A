@@ -33,8 +33,6 @@ class Minimax:
                         new_tree.append(new_element)
             return new_tree
 
-
-
     def __call__(self):
         if self.tree!=[]:
             value=self.decompose(self.tree)

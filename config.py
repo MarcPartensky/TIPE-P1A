@@ -8,14 +8,12 @@ import couleurs
 CASE_VIDE =   -1   # Ne pas mettre 0 ou 1
 DEBUGING  = True
 INFO      = True
-PLACER    = True
 
 TEMPS_ANIMATION_PION = 0.15
 
-TAILLE_FENETRE=(1200,800)
-TAILLE_PLATEAU=(800,800)
-TAILLE_BORDURE=(400,800)
-
+TAILLE_FENETRE = (1200, 800)
+TAILLE_PLATEAU = ( 800, 800)
+TAILLE_BORDURE = ( 400, 800)
 
 
 RESOLUTION_FENETRE=TAILLE_FENETRE
@@ -34,7 +32,7 @@ THEME_PLATEAU = {   "couleur pions"      :  [couleurs.BLANC,couleurs.NOIR],
 THEME_FENETRE = {}
 
 
-# FONCTION  D'AFFICHAGE CONSOLE
+# FONCTION D'AFFICHAGE CONSOLE
 
 def debug(*txt):
     """Fonction de debug, cette fonction n'est qu'un print personaliser."""

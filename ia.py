@@ -4,16 +4,19 @@ import outils, joueur, random
 import config as cfg
 from copy import deepcopy
 
-#La liste des différentes zone de jeu :
-ZONE_COIN=4#Ne doit pas etre une liste
-ZONE_VERTE=3
-ZONE_BLANCHE=2
-ZONE_ROUGE=1
-ZONE_NOIRE=0
-ZONE_TOUT=-1
+# La liste des différentes zone de jeu :
+# Ne doit pas être une liste
+ZONE_COIN    =  4
+ZONE_VERTE   =  3
+ZONE_BLANCHE =  2
+ZONE_ROUGE   =  1
+ZONE_NOIRE   =  0
+ZONE_TOUT    = -1
 
 
-class IA(joueur.Robot) :
+class IA(joueur.Robot):
+    """Classe d'IA NON-naïve"""
+
     def __init__(self,nom=None):
         "Lance l'__init__ de la classe joueur.Robot"
         super().__init__(nom)
@@ -93,6 +96,12 @@ class IA(joueur.Robot) :
             return pos2
 
     def comparer_vert(self, pos1, pos2):
+        """ On produit ci dessous est en fait une astuce :
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+            des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans  la selection du coup"""
         coeff1,coeff2=[],[]
 
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
@@ -117,6 +126,12 @@ class IA(joueur.Robot) :
 
 
     def comparer_noir(self, pos1, pos2):
+        """ On produit ci dessous est en fait une astuce :
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+            des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans  la selection du coup"""
         coeff1,coeff2=[],[]
 
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
@@ -137,6 +152,12 @@ class IA(joueur.Robot) :
             return pos2
 
     def comparer_coin(self, pos1, pos2):
+        """ On produit ci dessous est en fait une astuce :
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
+            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
+            des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans  la selection du coup"""
         coeff1,coeff2=[],[]
 
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
@@ -251,40 +272,36 @@ class IA(joueur.Robot) :
 
     def comparer_2_positions(self, position1, position2):
         """Prend en parametre deux position de couleur quelconque et retourne la position la plus avantageuse"""
-        dictionnaire_des_fct_comparaison={ZONE_BLANCHE:{ZONE_BLANCHE:(self.comparer_blanc,True),
-                                         ZONE_ROUGE:(self.comparer_blanc_rouge,True),
-                                         ZONE_VERTE:(self.comparer_blanc_vert,True),
-                                         ZONE_NOIRE:(self.comparer_blanc_noir,True),
-                                         ZONE_COIN:(self.comparer_blanc_coin,True)},
+        dictionnaire_des_fct_comparaison={
+                            ZONE_BLANCHE:  {ZONE_COIN:    (self.comparer_blanc_coin ,True ),
+                                            ZONE_VERTE:   (self.comparer_blanc_vert ,True ),
+                                            ZONE_ROUGE:   (self.comparer_blanc_rouge,True ),
+                                            ZONE_NOIRE:   (self.comparer_blanc_noir ,True ),
+                                            ZONE_BLANCHE: (self.comparer_blanc      ,True )} ,
 
-                           ZONE_ROUGE:{  ZONE_ROUGE:(self.comparer_rouge,True),
-                                         ZONE_VERTE:(self.comparer_rouge_vert,True),
-                                         ZONE_NOIRE:(self.comparer_rouge_noir,True),
-                                         ZONE_COIN:(self.comparer_rouge_coin,True),
+                            ZONE_ROUGE:    {ZONE_COIN:    (self.comparer_rouge_coin ,True ),
+                                            ZONE_VERTE:   (self.comparer_rouge_vert ,True ),
+                                            ZONE_ROUGE:   (self.comparer_rouge      ,True ),
+                                            ZONE_NOIRE:   (self.comparer_rouge_noir ,True ),
+                                            ZONE_BLANCHE: (self.comparer_blanc_rouge,False)} ,
 
-                                         ZONE_BLANCHE:(self.comparer_blanc_rouge,False)},
+                            ZONE_VERTE:    {ZONE_COIN:    (self.comparer_vert_coin  ,True ),
+                                            ZONE_VERTE:   (self.comparer_vert       ,True ),
+                                            ZONE_ROUGE:   (self.comparer_rouge_vert ,False),
+                                            ZONE_NOIRE:   (self.comparer_vert_noir  ,True ),
+                                            ZONE_BLANCHE: (self.comparer_blanc_vert ,False)} ,
 
-                           ZONE_VERTE:{   ZONE_VERTE:(self.comparer_vert,True),
-                                         ZONE_COIN:(self.comparer_vert_coin,True),
-                                         ZONE_NOIRE:(self.comparer_vert_noir,True),
+                            ZONE_NOIRE:    {ZONE_COIN:    (self.comparer_noir_coin  ,True ),
+                                            ZONE_VERTE:   (self.comparer_vert_noir  ,False),
+                                            ZONE_ROUGE:   (self.comparer_rouge_noir ,False),
+                                            ZONE_NOIRE:   (self.comparer_noir       ,True ),
+                                            ZONE_BLANCHE: (self.comparer_blanc_noir ,False)} ,
 
-                                        ZONE_BLANCHE:(self.comparer_blanc_vert,False),
-                                        ZONE_ROUGE:(self.comparer_rouge_vert,False)},
-
-
-                           ZONE_NOIRE:{ZONE_NOIRE:(self.comparer_noir,True),
-                                      ZONE_COIN:(self.comparer_noir_coin,True),
-
-                                      ZONE_BLANCHE:(self.comparer_blanc_noir,False),
-                                      ZONE_ROUGE:(self.comparer_rouge_noir,False),
-                                      ZONE_VERTE:(self.comparer_vert_noir,False)},
-
-                           ZONE_COIN:{ZONE_COIN:(self.comparer_coin,True),
-
-                                      ZONE_BLANCHE:(self.comparer_blanc_coin,False),
-                                      ZONE_ROUGE:(self.comparer_rouge_coin,False),
-                                      ZONE_VERTE:(self.comparer_vert_coin,False),
-                                      ZONE_NOIRE:(self.comparer_noir_coin,False),}
+                            ZONE_COIN:     {ZONE_COIN:    (self.comparer_coin       ,True ),
+                                            ZONE_VERTE:   (self.comparer_vert_coin  ,False),
+                                            ZONE_ROUGE:   (self.comparer_rouge_coin ,False),
+                                            ZONE_NOIRE:   (self.comparer_noir_coin  ,False),
+                                            ZONE_BLANCHE: (self.comparer_blanc_coin ,False)}
                            }
 
         couleur_pos1=self.plateau.obtenir_couleur_position(position1)
@@ -318,4 +335,3 @@ class IA(joueur.Robot) :
         elif len(args) == 2:
             return self.comparer_2_positions(args[0], args[1])
         return self.comparer_n_positions(self.comparer_2_positions(args[0], args[1]), *args[2:])
-

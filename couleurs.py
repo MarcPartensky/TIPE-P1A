@@ -34,14 +34,3 @@ eclairer     = lambda couleur,n=0:   tuple([int(255-(255-c)*sigmoid(n/10)) for c
 melanger     = lambda coul1,coul2:   tuple([(c1+c2)//2                     for (c1,c2) in zip(coul1,coul2)])
 soustraction = lambda coul1,coul2:   tuple([max(min(2*c1-c2,255),0)        for (c1,c2) in zip(coul1,coul2)])
 augmenter    = lambda couleur,n=2:   tuple([int(255*exp(n*log(c/255)))     for c in couleur])
-
-
-
-
-#Ceci est exécuté uniquement si ce fichier est directement exécuté seul sans passer par "import couleurs" ou "from couleurs import ..."
-if __name__=="__main__":
-    #Quelques fonctions de test du module
-    print(assombrir(ROUGE,10))
-    print(melanger(JAUNE,ROUGE))
-    print(soustraction(BEIGE,ORANGE))
-    print(augmenter(BEIGE))

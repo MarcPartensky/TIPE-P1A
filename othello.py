@@ -14,21 +14,21 @@
 #
 #    Version : 2019
 #
-###############################################################################
+################################################################################
 #
 #                           SOMMAIRE de Othello
 #
-#    1.    class Othello:  ......................................... ligne  50
-#    1.1   ------> __init__ (self)  ................................ ligne  59
-#    1.2   ------> chargerPanneau (self)  .......................... ligne  77
-#    1.3   ------> __call__ (self)  ................................ ligne  88
-#    1.4   ------> actualiser (self)  .............................. ligne  93
-#    1.5   ------> derterminer_gagnant (self)  ..................... ligne 116
-#    1.6   ------> afficherSceneFinale (self)  ..................... ligne 130
-#    1.7   ------> afficher (self)  ................................ ligne 143
-#    1.8   ------> faireTour (self)  ............................... ligne 153
+#    1.    class Othello:  ......................................... ligne  47
+#    1.1   ------> __init__ (self)  ................................ ligne  56
+#    1.2   ------> chargerPanneau (self)  .......................... ligne  74
+#    1.3   ------> __call__ (self)  ................................ ligne  85
+#    1.4   ------> actualiser (self)  .............................. ligne  90
+#    1.5   ------> derterminer_gagnant (self)  ..................... ligne 113
+#    1.6   ------> afficherSceneFinale (self)  ..................... ligne 127
+#    1.7   ------> afficher (self)  ................................ ligne 140
+#    1.8   ------> faireTour (self)  ............................... ligne 150
 #
-###############################################################################
+################################################################################
 """
 # --coding:utf-8--
 
@@ -44,18 +44,15 @@ from copy import deepcopy
 
 
 
-
-
-
 class Othello:
-    """Classe de l'Othello. 
-       Gère la partie du jeu dans sa généralité: 
+    """Classe de l'Othello.
+       Gère la partie du jeu dans sa généralité:
            - initialisation du plateau (où les règles y sont définis)
            - boucle principale du jeu
            - demande au joueur leurs choix à chaque tour
            - demande au plateau et à la bordure de s'afficher dans la fenêtre
            - détermine le gagnant """
-    
+
     def __init__(self,joueurs,panneau=None,nom="Othello"):
         """Crée un objet de jeu d'Othello en récupérant une liste de joueurs et un panneau (qui est une fenêtre)."""
         self.nom=nom
@@ -163,9 +160,9 @@ class Othello:
             if not choix_du_joueur:
                 return None
             cfg.info("Le choix du joueur est {}".format(repr(choix_du_joueur)),nom_fichier="othello.py")
-            if cfg.PLACER: self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
+            self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
             self.plateau.afficherAnimationPion(choix_du_joueur)
-            
+
             #Permet en théorie au joueur de retourner en arrière. Mais n'est pas encore implémenter
             self.historique.append([self.plateau.grille,joueur_actif.cote,choix_du_joueur])
         else :

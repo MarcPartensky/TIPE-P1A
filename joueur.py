@@ -23,25 +23,23 @@
 #    1.2   ------> attribuerCote (self,cote)  ....................... ligne  65
 #    1.3   ------> __str__ (self)  .................................. ligne  70
 #
-#    2.    class Humain (joueur):  .................................. ligne  92
-#    2.1   ------> __init__ (self,nom=None)  ........................ ligne  95
-#    2.2   ------> jouer (self,plateau,fenetre)  .................... ligne  99
-#    2.3   ------> __str__ (self)  .................................. ligne 113
+#    2.    class Humain (joueur):  .................................. ligne  75
+#    2.1   ------> __init__ (self,nom=None)  ........................ ligne  78
+#    2.2   ------> jouer (self,plateau,fenetre)  .................... ligne  82
 #
-#    3.    class Robot (Joueur):  ................................... ligne 130
-#    3.1   ------> __init__ (self,nom=None)  ........................ ligne 133
-#    3.2   ------> main (self, plateau)  ............................ ligne 137
-#    3.3   ------> jouer (self,plateau,fenetre)  .................... ligne 142
-#    3.4   ------> jouerAleatoire (self,plateau)  ................... ligne 146
-#    3.5   ------> __str__ (self)  .................................. ligne 152
-#    3.6   ------> distance (self,p1,p2)  ........................... ligne 169
-#    3.7   ------> distanceDuCentre (self,position,plateau)  ........ ligne 175
-#    3.8   ------> distanceTotale (self,pions)  ..................... ligne 181
-#    3.9   ------> distanceMoyenne (self,pions)  .................... ligne 190
+#    3.    class Robot (Joueur):  ................................... ligne  96
+#    3.1   ------> __init__ (self,nom=None)  ........................ ligne  99
+#    3.2   ------> main (self, plateau)  ............................ ligne 103
+#    3.3   ------> jouer (self,plateau,fenetre)  .................... ligne 108
+#    3.4   ------> jouerAleatoire (self,plateau)  ................... ligne 112
+#    3.5   ------> distance (self,p1,p2)  ........................... ligne 117
+#    3.6   ------> distanceDuCentre (self,position,plateau)  ........ ligne 123
+#    3.7   ------> distanceTotale (self,pions)  ..................... ligne 129
+#    3.8   ------> distanceMoyenne (self,pions)  .................... ligne 138
 #
-#    4.   class Developpeur (Joueur):  .............................. ligne 197
-#    4.1  ------> __init__ (self,nom=None)  ......................... ligne 202
-#    4.2  ------> jouer (self,plateau,fenetre)  ..................... ligne 205
+#    4.   class Developpeur (Joueur):  .............................. ligne 144
+#    4.1  ------> __init__ (self,nom=None)  ......................... ligne 149
+#    4.2  ------> jouer (self,plateau,fenetre)  ..................... ligne 155
 #
 ################################################################################
 """
@@ -72,13 +70,12 @@ class Joueur:
         return self.nom
 
 
-
 class Humain(Joueur):
     """classe qui hérite de le classe Joueur"""
 
     def __init__(self,nom=None):
         """Crée un humain qui hérite de joueur."""
-        Joueur.__init__(self,nom)  #Compatibilité avec python2.7 avec cette écriture théoriquement.
+        Joueur.__init__(self,nom)  #Compatibilité avec python2.7 avec cette écriture théoriquement. (sinon vaut mieux utiliser super().__init__())
 
     def jouer(self,plateau,fenetre):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
@@ -93,6 +90,7 @@ class Humain(Joueur):
                         self.choix=position
                         break
         return self.choix
+
 
 class Robot(Joueur):
     """classe qui hérite de le classe Joueur"""
