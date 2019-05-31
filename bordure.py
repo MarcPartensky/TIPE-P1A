@@ -28,21 +28,19 @@ class Bordure:
                 pygame.draw.rect(self.surface,couleur,[x,y,10,10],0)
 
     def clear(self):
-        """nettoie la surface en recoloriant celle-ci par son arrière plan"""
+        """Nettoie la surface en recoloriant celle-ci par son arrière plan."""
         self.surface.fill(cfg.THEME_BORDURE["arriere plan"])
 
     def afficherTexte(self,texte,position,taille=None,couleur=None):
-        """Affiche du texte à l'écran"""
+        """Affiche du texte à l'écran."""
         if not couleur: couleur=cfg.THEME_BORDURE["couleur texte"]
         if not taille: taille=cfg.THEME_BORDURE["taille texte"]
         font=pygame.font.SysFont(cfg.THEME_BORDURE["police"],taille)
-        #print("police:",police)
-        #font=pygame.font.SysFont(police,taille)
         surface_texte=font.render(texte,1,couleur)
         self.surface.blit(surface_texte,position)
 
     def afficherTemps(self,position,taille=30,couleur=couleurs.BLANC):
-        """Affiche l'heure à un instant"""
+        """Affiche l'heure à un instant."""
         heures=str(time.localtime()[3])
         minutes=str(time.localtime()[4])
         secondes=str(time.localtime()[5])
@@ -68,12 +66,12 @@ class Bordure:
     def afficherTextePropre(self):
         """Affiche le texte contenu dans la bordure proprement."""
         position=(50,0)
+        self.afficherRectangle(position,taille,couleur)
         self.afficherTexte(self.texte,position)
 
     def afficher(self):
         """Permet d'afficher la bordure sur sa surface."""
         self.afficherFond()
-        #self.afficherTempsPropre() #Pas utilisable
         self.afficherTextePropre()
         self.afficherTourPropre()
 
@@ -92,16 +90,14 @@ class Bordure:
 if __name__=="__main__":
     from panneau import Panneau
     panneau=Panneau()
-    #surface=pygame.Surface((500,500))
-    #surface.fill(couleurs.BLEU)
     bordure=Bordure()
     panneau.decoupages=[(0,0,100,100),(100,0,100,100)]
-    #bordure.clear()
-    bordure.surface.fill(couleurs.BLEU)
-    bordure.afficherTemps((0,0),40,couleurs.VERT)
-    bordure.afficherTexte("message",(10,10),10,couleurs.BLEU)
-    panneau.coller(bordure.surface,0)
-    panneau.coller(bordure.surface,1)
-    panneau.afficher()
-    panneau.flip()
-    panneau()
+    while panneau.open:
+        panneau.check()
+        bordure.surface.fill(couleurs.BLEU)
+        bordure.afficherTemps((0,0),40,couleurs.VERT)
+        bordure.afficherTexte("message",(10,10),10,couleurs.BLEU)
+        panneau.coller(bordure.surface,0)
+        panneau.coller(bordure.surface,1)
+        panneau.afficher()
+        panneau.flip()

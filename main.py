@@ -7,7 +7,7 @@ import bruteforce as bf
 
 
 # CRÉATION DE LA FENETRE
-panneau=Panneau(nom="Othello",taille=cfg.RESOLUTION_FENETRE,set=False,fullscreen=False)
+panneau=Panneau(nom="Othello",taille=cfg.RESOLUTION_FENETRE,set=False,fullscreen=False) # Crée un panneau (qui est une fenêtre)
 
 
 # CRÉATION DES JOUEURS
@@ -34,7 +34,7 @@ machine10=ias.Direct(nom="Direct") #Joue en essayant de maximiser son nombre de 
 bruteforce1=bf.BruteForce(nom="Brute Force niveau 1", level=1) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
 bruteforce2=bf.BruteForce(nom="Brute Force niveau 2", level=2) #Joue en pensant 2 coups à l'avance
 bruteforce3=bf.BruteForce(nom="Brute Force niveau 3", level=3) #Joue en pensant 3 coups à l'avance
-
+bruteforce4=bf.BruteForce(nom="Brute Force niveau 4", level=4) #Joue en pensant 4 coups à l'avance
 
 #puis on  choisit les joueurs ici
 joueur_blanc = machine1
