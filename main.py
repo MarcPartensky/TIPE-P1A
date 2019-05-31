@@ -33,7 +33,10 @@ machine10=ias.Direct(nom="Direct") #Joue en essayant de maximiser son nombre de 
 bruteforce1=bf.BruteForce(nom="Brute Force niveau 1", level=1) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
 bruteforce2=bf.BruteForce(nom="Brute Force niveau 2", level=2) #Joue en pensant 2 coups à l'avance
 bruteforce3=bf.BruteForce(nom="Brute Force niveau 3", level=3) #Joue en pensant 3 coups à l'avance
+<<<<<<< HEAD
 bruteforce4=bf.BruteForce(nom="Brute Force niveau 4", level=4) #Joue en pensant 4 coups à l'avance
+=======
+>>>>>>> b84b2da92eb25f3bcb4d83657424e89f8b3a9c52
 
 
 #puis on  choisit les joueurs ici
