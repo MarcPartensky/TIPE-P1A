@@ -4,11 +4,18 @@ import couleurs
 import pygame
 
 class Panneau(Fenetre):
-    def __init__(self,nom="Fenetre",taille=None,text_font="monospace",text_size=65,text_color=couleurs.BLANC,background_color=couleurs.NOIR,fullscreen=False,set=True,decoupages=[]):
-        """Créer un panneau qui est une fenetre."""
-        super().__init__(nom,taille,text_font,text_size,text_color,background_color,fullscreen,set)
-        self.decoupages=[] #(px,py,psx,psy),(bx,by,bsx,bsy)
-
+    def __init__(self,nom="fenetre",
+                      taille=None,
+                      police_du_texte="monospace",
+                      taille_du_texte=65,
+                      couleur_du_texte=couleurs.BLANC,
+                      couleur_du_fond=couleurs.NOIR,
+                      plein_ecran=False,
+                      set=True,
+                      decoupages=[]):
+        """Crée un panneau qui est une fenetre organisée en compartiments."""
+        super().__init__(nom,taille,police_du_texte,taille_du_texte,couleur_du_texte,couleur_du_fond,plein_ecran,set)
+        self.decoupages=decoupages
 
     def coller(self,surface,compartiment):
         """Pose une surface dans le compartiment."""
@@ -17,7 +24,30 @@ class Panneau(Fenetre):
         self.screen.blit(surface,(dx,dy))
 
     def pointer(self):
-        pass
+        """Renvoie la position du curseur dans le système de coordonnées du compartiment."""
+        position=pygame.mouse.get_pos()
+        n=self.obtenirNumeroCompartiment(position)
+        position=self.obtenirPositionDansCompartiment(position,n)
+        return position
+
+    def obtenirNumeroCompartiment(self,position):
+        """Renvoie le numéro du compartiment qui contient cette position en coordonnées de l'écran."""
+        x,y=position
+        for compartiment in range(len(self.decoupages)):
+            dx,dy,dsx,dsy=self.decoupages[compartiment]
+            if dx<=x<=dx+dsx and dy<=y<=dy+dsy:
+                resultat=compartiment
+                break
+        return resultat
+
+    def obtenirPositionDansCompartiment(self,position,n):
+        """Renvoie la position relatif au système de coordonnées du compartiment n."""
+        x,y=position
+        dx,dy,dsx,dsy=self.decoupages[compartiment]
+        tx,ty=self.taille
+        nx=x*dsx/tx+dx
+        ny=y*dsy/ty+dy
+        return (nx,ny)
 
     def afficher(self):
         """Affiche les éléments spécifiques au panneau, c'est à dire par exemple

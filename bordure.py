@@ -66,7 +66,7 @@ class Bordure:
     def afficherTextePropre(self):
         """Affiche le texte contenu dans la bordure proprement."""
         position=(50,0)
-        self.afficherRectangle(position,taille,couleur)
+        #self.afficherRectangle(position,taille,couleur)
         self.afficherTexte(self.texte,position)
 
     def afficher(self):

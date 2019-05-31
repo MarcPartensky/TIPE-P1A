@@ -5,9 +5,11 @@ from joueur  import Robot, Humain, Developpeur
 import ia, ias
 import bruteforce as bf
 
+import config as cfg
+
 
 # CRÉATION DE LA FENETRE
-panneau=Panneau(nom="Othello",taille=cfg.RESOLUTION_FENETRE,set=False,fullscreen=False) # Crée un panneau (qui est une fenêtre)
+panneau=Panneau(nom="Othello",taille=cfg.RESOLUTION_FENETRE,set=False,plein_ecran=False) # Crée un panneau (qui est une fenêtre)
 
 
 # CRÉATION DES JOUEURS

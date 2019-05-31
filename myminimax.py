@@ -1,5 +1,6 @@
 class Minimax:
     def __init__(self,tree,start=0,choice=None):
+        """Crée un objet de minimax."""
         self.start=start
         self.tree=tree
         self.choice=choice
@@ -19,18 +20,8 @@ class Minimax:
         else:
             return object
 
-    def rem_none(self,l):
-        if type(l) != list:
-            return
-        l[:] = [i for i in l if i is not []]
-        for e in l:
-            self.rem_none(e)
-
-    def rem_empty(self,l):
-        if type(l)==list: return [self.rem_empty(e) for e in l if e!=[]]
-        else: return l
-
     def remove_empty(self,tree):
+        """Elimine toutes les listes vides d'un arbre."""
         if type(tree)!=list:
             return tree
         else:
@@ -45,7 +36,6 @@ class Minimax:
 
 
     def __call__(self):
-        #print(self.tree)
         if self.tree!=[]:
             value=self.decompose(self.tree)
         return self.choice
