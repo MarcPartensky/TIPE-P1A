@@ -1,15 +1,16 @@
 from panneau import Panneau
 from othello import Othello
+
 from joueur  import Robot, Humain, Developpeur
-
 import ia, ias
-
 import bruteforce as bf
-import config as cfg
 
+
+# CRÉATION DE LA FENETRE
 panneau=Panneau(nom="Othello",taille=cfg.RESOLUTION_FENETRE,set=False,fullscreen=False) # Crée un panneau (qui est une fenêtre)
 
-#On crée des joueurs ici
+
+# CRÉATION DES JOUEURS
 
 # Création des joueur humain et non naïvent
 humain1=Humain(nom="Humain1") #Crée un joueur humain.
@@ -37,8 +38,7 @@ bruteforce4=bf.BruteForce(nom="Brute Force niveau 4", level=4) #Joue en pensant 
 
 #puis on  choisit les joueurs ici
 joueur_blanc = machine1
-joueur_noir  = bruteforce3
-
+joueur_noir  = humain1
 
 #et non ici
 jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
