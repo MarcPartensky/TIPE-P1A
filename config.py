@@ -8,7 +8,6 @@ import couleurs
 CASE_VIDE =   -1   # Ne pas mettre 0 ou 1
 DEBUGING  = True
 INFO      = True
-PLACER    = True
 
 TEMPS_ANIMATION_PION = 0.15
 

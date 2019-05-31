@@ -160,7 +160,7 @@ class Othello:
             if not choix_du_joueur:
                 return None
             cfg.info("Le choix du joueur est {}".format(repr(choix_du_joueur)),nom_fichier="othello.py")
-            if cfg.PLACER: self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
+            self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
             self.plateau.afficherAnimationPion(choix_du_joueur)
 
             #Permet en théorie au joueur de retourner en arrière. Mais n'est pas encore implémenter
