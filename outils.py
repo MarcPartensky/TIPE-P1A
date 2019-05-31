@@ -1,24 +1,21 @@
 import random,time
-from config import debug
-import config
 
-def bijection(x,intervalle_entree,intervalle_sortie):
-    """Renvoie l'image de x par une bijection entre l'intervalle_entree et l'intervalle_sortie
-    Les intervalles sont sous forme de liste de deux éléments : la borne inf et sup"""
-    min1,max1=intervalle_entree
-    min2,max2=intervalle_sortie
+# FONCTION MATHÉMATIQUE (utiliser pour les couleurs et notamment afficher un fond d'écran plus agréable)
+sigmoid = lambda x : 1/(1+math.exp(-x))
+
+# QUELQUES FONCTIONS UTILE DANS LE CAS GÉNÉRALES
+
+def bijection(x,ensemble_entree,ensemble_sortie):
+    """Renvoie la valeur de f(x) par la bijection de l'ensemble_entree
+    et l'ensemble_sortie en gardant la même distance aux bornes.
+    Exemple:    on a un segment [0,10] et on veut la valeur de x=3 dans le segment [0,100].
+                Nous obtiendrons f(x)=30"""
+    min1,max1=ensemble_entree
+    min2,max2=ensemble_sortie
     return (x-min1)/(max1-min1)*(max2-min2)+min2
 
-def ajouter_coeff_alea(liste1,liste2) :
-    """Prend un prametre deux listes.
-    ajouter_coeff_alea prend une liste au hasard parmi les deux listes, lui ajoute 1 et ajoute 0 à l'autre."""
-    alea_coeff = [0, 1]
-    random.shuffle(alea_coeff)
-    liste1.append(alea_coeff[0])
-    liste2.append(alea_coeff[1])
-
 def est_superieur(liste1, liste2) :
-    """"Cette fonction permet de comparer deux liste d'integer. Elle retourne True si la list1 est supérieur à la list2
+    """Cette fonction permet de comparer deux liste d'integer. Elle retourne True si la list1 est supérieur à la list2
     Les premiers entiers de la liste1 et liste2 sont comparés, si un des deux entiers est plus grand, la liste dont il
     est issu est considéré comme supérieur à l'autre.
     Si les premiers entiers de la liste1 et la liste2 sont égaux, on compare le deuxième entier de la liste1 avec le
@@ -28,14 +25,13 @@ def est_superieur(liste1, liste2) :
     ajouter_coeff_alea(liste1,liste2)
     return liste1>=liste2
 
-def liste_tuple_vers_liste_liste(liste_de_tuple):
-    """Transforme une liste de tuple en liste de liste"""
-    return [list(elem) for elem in liste_de_tuple]
-
-def liste_liste_vers_liste_tuple(liste_liste):
-    """Transforme une liste de liste en liste de tuple"""
-    return [tuple(l) for l in liste_liste]
-
+def ajouter_coeff_alea(liste1,liste2) :
+    """Prend un prametre deux listes.
+    ajouter_coeff_alea prend une liste au hasard parmi les deux listes, lui ajoute 1 et ajoute 0 à l'autre."""
+    alea_coeff = [0, 1]
+    random.shuffle(alea_coeff)
+    liste1.append(alea_coeff[0])
+    liste2.append(alea_coeff[1])
 
 def intersection(*args) :
     """intersection prend en paramatre un nombre fini de listes.
@@ -44,6 +40,8 @@ def intersection(*args) :
         intersection( [1,2,3], [2,3], [5,3,4]) == [3] #True
         intersection( [ (1,2), (3,4) ], [ (1,2), (2,2)] ) == [(1,2)] #True
     """
+
+    #On utilise les fonctions intersection et intersection_de_2 récursivement pour faire faire l'intersection des n listes
     def intersection_de_2(l1, l2):
         """Fait l'intersection de deux listes python au sens des ensembles."""
         resultat = []
@@ -55,11 +53,20 @@ def intersection(*args) :
         return args[0]
     elif len(args)==2:
         return intersection_de_2(args[0], args[1])
-#On utilise les fonctions intersection et intersection_de_2 récursivement pour faire faire l'intersection des n listes
+
     return intersection(intersection_de_2(args[0], args[1]), *args[2:])
 
+def liste_liste_vers_liste_tuple(liste_liste):
+    """Transforme une liste de liste en liste de tuple"""
+    return [tuple(l) for l in liste_liste]
 
-def arrangementsConsecutifs(liste,n): # mieux expliciter ce que fait cette fonction (ajouter des exemples)
+# NON UTILISER
+def liste_tuple_vers_liste_liste(liste_de_tuple):
+    """Transforme une liste de tuple en liste de liste"""
+    return [list(elem) for elem in liste_de_tuple]
+
+# NON UTILISER
+def arrangementsConsecutifs(liste,n): #todo mieux expliciter ce que fait cette fonction (ajouter des exemples) ou alors la supprimer
     """Renvoie la liste des arrangements consécutifs de taille n."""
     arrangements=[]
     for i in range(len(liste)):
@@ -69,6 +76,7 @@ def arrangementsConsecutifs(liste,n): # mieux expliciter ce que fait cette fonct
         arrangements.append(arrangement)
     return arrangements
 
+# NON UTILISER
 def estRemplie(ligne,composante):
     """Determine si une ligne est remplie d'une même composante."""
     resultat=True
@@ -78,17 +86,22 @@ def estRemplie(ligne,composante):
             break
     return resultat
 
+# NON UTILISER
 def vecteur(arrivee,depart):
     """Renvoie le vecteur obtenu par les 2 positions"""
     vecteur=tuple([a-d for (a,d) in zip(arrivee,depart)])
     return vecteur
 
-def obtenirLigneReduite(ligne):
+# NON UTILISER
+def extremiter(ligne):
     """Renvoie les extrémités d'une ligne."""
     ligne=[ligne[0],ligne[-1]]
     return ligne
 
-def timer(fonction):
+
+# DECORATEUR DE FONCTION
+
+def deco_timer(fonction):
     """Décorateur qui permet de calculer le temps d'exécution d'une fonction."""
     def nouvelleFonction(*args,**kwargs):
         """Fonction à tester."""
