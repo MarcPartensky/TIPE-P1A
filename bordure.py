@@ -21,9 +21,9 @@ class Bordure:
         ftm=max(ftx,fty)
         for y in range(0,fty,10):
             for x in range(0,ftx,10):
-                r=int(abs(couleurs.bijection(ftx-x,[0,ftx],[100,255])))
-                g=int(255-abs(couleurs.bijection(x,[0,ftm],[200,255])))
-                b=int(abs(couleurs.bijection((x+y)/2,[0,fty],[100,255])))
+                r=int(abs(outils.bijection(x,[0,ftx],[0,255])))
+                g=int(255-abs(outils.bijection((x+y)/2,[0,ftm],[0,255])))
+                b=int(abs(outils.bijection(y,[0,fty],[0,255])))
                 couleur=(r,g,b)
                 pygame.draw.rect(self.surface,couleur,[x,y,10,10],0)
 
