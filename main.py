@@ -5,12 +5,11 @@ from joueur import Robot,Humain,Developpeur
 import ia
 import ias
 import bruteforce as bf
-import config as cfg
 
 
 if __name__=="__main__":
 #Ceci est exécuté uniquement si le fichier est exécuté directement depuis ce fichier et non depuis un autre fichier.
-#À retirer avant de passer à l'éxécutable
+#À RETIRER AVANT DE PASSER À L'ÉXÉCUTABLE
 
     panneau=Panneau(nom="Othello",taille=cfg.RESOLUTION_FENETRE,set=False,fullscreen=False) # Crée une fenêtre
 

@@ -70,7 +70,7 @@
 """
 # --coding:utf-8--
 
-from outils import intersection
+from outils import intersection, bijection
 import outils
 import couleurs
 import config as cfg
@@ -469,9 +469,9 @@ class Plateau:
         ftx,fty=self.surface.get_size()
         for y in range(0,fty,10):
             for x in range(0,ftx,10):
-                r=abs(couleurs.bijection(x,[0,ftx],[-100,100]))
-                g=255-abs(couleurs.bijection((x+y)/2,[0,ftx],[-100,100]))
-                b=abs(couleurs.bijection(y,[0,fty],[-100,100]))
+                r=abs(outils.bijection(x,[0,ftx],[-100,100]))
+                g=255-abs(outils.bijection((x+y)/2,[0,ftx],[-100,100]))
+                b=abs(outils.bijection(y,[0,fty],[-100,100]))
                 couleur=(r,g,b)
                 pygame.draw.rect(self.surface,couleur,[x,y,10,10],0)
 

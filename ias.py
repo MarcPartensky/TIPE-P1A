@@ -39,7 +39,7 @@ class PremierCoup(Robot):
         """Crée le robot avec les arguments de la classe mère 'Robot'."""
         super().__init__(*args,**kwargs)
 
-    @outils.timer
+    @outils.deco_timer
     def jouer(self,plateau,panneau=None):
         """Joue le premier coup proposé."""
         coups_possibles=plateau.mouvements
