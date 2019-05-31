@@ -1,9 +1,8 @@
-from fenetre import Fenetre
 from othello import Othello
 from joueur import Robot,Humain
 from bruteforce import BruteForce
 from ia import IA
-#from neuralnetwork import NeuralNetwork
+import config as cfg
 
 class Simulateur:
     def __init__(self,joueurs,nombre_parties=10,fenetre=None):
@@ -25,7 +24,7 @@ class Simulateur:
             self.gagnants.append(jeu.gagnant)
             if self.display: print(self)
 
-    def __repr__(self):
+    def __str__(self):
         """Renvoie une représentation des victoires de chaque joueur avec l'historice des victoires du simulateur."""
         message="Resultats de "+str(len(self.gagnants))+" parties:\n"
         for numeror in range(len(self.joueurs)):
@@ -35,10 +34,11 @@ class Simulateur:
 
 
 if __name__=="__main__":
-    fenetre=Fenetre(taille=[800,800],fullscreen=False)
+    from panneau import Panneau
+    panneau=Panneau(taille=cfg.RESOLUTION_FENETRE)
     joueurs=[IA(),BruteForce(3)]
-    nombre_parties=50
+    nombre_parties=2
     affichage=True
-    simulation=Simulateur(fenetre,joueurs,nombre_parties)
+    simulation=Simulateur(joueurs,nombre_parties,panneau)
     simulation()
     print(simulation)

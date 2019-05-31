@@ -18,8 +18,8 @@
 #
 #                           SOMMAIRE du plateau
 #
-#    1.    Class Plateau:  ........................................... ligne  83
-#    1.1   ------> __init__ (self,theme=None)  ....................... ligne  85
+#    1.    Class Plateau:  ........................................... ligne  80
+#    1.1   ------> __init__ (self,theme=None)  ....................... ligne  82
 #    1.2   ------> creerGrille (self)  ............................... ligne
 #    1.3   ------> est_dans_grille (self,position)  .................. ligne
 #    1.4   ------> est_un_coin (self,position)  ...................... ligne
@@ -34,7 +34,6 @@
 #    1.13  ------> obtenirCase (self,coordonnees)  ................... ligne
 #    1.14  ------> obtenirCases (self,coordonnees)  .................. ligne
 #    1.15  ------> obtenirPions (self,cotes)  ........................ ligne
-#    1.16  ------> __contains__ (self,pion)  ......................... ligne
 #    1.17  ------> obtenirNombrePionsJoueur (self,cote)  ............. ligne
 #    1.18  ------> obtenirNombrePionsRestant (self)  ................. ligne
 #    1.19  ------> obtenirEnvironnement (self,positions)  ............ ligne
@@ -70,7 +69,6 @@
 """
 # --coding:utf-8--
 
-from outils import intersection, bijection
 import outils
 import couleurs
 import config as cfg
@@ -223,11 +221,6 @@ class Plateau:
                         positions.append((x,y))
         return positions
 
-    def __contains__(self,pion):
-        """Determine si le plateau contient un pion.
-        Méthode spécial permèttant d'utiliser le mot clé 'in' """
-        case=self.obtenirCase(pion)
-        return bool(case!=cfg.CASE_VIDE)
 
     def obtenirNombrePionsJoueur(self, cote):#Todo à optimiser
         """Determine le nombre de pions d'un joueur en utilisant son cote."""
@@ -417,12 +410,12 @@ class Plateau:
         """Assigne aux cases mangeables la valeur de pion de la personne"""
         self.insererPion(mangeables,personne)
 
-    def presenter(self,positions,couleur,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
+    def presenter(self,*positions,couleur,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
         """Permet de debuger en 1 commande."""
+        print(positions)
         if self.demonstration:
-            if not type(positions)==list: positions=[positions]
-            if clear:
-                self.afficher()
+            if type(positions)!=list: positions=[positions]
+            if clear: self.afficher()
             if positions:
                 self.colorerCase(positions,couleur)
                 if message:
@@ -493,13 +486,13 @@ class Plateau:
     def afficherDecorationGrille(self):
         """Affiche les 4 points pour délimiter le carré central du plateau.
         Aspect uniquement graphique et décoratif afin d'améliorer le confort de l'utilisateur"""
-        wsx,wsy=fenetre.taille
+        wsx,wsy=self.surface.get_size()
         sx,sy=self.taille
         d=wsy//sy # distance entre deux ligne ou colonne
         positions_points_graphic=[(2*d,2*d),(2*d,wsy-2*d),(wsx-2*d,2*d),(wsx-2*d,wsy-2*d)]
         rayon = 5
         for position in positions_points_graphic:
-            fenetre.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur grille"],position,rayon,0)
+            pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur grille"],position,rayon,0)
 
     def afficherPions(self):
         """Affiche les pions"""

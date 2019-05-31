@@ -23,25 +23,23 @@
 #    1.2   ------> attribuerCote (self,cote)  ....................... ligne  65
 #    1.3   ------> __str__ (self)  .................................. ligne  70
 #
-#    2.    class Humain (joueur):  .................................. ligne  92
-#    2.1   ------> __init__ (self,nom=None)  ........................ ligne  95
-#    2.2   ------> jouer (self,plateau,fenetre)  .................... ligne  99
-#    2.3   ------> __str__ (self)  .................................. ligne 113
+#    2.    class Humain (joueur):  .................................. ligne  75
+#    2.1   ------> __init__ (self,nom=None)  ........................ ligne  78
+#    2.2   ------> jouer (self,plateau,fenetre)  .................... ligne  82
 #
-#    3.    class Robot (Joueur):  ................................... ligne 130
-#    3.1   ------> __init__ (self,nom=None)  ........................ ligne 133
-#    3.2   ------> main (self, plateau)  ............................ ligne 137
-#    3.3   ------> jouer (self,plateau,fenetre)  .................... ligne 142
-#    3.4   ------> jouerAleatoire (self,plateau)  ................... ligne 146
-#    3.5   ------> __str__ (self)  .................................. ligne 152
-#    3.6   ------> distance (self,p1,p2)  ........................... ligne 169
-#    3.7   ------> distanceDuCentre (self,position,plateau)  ........ ligne 175
-#    3.8   ------> distanceTotale (self,pions)  ..................... ligne 181
-#    3.9   ------> distanceMoyenne (self,pions)  .................... ligne 190
+#    3.    class Robot (Joueur):  ................................... ligne  96
+#    3.1   ------> __init__ (self,nom=None)  ........................ ligne  99
+#    3.2   ------> main (self, plateau)  ............................ ligne 103
+#    3.3   ------> jouer (self,plateau,fenetre)  .................... ligne 108
+#    3.4   ------> jouerAleatoire (self,plateau)  ................... ligne 112
+#    3.5   ------> distance (self,p1,p2)  ........................... ligne 117
+#    3.6   ------> distanceDuCentre (self,position,plateau)  ........ ligne 123
+#    3.7   ------> distanceTotale (self,pions)  ..................... ligne 129
+#    3.8   ------> distanceMoyenne (self,pions)  .................... ligne 138
 #
-#    4.   class Developpeur (Joueur):  .............................. ligne 197
-#    4.1  ------> __init__ (self,nom=None)  ......................... ligne 202
-#    4.2  ------> jouer (self,plateau,fenetre)  ..................... ligne 205
+#    4.   class Developpeur (Joueur):  .............................. ligne 144
+#    4.1  ------> __init__ (self,nom=None)  ......................... ligne 149
+#    4.2  ------> jouer (self,plateau,fenetre)  ..................... ligne 155
 #
 ################################################################################
 """
@@ -67,26 +65,9 @@ class Joueur:
         self.cote=cote
         self.cote_oppose=1-self.cote
 
-    def reinitialiser(self, plateau): # ne sera pas dans le sommaire tant qu'elle ne sera pas défini
-        #A compléter par Alexandre ou pas
-        raise NotImplementedError("la méthode 'reinitialiser' de la classe Joueur n'est pas implémenter")
-        # si on appelle cette fonction on lève une erreur python pour faire césser le programme
-        # cela permet de ce rendre compte si on utilise une fonction qui existe mais qui n'est pas implémenter
-
     def __str__(self):
         """Renvoie une représentation du joueur en string."""
-        #Habituellement le joueur ne connait pas sa couleur et ne possede pas de nom
-        #mais ce celui-ci connait toujours son coté.
-        #Effectivement c'est le plateau qui affiche une couleur prédéfinie dans le thème.
-        if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
-            text="Joueur"+str(self.nom)
-        elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
-            #Pourrait fonctionner si le joueur connait sa couleurs
-            text="Joueur"+str(self.couleur)
-        else: #Sinon dans la plupart des cas on affiche uniquement son côté.
-            text="Joueur"+str(self.cote)
-        return text
-
+        return self.nom
 
 
 class Humain(Joueur):
@@ -94,7 +75,7 @@ class Humain(Joueur):
 
     def __init__(self,nom=None):
         """Crée un humain qui hérite de joueur."""
-        Joueur.__init__(self,nom)  #Compatibilité avec python2.7 avec cette écriture théoriquement.
+        Joueur.__init__(self,nom)  #Compatibilité avec python2.7 avec cette écriture théoriquement. (sinon vaut mieux utiliser super().__init__())
 
     def jouer(self,plateau,fenetre):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
@@ -109,22 +90,6 @@ class Humain(Joueur):
                         self.choix=position
                         break
         return self.choix
-
-    def __str__(self):
-        """Renvoie une représentation du joueur en string."""
-        #Habituellement le joueur ne connait pas sa couleur et ne possede pas de nom
-        #mais ce celui-ci connait toujours son coté.
-        #Effectivement c'est le plateau qui affiche une couleur prédéfinie dans le thème.
-        if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
-            text="Joueur"+str(self.nom)
-        elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
-            #Pourrait fonctionner si l'on créer une classe de couleur
-            #mais c'est un peu exagéré.
-            text="Joueur"+str(self.couleur)
-        else: #Sinon dans la plupart des cas on affiche uniquement son type.
-            text="Joueur Humain"
-        return text
-
 
 
 class Robot(Joueur):
@@ -148,23 +113,6 @@ class Robot(Joueur):
         mouvements=plateau.obtenirMouvementsValides(self.cote)
         self.choix=random.choice(mouvements)
         return self.choix
-
-    def __str__(self):
-        """Renvoie une représentation du joueur en string."""
-        #Habituellement le joueur ne connait pas sa couleur et ne possede pas de nom
-        #mais ce celui-ci connait toujours son coté.
-        #Effectivement c'est le plateau qui affiche une couleur prédéfinie dans le thème.
-        if "nom" in self.__dict__: #Vérifie si le joueur possede un attribut nom
-            text="Joueur"+str(self.nom)
-        elif "couleur" in self.__dict__: #Vérifie si le joueur possede un attribut couleur
-            #Pourrait fonctionner si l'on créer une classe de couleur
-            #mais c'est un peu exagéré.
-            text="Joueur"+str(self.couleur)
-        else: #Sinon dans la plupart des cas on affiche uniquement son type.
-            text="Joueur Robot"
-        return text
-
-    # FONCTION POUR LES IAS NAÏVENT
 
     def distance(self,p1,p2):
         """Renvoie la distance entre les positions p1 et p2."""
@@ -193,22 +141,22 @@ class Robot(Joueur):
         return self.distanceTotale(pions)/nombre_de_distances_calculees
 
 
-
 class Developpeur(Humain):
     """classe qui hérite de le classe Humain.
     Cette classe particulière permet de jouer comme un humain mais sans respecter
-    les règles de l'othello en ce qui conserne l'emdroit où l'on peut jouer """
+    les règles de l'othello en ce qui conserne l'endroit où l'on peut jouer """
 
     def __init__(self,nom=None):
-        Joueur.__init__(self,nom)
+        """Crée un développeur, c'est à dire un humain qui peut jouer sans respecter
+        les règles de l'Othello. Le développeur est très pratique pour débugger et
+        tester des intelligences artificielles."""
+        super().__init__(nom)
 
     def jouer(self,plateau,panneau):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose et peux le sélectionner a l'aide de la fenêtre."""
         while panneau.open:
             panneau.check()
-            #curseur=panneau.point()#Renvoie les coordonnees du curseur
             position=plateau.obtenirPositionPlateau(panneau)
-            #position=plateau.obtenirPositionPlateau(curseur,panneau) #Transforme les coordonnees du curseur dans le systeme de coordonnees du plan
             click=panneau.click()
             if click:
                 if plateau.estDansGrille(position):

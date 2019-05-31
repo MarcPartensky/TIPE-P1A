@@ -1,6 +1,6 @@
 import random,time
 
-# FONCTION MATHÉMATIQUE (utiliser pour les couleurs et notamment afficher un fond d'écran plus agréable)
+# FONCTIONS MATHÉMATIQUES (utilisés pour les couleurs et notamment pour afficher un fond d'écran plus agréable)
 sigmoid = lambda x : 1/(1+math.exp(-x))
 
 # QUELQUES FONCTIONS UTILE DANS LE CAS GÉNÉRALES
@@ -15,7 +15,13 @@ def bijection(x,ensemble_entree,ensemble_sortie):
     return (x-min1)/(max1-min1)*(max2-min2)+min2
 
 def est_superieur(liste1, liste2) :
-    """"demander alex"""
+    """Cette fonction permet de comparer deux liste d'integer. Elle retourne True si la list1 est supérieur à la list2
+    Les premiers entiers de la liste1 et liste2 sont comparés, si un des deux entiers est plus grand, la liste dont il
+    est issu est considéré comme supérieur à l'autre.
+    Si les premiers entiers de la liste1 et la liste2 sont égaux, on compare le deuxième entier de la liste1 avec le
+    deuxième entier de la liste2, si ils sont encore égaux on regarde les nombre en troisième place etc.
+    Si les liste 1 et 2 contiennent les mêmes nombres, ont retourne au hasard vrai ou faux
+    """
     ajouter_coeff_alea(liste1,liste2)
     return liste1>=liste2
 
@@ -60,7 +66,7 @@ def liste_tuple_vers_liste_liste(liste_de_tuple):
     return [list(elem) for elem in liste_de_tuple]
 
 # NON UTILISER
-def arrangementsConsecutifs(liste,n): #todo mieux expliciter ce que fait cette fonction (ajouter des exemples)
+def arrangementsConsecutifs(liste,n): #todo mieux expliciter ce que fait cette fonction (ajouter des exemples) ou alors la supprimer
     """Renvoie la liste des arrangements consécutifs de taille n."""
     arrangements=[]
     for i in range(len(liste)):

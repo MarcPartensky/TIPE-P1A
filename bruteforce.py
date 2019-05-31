@@ -23,7 +23,7 @@ class BruteForce(Robot): #Permet d'évaluer d'autres intelligences artificielles
                         [ 9,-2, 1, 1, 1, 1,-2, 9]]
 
     def jouer(self,board,window):
-        #board.presenterPionsStables(window) #Pas encore au point
+        """Joue en prévoyant un nombre 'level' de coups à l'avance."""
         self.board=board
         board.mouvements=self.board.obtenirMouvementsValides(self.cote)
         tree=self.treePlay(board.grille,self.cote)
@@ -41,7 +41,7 @@ class BruteForce(Robot): #Permet d'évaluer d'autres intelligences artificielles
 
     def treePlay(self,grid,cote,level=0):
         if level>self.level:
-            return self.reward(grid,cote)
+            return self.evaluate(grid,cote)
         else:
             tree=[]
             self.board.grille=grid
@@ -54,12 +54,7 @@ class BruteForce(Robot): #Permet d'évaluer d'autres intelligences artificielles
                 tree.append(self.treePlay(self.board.grille,(cote+1)%2,level+1))
             return tree
 
-    def reward(self,grid,cote):
-        result=self.evaluate(grid,cote)
-        return result
-
-    def evaluate(self,grid,cote):
-        return sum([sum([(int(grid[y][x]==self.cote)-int(grid[y][x]!=self.cote and grid[y][x]>=0))*self.advantage[y][x] for x in range(len(self.advantage[y]))]) for y in range(len(self.advantage))])
+    evaluate=lambda self,grid,cote:sum([sum([(int(grid[y][x]==self.cote)-int(grid[y][x]!=self.cote and grid[y][x]>=0))*self.advantage[y][x] for x in range(len(self.advantage[y]))]) for y in range(len(self.advantage))])
 
     def container(self,tree):
         if type(tree)!=list:
