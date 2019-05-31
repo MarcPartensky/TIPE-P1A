@@ -75,7 +75,7 @@ class Othello:
         #cfg.
         self.panneau.decoupages=[decoupage1,decoupage2]
 
-    def lancer_partie(self): #Utilisation de la méthode spécial call qui permet de lancer la boucle principale
+    def __call__(self): #Utilisation de la méthode spécial call qui permet de lancer la boucle principale
         """Boucle principale du jeu Othello."""
         while self.ouvert:
             self.actualiser()
@@ -127,7 +127,7 @@ class Othello:
         position=list(self.panneau.centerText(message)) #Centre la position du message, ne fonctionne pas correctement.
         position[0]-=50 #Recentre correctement le message.
         taille=[int(len(message)*self.panneau.taille_du_texte/2.7),70] #Choisie la taille du message.
-        self.panneau.print(message,position,taille,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC) #Affiche le message.
+        self.panneau.afficherTexte(message,position,taille,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC) #Affiche le message.
         self.panneau.flip() #Rafraîchie la fenêtre.
 
     def afficher(self):

@@ -24,7 +24,7 @@ class Simulateur:
             self.gagnants.append(jeu.gagnant)
             if self.display: print(self)
 
-    def __repr__(self):
+    def __str__(self):
         """Renvoie une représentation des victoires de chaque joueur avec l'historice des victoires du simulateur."""
         message="Resultats de "+str(len(self.gagnants))+" parties:\n"
         for numeror in range(len(self.joueurs)):

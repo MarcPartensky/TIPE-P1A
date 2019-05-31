@@ -43,4 +43,4 @@ joueur_noir  = humain1
 
 #et non ici
 jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
-jeu.lancer_partie() #Lance le jeu.
+jeu() #Lance le jeu.

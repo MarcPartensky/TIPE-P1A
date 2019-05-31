@@ -205,10 +205,10 @@ class Fenetre:
     def alert(self,message):
         """Quickly display text on window."""
         position=self.centerText(message)
-        self.print(message,position,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC)
+        self.afficherTexte(message,position,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC)
         self.flip()
 
-    def print(self,text,position,taille=None,color=None,couleur_de_fond=None,font=None):
+    def afficherTexte(self,text,position,taille=None,color=None,couleur_de_fond=None,font=None):
         """Display text on screen using position, taille, color and font."""
         if not taille: taille=self.taille_du_texte
         if not color: color=self.text_color
