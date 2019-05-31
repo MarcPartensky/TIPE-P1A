@@ -3,7 +3,7 @@ Module de couleurs répertoriant quelques constantes de couleurs RGB/RVB
 ainsi que des fonctions simple manipulant ces couleurs RGB/RVB
 """
 
-from outils import linearBijection
+from outils import sigmoid
 from random import randint
 from math   import exp,log
 
@@ -21,12 +21,6 @@ VIOLET     = (100,  0,100)
 ORANGE     = (255,200,  0)
 ROSE       = (255,192,203)
 BEIGE      = (199,175,138)
-
-# FONCTION MATHÉMATIQUE UTILISER PAR LES FONCTIONS SUIVANT CELLES-CI
-
-sigmoid   = s   = lambda x:1/(1+math.exp(-x))
-reverse_sigmoid = lambda x:log(x/(1-x))
-bijection = linearBijection # techniquement cela ne sert à rien, on pourrait directement appeler la fonction du module outils mais puisqu'on l'utilise uniquement pour les couleurs, on la définie ici
 
 
 # FONCTIONS SIMPLE MANIPULANT DES COULEURS
@@ -47,8 +41,7 @@ augmenter    = lambda couleur,n=2:   tuple([int(255*exp(n*log(c/255)))     for c
 #Ceci est exécuté uniquement si ce fichier est directement exécuté seul sans passer par "import couleurs" ou "from couleurs import ..."
 if __name__=="__main__":
     #Quelques fonctions de test du module
-    print(assombrir(RED,10))
-    print(melanger(YELLOW,RED))
-    print(inverser(LIGHTBROWN))
-    print(soustraction(LIGHTBROWN,ORANGE))
-    print(augmenter(LIGHTBROWN))
+    print(assombrir(ROUGE,10))
+    print(melanger(JAUNE,ROUGE))
+    print(soustraction(BEIGE,ORANGE))
+    print(augmenter(BEIGE))
