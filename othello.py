@@ -18,39 +18,50 @@
 #
 #                           SOMMAIRE de Othello
 #
-#    1.    class Othello:  .......................................... ligne
-#    1.1   ------> __init__ (self)  ................................. ligne
-#    1.2   ------> chargerFenetre (self,fenetre)  ................... ligne
-#    1.3   ------> chargerTheme (self,theme)  ....................... ligne
-#    1.4   ------> __call__ (self)  ................................. ligne
-#    1.5   ------> derterminer_gagnant (self)  ...................... ligne
-#    1.6   ------> afficherSceneFinale (self)  ...................... ligne
-#    1.7   ------> afficher (self)  ................................. ligne
-#    1.8   ------> faireTour (self)  ................................ ligne
+#    1.    class Othello:  ......................................... ligne  50
+#    1.1   ------> __init__ (self)  ................................ ligne  59
+#    1.2   ------> chargerPanneau (self)  .......................... ligne  77
+#    1.3   ------> __call__ (self)  ................................ ligne  88
+#    1.4   ------> actualiser (self)  .............................. ligne  93
+#    1.5   ------> derterminer_gagnant (self)  ..................... ligne 116
+#    1.6   ------> afficherSceneFinale (self)  ..................... ligne 130
+#    1.7   ------> afficher (self)  ................................ ligne 143
+#    1.8   ------> faireTour (self)  ............................... ligne 153
 #
 ###############################################################################
 """
 # --coding:utf-8--
 
+
 from plateau_analysable import PlateauAnalysable as Plateau
 from bordure import Bordure
 
 import couleurs
-import joueur as Joueur
-import time
-import pygame
-from pygame.locals import *
 import config as cfg
+import joueur as Joueur
 
 from copy import deepcopy
 
+
+
+
+
+
 class Othello:
+    """Classe de l'Othello. 
+       Gère la partie du jeu dans sa généralité: 
+           - initialisation du plateau (où les règles y sont définis)
+           - boucle principale du jeu
+           - demande au joueur leurs choix à chaque tour
+           - demande au plateau et à la bordure de s'afficher dans la fenêtre
+           - détermine le gagnant """
+    
     def __init__(self,joueurs,panneau=None,nom="Othello"):
-        """Crée un objet de jeu d'Othello en récupérant une liste de joueurs, un panneau et un theme."""
+        """Crée un objet de jeu d'Othello en récupérant une liste de joueurs et un panneau (qui est une fenêtre)."""
         self.nom=nom
         self.joueurs=joueurs
-        for compteur in range(len(self.joueurs)):
-            self.joueurs[compteur].attribuerCote(compteur)# i.e. : self.joueurs[compteur].cote=compteur
+        for compteur in range(len(self.joueurs)): # atribut le coté des joueur
+            self.joueurs[compteur].attribuerCote(compteur) # i.e. : self.joueurs[compteur].cote=compteur
         self.rang=0 # indique le moment dans la partie. exemple: rang =10 signifie que l'on est au 10ème tours
         self.gagnant=None
         self.historique=[]
@@ -72,10 +83,9 @@ class Othello:
         brx,bry=cfg.RESOLUTION_BORDURE
         decoupage1=(0,0,prx,pry)
         decoupage2=(prx,0,prx+brx,bry)
-        #cfg.
         self.panneau.decoupages=[decoupage1,decoupage2]
 
-    def __call__(self): #Utilisation de la méthode spécial call qui permet de lancer la boucle principale
+    def __call__(self): #Utilisation de la méthode spécial call, utiliser lorsqu'on appele une instance de classe comme si c'étais une fonction
         """Boucle principale du jeu Othello."""
         while self.ouvert:
             self.actualiser()
@@ -155,7 +165,9 @@ class Othello:
             cfg.info("Le choix du joueur est {}".format(repr(choix_du_joueur)),nom_fichier="othello.py")
             if cfg.PLACER: self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
             self.plateau.afficherAnimationPion(choix_du_joueur)
-            self.historique.append([self.plateau.grille,joueur_actif.cote,choix_du_joueur]) #Permet en théorie au joueur de retourner en arrière.
+            
+            #Permet en théorie au joueur de retourner en arrière. Mais n'est pas encore implémenter
+            self.historique.append([self.plateau.grille,joueur_actif.cote,choix_du_joueur])
         else :
             #Sinon aucun mouvement n'est possible et on passe uniquement au tour suivant
             pass
