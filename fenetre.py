@@ -62,7 +62,7 @@ class Fenetre:
         en plein écran, et l'affichage sur l'écran dès sa création."""
         self.name=nom
         self.taille=taille
-        self.text_font=police_du_texte
+        self.police_du_texte=police_du_texte
         self.taille_du_texte=taille_du_texte
         self.text_color=text_color
         self.couleur_de_fond=background_color
@@ -80,11 +80,11 @@ class Fenetre:
 
     def set(self):
         """Charge la fenêtre sur l'écran."""
-        self.infoConsole("Window has been created.")
+        self.infoConsole("La fenêtre a été ouverte.")
         pygame.init()
         self.info=pygame.display.Info()
         if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
-        self.font=pygame.font.SysFont(self.text_font, self.taille_du_texte)
+        self.font=pygame.font.SysFont(self.police_du_texte, self.taille_du_texte)
         if self.plein_ecran:
             self.screen=pygame.display.set_mode(self.taille,FULLSCREEN)
         else:
@@ -210,7 +210,7 @@ class Fenetre:
         self.infoConsole("La fenêtre a été fermée.")
 
 
-"""Test d'utilisation et test de la fenetre."""
+"""Test d'utilisation et test de la fenêtre."""
 
 if __name__=="__main__":
     f=Fenetre("Test de la fenêtre")
