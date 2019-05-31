@@ -61,12 +61,12 @@ import time
 class Fenetre:
     draw=pygame.draw # permet juste d'écrire un peu moins dans le code
 
-    def __init__(self,name="fenetre",taille=None,text_font="monospace",text_size=65,text_color=couleurs.BLANC,background_color=couleurs.NOIR,fullscreen=False,set=True):
+    def __init__(self,name="fenetre",taille=None,police_du_texte="monospace",taille_du_texte=65,text_color=couleurs.BLANC,background_color=couleurs.NOIR,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""
         self.name=name
         self.taille=taille
-        self.text_font=text_font
-        self.taille_du_texte=text_size
+        self.text_font=police_du_texte
+        self.taille_du_texte=taille_du_texte
         self.text_color=text_color
         self.couleur_de_fond=background_color
         self.fullscreen=fullscreen
