@@ -59,7 +59,9 @@ import time
 
 
 class Fenetre:
-    draw=pygame.draw # permet juste d'écrire un peu moins dans le code
+    """ Classe de fenêtre utilisant la bibliothèque graphique pygame.
+        Cette classe est une surcouche simplificatrice de pygame :
+            elle permet de gérer simplement les fenêtres faites par pygame.  """
 
     def __init__(self,name="fenetre",taille=None,police_du_texte="monospace",taille_du_texte=65,text_color=couleurs.BLANC,background_color=couleurs.NOIR,fullscreen=False,set=True):
         """Create a fenetre object using name, taille text_font, text_size, text_color, background and set."""

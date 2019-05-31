@@ -4,13 +4,14 @@ import outils, joueur, random
 import config as cfg
 from copy import deepcopy
 
-#La liste des différentes zone de jeu :
-ZONE_COIN=4#Ne doit pas etre une liste
-ZONE_VERTE=3
-ZONE_BLANCHE=2
-ZONE_ROUGE=1
-ZONE_NOIRE=0
-ZONE_TOUT=-1
+# La liste des différentes zone de jeu :
+# Ne doit pas être une liste
+ZONE_COIN    =  4
+ZONE_VERTE   =  3
+ZONE_BLANCHE =  2
+ZONE_ROUGE   =  1
+ZONE_NOIRE   =  0
+ZONE_TOUT    = -1
 
 
 class IA(joueur.Robot):

@@ -42,8 +42,6 @@ class Minimax:
                         new_tree.append(new_element)
             return new_tree
 
-
-
     def __call__(self):
         #print(self.tree)
         if self.tree!=[]:
