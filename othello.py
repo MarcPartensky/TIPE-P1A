@@ -63,7 +63,7 @@ class Othello:
         self.panneau=panneau
         if self.panneau: self.chargerPanneau()
 
-    def chargerPanneau(self,panneau):
+    def chargerPanneau(self):
         """Permet de charger la panneau en supposant qu'elle ne soit pas None."""
         self.panneau.nom=self.nom #Donne un nom a la fenêtre.
         self.panneau.set() #Charge la fenêtre créée.

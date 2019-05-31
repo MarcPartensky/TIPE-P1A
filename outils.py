@@ -1,6 +1,6 @@
 import random,time
 
-# FONCTION MATHÉMATIQUE (utiliser pour les couleurs et notamment afficher un fond d'écran plus agréable)
+# FONCTIONS MATHÉMATIQUES (utilisés pour les couleurs et notamment pour afficher un fond d'écran plus agréable)
 sigmoid = lambda x : 1/(1+math.exp(-x))
 
 # QUELQUES FONCTIONS UTILE DANS LE CAS GÉNÉRALES

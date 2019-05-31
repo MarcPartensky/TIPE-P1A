@@ -67,12 +67,6 @@ class Joueur:
         self.cote=cote
         self.cote_oppose=1-self.cote
 
-    def reinitialiser(self, plateau): # ne sera pas dans le sommaire tant qu'elle ne sera pas défini
-        #A compléter par Alexandre ou pas
-        raise NotImplementedError("la méthode 'reinitialiser' de la classe Joueur n'est pas implémenter")
-        # si on appelle cette fonction on lève une erreur python pour faire césser le programme
-        # cela permet de ce rendre compte si on utilise une fonction qui existe mais qui n'est pas implémenter
-
     def __str__(self):
         """Renvoie une représentation du joueur en string."""
         return self.nom
@@ -152,7 +146,7 @@ class Robot(Joueur):
 class Developpeur(Humain):
     """classe qui hérite de le classe Humain.
     Cette classe particulière permet de jouer comme un humain mais sans respecter
-    les règles de l'othello en ce qui conserne l'emdroit où l'on peut jouer """
+    les règles de l'othello en ce qui conserne l'endroit où l'on peut jouer """
 
     def __init__(self,nom=None):
         """Crée un développeur, c'est à dire un humain qui peut jouer sans respecter
