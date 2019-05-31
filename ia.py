@@ -272,40 +272,36 @@ class IA(joueur.Robot):
 
     def comparer_2_positions(self, position1, position2):
         """Prend en parametre deux position de couleur quelconque et retourne la position la plus avantageuse"""
-        dictionnaire_des_fct_comparaison={ZONE_BLANCHE:{ZONE_BLANCHE:(self.comparer_blanc,True),
-                                         ZONE_ROUGE:(self.comparer_blanc_rouge,True),
-                                         ZONE_VERTE:(self.comparer_blanc_vert,True),
-                                         ZONE_NOIRE:(self.comparer_blanc_noir,True),
-                                         ZONE_COIN:(self.comparer_blanc_coin,True)},
+        dictionnaire_des_fct_comparaison={
+                            ZONE_BLANCHE:  {ZONE_COIN:    (self.comparer_blanc_coin ,True ),
+                                            ZONE_VERTE:   (self.comparer_blanc_vert ,True ),
+                                            ZONE_ROUGE:   (self.comparer_blanc_rouge,True ),
+                                            ZONE_NOIRE:   (self.comparer_blanc_noir ,True ),
+                                            ZONE_BLANCHE: (self.comparer_blanc      ,True )} ,
 
-                           ZONE_ROUGE:{  ZONE_ROUGE:(self.comparer_rouge,True),
-                                         ZONE_VERTE:(self.comparer_rouge_vert,True),
-                                         ZONE_NOIRE:(self.comparer_rouge_noir,True),
-                                         ZONE_COIN:(self.comparer_rouge_coin,True),
+                            ZONE_ROUGE:    {ZONE_COIN:    (self.comparer_rouge_coin ,True ),
+                                            ZONE_VERTE:   (self.comparer_rouge_vert ,True ),
+                                            ZONE_ROUGE:   (self.comparer_rouge      ,True ),
+                                            ZONE_NOIRE:   (self.comparer_rouge_noir ,True ),
+                                            ZONE_BLANCHE: (self.comparer_blanc_rouge,False)} ,
 
-                                         ZONE_BLANCHE:(self.comparer_blanc_rouge,False)},
+                            ZONE_VERTE:    {ZONE_COIN:    (self.comparer_vert_coin  ,True ),
+                                            ZONE_VERTE:   (self.comparer_vert       ,True ),
+                                            ZONE_ROUGE:   (self.comparer_rouge_vert ,False),
+                                            ZONE_NOIRE:   (self.comparer_vert_noir  ,True ),
+                                            ZONE_BLANCHE: (self.comparer_blanc_vert ,False)} ,
 
-                           ZONE_VERTE:{   ZONE_VERTE:(self.comparer_vert,True),
-                                         ZONE_COIN:(self.comparer_vert_coin,True),
-                                         ZONE_NOIRE:(self.comparer_vert_noir,True),
+                            ZONE_NOIRE:    {ZONE_COIN:    (self.comparer_noir_coin  ,True ),
+                                            ZONE_VERTE:   (self.comparer_vert_noir  ,False),
+                                            ZONE_ROUGE:   (self.comparer_rouge_noir ,False),
+                                            ZONE_NOIRE:   (self.comparer_noir       ,True ),
+                                            ZONE_BLANCHE: (self.comparer_blanc_noir ,False)} ,
 
-                                        ZONE_BLANCHE:(self.comparer_blanc_vert,False),
-                                        ZONE_ROUGE:(self.comparer_rouge_vert,False)},
-
-
-                           ZONE_NOIRE:{ZONE_NOIRE:(self.comparer_noir,True),
-                                      ZONE_COIN:(self.comparer_noir_coin,True),
-
-                                      ZONE_BLANCHE:(self.comparer_blanc_noir,False),
-                                      ZONE_ROUGE:(self.comparer_rouge_noir,False),
-                                      ZONE_VERTE:(self.comparer_vert_noir,False)},
-
-                           ZONE_COIN:{ZONE_COIN:(self.comparer_coin,True),
-
-                                      ZONE_BLANCHE:(self.comparer_blanc_coin,False),
-                                      ZONE_ROUGE:(self.comparer_rouge_coin,False),
-                                      ZONE_VERTE:(self.comparer_vert_coin,False),
-                                      ZONE_NOIRE:(self.comparer_noir_coin,False),}
+                            ZONE_COIN:     {ZONE_COIN:    (self.comparer_coin       ,True ),
+                                            ZONE_VERTE:   (self.comparer_vert_coin  ,False),
+                                            ZONE_ROUGE:   (self.comparer_rouge_coin ,False),
+                                            ZONE_NOIRE:   (self.comparer_noir_coin  ,False),
+                                            ZONE_BLANCHE: (self.comparer_blanc_coin ,False)}
                            }
 
         couleur_pos1=self.plateau.obtenir_couleur_position(position1)

@@ -33,7 +33,7 @@ THEME_PLATEAU = {   "couleur pions"      :  [couleurs.BLANC,couleurs.NOIR],
 THEME_FENETRE = {}
 
 
-# FONCTION  D'AFFICHAGE CONSOLE
+# FONCTION D'AFFICHAGE CONSOLE
 
 def debug(*txt):
     """Fonction de debug, cette fonction n'est qu'un print personaliser."""
