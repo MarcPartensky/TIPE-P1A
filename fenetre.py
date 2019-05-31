@@ -206,21 +206,15 @@ class Fenetre:
         self.pause()
 
     def __del__(self):
-        """Executed before the window is destroyed."""
-        self.infoConsole("Window has been closed.")
-
+        """Affiche que la fenêtre a été fermée à la fermeture de la fenêtre."""
+        self.infoConsole("La fenêtre a été fermée.")
 
 
 """Test d'utilisation et test de la fenetre."""
 
 if __name__=="__main__":
-    w=Fenetre("FENETRE TEST")
-    #save(w,"grosse fenetre")
-    #w=load("grosse fenetre")
-    #print(lighten(BLUE))
-    #w.alert("test")
-    w.pause()
-    w.clear()
-    w.alert("test2")
-    w.attendre(1)
-    w.kill()
+    f=Fenetre("Test de la fenêtre")
+    f.pause()
+    f.clear()
+    f.alert("test")
+    f.attendre(1)
