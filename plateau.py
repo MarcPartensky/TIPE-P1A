@@ -374,7 +374,7 @@ class Plateau:
 
     def conquerir(self,position,cote):
         """Permet au nouveau pion à la position 'position' de couleur 'cote' de
-        retouner les autres pions"""
+        retourner les autres pions"""
         directions=self.obtenirDirections()
         for direction in directions:
             ligne=self.obtenirLigneExclus(position,direction)

@@ -20,6 +20,8 @@ class IA(joueur.Robot):
     def __init__(self,nom=None):
         "Lance l'__init__ de la classe joueur.Robot"
         super().__init__(nom)
+        # super() retourne la classe mère de IA, c'est joueur.Robot
+        # on initialise l'instance IA comme s'il s'agisasit d'une instance de Plateau
 
     def reinitialiser(self, plateau):
         """Cette fonction est lancée au debut de chaque tour
