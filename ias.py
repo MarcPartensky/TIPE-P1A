@@ -140,20 +140,6 @@ class Eparpille(Robot):
             resultat=p1
         return resultat
 
-class Ligne(Robot):
-    """Robot qui essaie de maximiser le nombre de lignes formées par ses pions."""
-
-    def __init__(self,*args,**kwargs):
-        """"Crée le robot avec les arguments de la classe mère 'Robot'."""
-        super().__init__(*args,**kwargs)
-
-    def jouer(self,plateau,panneau=None):
-        """Joue de façon à maximiser le nombre de lignes formées par ses pions."""
-        pass
-
-    def estEnLigne(self,ligne):
-        """Renvoie si une position est."""
-
 class Direct(Robot):
     """Robot qui joue de façon à avoir le plus de pions possibles sur le tour actuel."""
     def __init__(self,*args,**kwargs):
