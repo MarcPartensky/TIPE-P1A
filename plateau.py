@@ -387,7 +387,6 @@ class Plateau:
         for direction in directions:
             ligne=self.obtenirLigneExclus(position,direction)
             self.conquerirLigne(p_cote,ligne)
-        return True
 
     def conquerirLigne(self,cote,ligne):
         """Permet au nouveau pion a la position position de couleur cote de
