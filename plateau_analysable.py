@@ -51,7 +51,7 @@ class PlateauAnalysable(Plateau):
         self.vitesse_demonstration=1 #Possibilité de changer la vitesse de démonstration
         super().__init__(*args,**kwargs)
         #super() retourne la classe mère de PlateauAnalysable, c'est Plateau
-        #on initialise le PlateauAnalysable comme s'il s'agisasit d'une instance de Plateau
+        #on initialise l'instance de PlateauAnalysable comme s'il s'agisasit d'une instance de Plateau
 
 
     def obtenirToutesLesLignes(self):
