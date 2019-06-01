@@ -105,14 +105,7 @@ class Plateau:
         sx,sy=self.taille
         x,y=position
         return (0<=x<sx and 0<=y<sy)
-
-    def estCoin(self, position):
-        """Determine si une position correspond a un coin."""
-        x,y=position
-        sx,sy=self.taille
-        x_=x%(sx-1)
-        y_=y%(sy-1)
-        return (x_,y_)==(0,0)
+    
 
     def obtenirPositionPlateau(self,panneau):
         """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la panneau en pixels."""

@@ -2,29 +2,28 @@ from plateau import Plateau
 from config import debug
 
 import config as cfg
-import outils,couleurs
-import couleurs
-import copy
+import outils,couleurs,copy
+
 
 #La liste des différentes zone de jeu :
-
-ZONE_COIN=4#Ne doit pas etre une liste
-ZONE_VERTE=3
-ZONE_BLANCHE=2
-ZONE_ROUGE=1
-ZONE_NOIRE=0
-ZONE_TOUT=-1
+# Ne doit pas etre une liste
+ZONE_COIN    =  4
+ZONE_VERTE   =  3
+ZONE_BLANCHE =  2
+ZONE_ROUGE   =  1
+ZONE_NOIRE   =  0
+ZONE_TOUT    = -1
 
 LISTE_ZONES=[ZONE_COIN,ZONE_VERTE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_NOIRE, ZONE_TOUT]
 
-PLATEAU_COLORE=[[ZONE_COIN, ZONE_NOIRE ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_NOIRE ,ZONE_COIN],
-                [ZONE_NOIRE, ZONE_NOIRE ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIRE ,ZONE_NOIRE],
-                [ZONE_VERTE, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_VERTE],
-                [ZONE_VERTE, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_VERTE],
-                [ZONE_VERTE, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_VERTE],
-                [ZONE_VERTE, ZONE_ROUGE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_VERTE],
-                [ZONE_NOIRE, ZONE_NOIRE ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_ROUGE  ,ZONE_NOIRE ,ZONE_NOIRE],
-                [ZONE_COIN, ZONE_NOIRE ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_VERTE   ,ZONE_NOIRE ,ZONE_COIN]]
+PLATEAU_COLORE=[[ZONE_COIN,  ZONE_NOIRE, ZONE_VERTE,   ZONE_VERTE,   ZONE_VERTE,   ZONE_VERTE,   ZONE_NOIRE, ZONE_COIN  ],
+                [ZONE_NOIRE, ZONE_NOIRE, ZONE_ROUGE,   ZONE_ROUGE,   ZONE_ROUGE,   ZONE_ROUGE,   ZONE_NOIRE, ZONE_NOIRE ],
+                [ZONE_VERTE, ZONE_ROUGE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_ROUGE, ZONE_VERTE ],
+                [ZONE_VERTE, ZONE_ROUGE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_ROUGE, ZONE_VERTE ],
+                [ZONE_VERTE, ZONE_ROUGE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_ROUGE, ZONE_VERTE ],
+                [ZONE_VERTE, ZONE_ROUGE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_BLANCHE, ZONE_ROUGE, ZONE_VERTE ],
+                [ZONE_NOIRE, ZONE_NOIRE, ZONE_ROUGE,   ZONE_ROUGE,   ZONE_ROUGE,   ZONE_ROUGE,   ZONE_NOIRE, ZONE_NOIRE ],
+                [ZONE_COIN,  ZONE_NOIRE, ZONE_VERTE,   ZONE_VERTE,   ZONE_VERTE,   ZONE_VERTE,   ZONE_NOIRE, ZONE_COIN  ]]
 
 LISTE_POSITION_ZONE={}
 
@@ -301,17 +300,17 @@ class PlateauAnalysable(Plateau):
         """"Renvoie de combien augmente le nombe de coup possible de l'adversaire dans la zone zone apres que self ait joué à pos"""
         cote_oppose=1-cote
         plateau_simulation = copy.deepcopy(self)
-        coup_possible_dans_zone=outils.intersection(outils.liste_liste_vers_liste_tuple(plateau_simulation.obtenirMouvementsValides(cote_oppose)), LISTE_POSITION_ZONE[zone])
+        coup_possible_dans_zone=outils.intersection(plateau_simulation.obtenirMouvementsValides(cote_oppose), LISTE_POSITION_ZONE[zone])
         nombre_coup_possible_dans_zone=len(coup_possible_dans_zone)
         plateau_simulation.placerPion(pos, cote)
-        final_coup_possible_dans_zone=outils.intersection(outils.liste_liste_vers_liste_tuple(plateau_simulation.obtenirMouvementsValides(cote_oppose)), LISTE_POSITION_ZONE[zone])
+        final_coup_possible_dans_zone=outils.intersection(plateau_simulation.obtenirMouvementsValides(cote_oppose), LISTE_POSITION_ZONE[zone])
         final_nombre_coup_possible_dans_zone=len(final_coup_possible_dans_zone)
         return final_nombre_coup_possible_dans_zone-nombre_coup_possible_dans_zone
 
     def Nombre_pion_stable_zone(self, cote, zone):
         """Détermine le nombre de pions stables avec le côté et la zone."""
         resultat=0
-        position_pion_zone=outils.intersection(outils.liste_liste_vers_liste_tuple(self.obtenirPions(cote)), LISTE_POSITION_ZONE[zone])
+        position_pion_zone=outils.intersection(self.obtenirPions(cote), LISTE_POSITION_ZONE[zone])
         for pos in position_pion_zone :
             #if self.est_stable_pour_cote([pos], cote) :
             if self.position_stable_pour_cote(pos, cote) :
@@ -329,9 +328,9 @@ class PlateauAnalysable(Plateau):
     def Augmentation_pion_dans_zone(self, cote, zone, pos):
         """"Renvore de cb on augmente le nombre de pion de cote dans la zone zone apres que cote joue à pos"""
         plateau_simulation = copy.deepcopy(self)
-        nombre_initial=len(outils.intersection(outils.liste_liste_vers_liste_tuple(plateau_simulation.obtenirPions(cote)), LISTE_POSITION_ZONE[zone]))
+        nombre_initial=len(outils.intersection(plateau_simulation.obtenirPions(cote), LISTE_POSITION_ZONE[zone]))
         plateau_simulation.placerPion(pos, cote)
-        nombre_final = len(outils.intersection(outils.liste_liste_vers_liste_tuple(plateau_simulation.obtenirPions(cote)), LISTE_POSITION_ZONE[zone]))
+        nombre_final = len(outils.intersection(plateau_simulation.obtenirPions(cote), LISTE_POSITION_ZONE[zone]))
         return nombre_final-nombre_initial
 
     def Nombre_coin_adjacent_pris(self, cote, pos_coin):#todo debug ?
