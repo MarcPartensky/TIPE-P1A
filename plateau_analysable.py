@@ -135,10 +135,10 @@ class PlateauAnalysable(Plateau):
             if cfg.CASE_VIDE in cases:
                 if (cote_oppose in cases_opposees) or (cfg.CASE_VIDE in cases_opposees):
                     stable=False
-            """Présentation des lignes sur l'écran pour le mode démonstration."""
-            self.presenter(ligne,couleurs.BLEU,"ligne",pause=False)
-            self.presenter(ligne_oppose,couleurs.VIOLET,"ligne oppose",clear=False,pause=False)
-            self.presenter(pion,couleurs.ROUGE,"pion considere",clear=False)
+            #"""Présentation des lignes sur l'écran pour le mode démonstration."""
+            #self.presenter(ligne,couleurs.BLEU,"ligne",pause=False)
+            #self.presenter(ligne_oppose,couleurs.VIOLET,"ligne oppose",clear=False,pause=False)
+            #self.presenter(pion,couleurs.ROUGE,"pion considere",clear=False)
             if not stable:
                 break
         return stable

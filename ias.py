@@ -13,7 +13,8 @@ class DefinivitementStable(Robot):
     def jouer(self,plateau,panneau=None):
         """Joue en maximisant les pions définivitement stables."""
         stables=plateau.obtenirTousLesPionsDefinitivementStables(self.cote)
-        coups_possibles=plateau.mouvements
+        stables2=plateau.obtenirTousLesPionsDefinitivementStables(plateau.obtenirCoteOppose(self.cote))
+        coups_possibles=plateau.obtenirMouvementsValides(self.cote)
         print(stables,coups_possibles)
         intersection=outils.intersection(stables,coups_possibles)
         print(intersection)
@@ -140,7 +141,7 @@ class Eparpille(Robot):
             resultat=p1
         return resultat
 
-class Direct(Robot):
+class MaximisationPions(Robot):
     """Robot qui joue de façon à avoir le plus de pions possibles sur le tour actuel."""
     def __init__(self,*args,**kwargs):
         """"Crée le robot avec les arguments de la classe mère 'Robot'."""

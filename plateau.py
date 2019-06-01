@@ -417,7 +417,6 @@ class Plateau:
         """Affiche un message en utilisant une position plateau, une couleur, et une panneau."""
         x,y=position
         position=self.obtenirPositionBrute(position)
-        #panneau.drawText(message,position,couleur)
 
     def colorerCase(self,positions,couleur):
         """Colorie une case du plateau d'une certaine couleur en affichant les contours d'un carre de couleur.

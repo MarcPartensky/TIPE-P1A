@@ -1,7 +1,7 @@
 from othello import Othello
 from joueur import Robot,Humain
 from ia import IA
-from ias import Aleatoire
+import ias
 import config as cfg
 
 class Simulateur:
@@ -33,7 +33,7 @@ class Simulateur:
 if __name__=="__main__":
     from panneau import Panneau
     #panneau=Panneau(taille=cfg.RESOLUTION_FENETRE)
-    joueurs=[IA(nom="Cyrano"),Aleatoire(nom="Aleatoire")]
+    joueurs=[IA(nom="Cyrano"),ias.Interieur(nom="Interieur")]
     nombre_parties=50
     simulation=Simulateur(joueurs,nombre_parties)
     simulation.lancer()
