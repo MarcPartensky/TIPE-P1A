@@ -105,10 +105,14 @@ class Othello:
                 if event.key==Panneau.locals.K_r:
                     self.relancer()
 
+    def evenements(self):
+        """Détecte si on ."""
+        pass
+
     def actualiser(self):
         """Actualise le jeu."""
         self.bordure.actualiser(self.rang,self.plateau.obtenirScores(),self.fini,self.gagnant)
-        self.testRecommencer()
+        #self.testRecommencer()
         if self.panneau:
             self.panneau.check()
             self.ouvert=self.panneau.open
