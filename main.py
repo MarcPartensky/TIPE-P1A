@@ -32,8 +32,8 @@ machine10=ias.PremierCoup(nom="Premier Coup") #Joue toujours le premier coup par
 machine11=ias.Direct(nom="Direct") #Joue en essayant de maximiser son nombre de pions sur 1 tour seulement
 
 #puis on  choisit les joueurs ici
-joueur_blanc = machine8
-joueur_noir  = machine9
+joueur_blanc = machine1
+joueur_noir  = humain1
 
 #et non ici
 jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc

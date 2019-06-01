@@ -53,7 +53,6 @@ class IA(joueur.Robot):
         #fonction est_superieur dans outils.py
 
 
-
         #Le coefficeint ci dessous est un porduit astucieux :
         #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
         #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
