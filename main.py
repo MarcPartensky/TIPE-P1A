@@ -28,7 +28,7 @@ machine6=ias.Eparpille(nom="Eparpille") #Joue de façon à avoir des pions épar
 machine7=ias.DefinivitementStable(nom="Definivitement Stable") #Joue les pions définitivement stables si possibles sinon joue aleatoirement
 machine8=ias.Aleatoire(nom="Aleatoire1") #Joue aléatoirement
 machine9=ias.Aleatoire(nom="Aleatoire2")
-machine10=ias.MaximisationPions(nom="Direct") #Joue en essayant de maximiser son nombre de pions sur 1 tour seulement
+machine10=ias.MaximisationPions(nom="MaximisationPions") #Joue en essayant de maximiser son nombre de pions sur 1 tour seulement
 
 #puis on  choisit les joueurs ici
 joueur_blanc = humain1
