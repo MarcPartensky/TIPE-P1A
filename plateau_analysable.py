@@ -49,9 +49,9 @@ class PlateauAnalysable(Plateau):
         if kwargs.get("ne_pas_initialiser", False) :
             return None
         self.vitesse_demonstration=1 #Possibilité de changer la vitesse de démonstration
-        #self.pions_definitivement_stables=None
-        #self.pions_stables=None
         super().__init__(*args,**kwargs)
+        #super() retourne la classe mère de PlateauAnalysable, c'est Plateau
+        #on initialise le PlateauAnalysable comme s'il s'agisasit d'une instance de Plateau
 
 
     def obtenirToutesLesLignes(self):
