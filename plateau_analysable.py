@@ -87,7 +87,10 @@ class PlateauAnalysable(Plateau):
     def presenterPionsStables(self,fenetre): #Obselète
         """Presente les pions stables a l'ecran en les trouvant, cela s'effectue avec la fenetre."""
         fenetre.clear()
-        self.afficher(fenetre)
+        self.afficher()
+        fenetre.coller(self.surface,0)
+        fenetre.afficher()
+        fenetre.flip()
         tous_les_pions=[]
         for i in range(2):
             pions=self.obtenirTousLesPionsDefinitivementStables(i,fenetre)
@@ -104,17 +107,17 @@ class PlateauAnalysable(Plateau):
             fenetre.attendre() #Par défaut la fenetre attend 1 seconde
 
 
-    def obtenirTousLesPionsDefinitivementStables(self,cote):
+    def obtenirTousLesPionsDefinitivementStables(self,cote,panneau):
         """Renvoie la liste de tous les pions qui sont definitivement stables."""
         stables=[]
         pions=self.obtenirPions(cote)
         #plateau.presenter(pions,couleurs.ROUGE,fenetre,"pions"+str(cote))
         for pion in pions:
-            if self.estUnPionDefinitivementStable(pion):
+            if self.estUnPionDefinitivementStable(pion,panneau):
                 stables.append(pion)
         return stables
 
-    def estUnPionDefinitivementStable(self,pion):
+    def estUnPionDefinitivementStable(self,pion,panneau):
         """Determine si un pion est définivement stable en déterminant pour chaque ligne auquel il appartient, si il peut être définitivement stable.
         Pour cela, on se ramène à un problème plus simple: c'est à dire vérifier la stabilité d'un pion dans une ligne.
         Ainsi on vérifie pour chaque ligne auquelle ce pion appartient, si celui-ci peut-être définitivment stable, et si c'est bien le cas,
@@ -134,10 +137,10 @@ class PlateauAnalysable(Plateau):
             if cfg.CASE_VIDE in cases:
                 if (cote_oppose in cases_opposees) or (cfg.CASE_VIDE in cases_opposees):
                     stable=False
-            #"""Présentation des lignes sur l'écran pour le mode démonstration."""
-            #self.presenter(ligne,couleurs.BLEU,"ligne",pause=False)
-            #self.presenter(ligne_oppose,couleurs.VIOLET,"ligne oppose",clear=False,pause=False)
-            #self.presenter(pion,couleurs.ROUGE,"pion considere",clear=False)
+            #Présentation des lignes sur l'écran pour le mode démonstration.
+            self.presenter(ligne,couleurs.BLEU,panneau,"ligne",pause=False)
+            self.presenter(ligne_oppose,couleurs.VIOLET,panneau,"ligne oppose",clear=False,pause=False)
+            self.presenter(pion,couleurs.ROUGE,panneau,"pion teste",clear=False)
             if not stable:
                 break
         return stable
@@ -151,7 +154,7 @@ class PlateauAnalysable(Plateau):
                 pions_stables.append(pion)
         return pions
 
-    def estUnPionStable(self,pion,fenetre,niveau=1): #Cette fonction est toujours pas fonctionnelle
+    def estUnPionStable(self,pion,fenetre,niveau=1): #Cette fonction a été remplacée par le concept de stabilité d'Alexandre
         """Détermine si un pion est stable."""
         cote=self.obtenirCase(pion) #Obtient le cote du joueur ayant pose le pion
         cote_oppose=self.obtenirCoteOppose(cote) #Recupere le cote oppose avec le cote du joueur
@@ -379,7 +382,7 @@ class PlateauAnalysable(Plateau):
         taille, vitesse_demonstration, surface, taille_x, taille_y, nombre_de_joueurs et demonstration
         """
         plateau=PlateauAnalysable(ne_pas_initialiser=True)#ce paramètre optionnel permet de ne pas initialiser l'objet
-        #comme les autres : plateau ne recoit aucun attributs lors de son initialisaiton, on les lui donne
+        #comme les autres : plateau ne recoit aucun attributs lors de son initialisation, on les lui donne
         # "manuellement" avec les lignes suivantes :
         keys=self.__dict__.keys()
         for key in keys :

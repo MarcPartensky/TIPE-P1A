@@ -1,8 +1,10 @@
 from joueur import Robot
 
+import config as cfg
 import outils
 import math
 import copy
+import random
 
 class DefinivitementStable(Robot):
     """Robot qui essaie seulement de maximiser ses pions définitivement stables."""
@@ -12,14 +14,15 @@ class DefinivitementStable(Robot):
 
     def jouer(self,plateau,panneau=None):
         """Joue en maximisant les pions définivitement stables."""
-        stables=plateau.obtenirTousLesPionsDefinitivementStables(self.cote)
-        stables2=plateau.obtenirTousLesPionsDefinitivementStables(plateau.obtenirCoteOppose(self.cote))
-        coups_possibles=plateau.obtenirMouvementsValides(self.cote)
-        print(stables,coups_possibles)
-        intersection=outils.intersection(stables,coups_possibles)
-        print(intersection)
-        if intersection:
-            choix=intersection[0]
+        coups_possibles=plateau.mouvements
+        stables=[]
+        for coup in coups_possibles:
+            plateau.insererPion(coup,self.cote)
+            if plateau.estUnPionDefinitivementStable(coup,panneau):
+                stables.append(coup)
+            plateau.insererPion(coup,cfg.CASE_VIDE)
+        if len(stables)>0:
+            choix=random.choice(stables)
             return choix
         else:
             return self.jouerAleatoire(plateau)

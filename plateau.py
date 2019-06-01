@@ -105,7 +105,7 @@ class Plateau:
         sx,sy=self.taille
         x,y=position
         return (0<=x<sx and 0<=y<sy)
-    
+
 
     def obtenirPositionPlateau(self,panneau):
         """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la panneau en pixels."""
@@ -369,7 +369,6 @@ class Plateau:
     def obtenirDirections(self):
         """Recupere les directions avec les vecteurs orientés selon chaque axe,
         ranger dans un ordre afin de tourner dans le sens trigo"""
-        #directions=[(x,y) for x in range(-1,2) for y in range(-1,2) if (x,y)!=(0,0)] # crée la même liste mais pas ranger dans le sens trigo
         directions=[(1,0),(1,1),(0,1),(-1,1),(-1,0),(-1,-1),(0,-1),(1,-1)]
         return directions
 
@@ -395,21 +394,29 @@ class Plateau:
                 self.insererPion(pions,cote)
                 break
 
-    def presenter(self,*positions,couleur,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
+    def presenter(self,positions,couleur,panneau,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
         """Permet de debuger en 1 commande."""
-        print(positions)
         if self.demonstration:
             if type(positions)!=list: positions=[positions]
             if clear: self.afficher()
             if positions:
                 self.colorerCase(positions,couleur)
                 if message:
-                    self.afficherMessage(message,positions[0],couleur_texte)
+                    position=self.obtenirPositionBrute([p-2/5 for p in positions[0]])
+                    self.afficherTexte(message,position,couleur_texte)
+            panneau.coller(self.surface,0)
+            panneau.afficher()
+            panneau.flip()
+            if pause:
+                panneau.attendre(self.vitesse_demonstration)
 
-    def afficherMessage(self,message,position,couleur):
-        """Affiche un message en utilisant une position plateau, une couleur, et une panneau."""
-        x,y=position
-        position=self.obtenirPositionBrute(position)
+    def afficherTexte(self,texte,position,couleur=None,taille=None):
+        """Affiche du texte à l'écran."""
+        if not couleur: couleur=cfg.THEME_PLATEAU["couleur texte"]
+        if not taille: taille=cfg.THEME_PLATEAU["taille texte"]
+        font=pygame.font.SysFont(cfg.THEME_PLATEAU["police"],taille)
+        surface_texte=font.render(texte,1,couleur)
+        self.surface.blit(surface_texte,position)
 
     def colorerCase(self,positions,couleur):
         """Colorie une case du plateau d'une certaine couleur en affichant les contours d'un carre de couleur.
@@ -515,7 +522,6 @@ class Plateau:
         x,y=choix_du_joueur
         position_brute=self.obtenirPositionBrute((x,y))
         case=self.obtenirCase(choix_du_joueur)
-        #pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur piece"],position_brute,rayon+2,0)
-        pygame.draw.circle(self.surface,couleurs.BLANC,position_brute,rayon+2,0) #tres mal implemente
+        pygame.draw.circle(self.surface,couleurs.BLANC,position_brute,rayon+2,0) #choix du rayon quelque peu arbitraire
         pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur pions"][case],position_brute,rayon,0)
         #Cette fonction est devenue purement inutile suite aux nouvelles modifications

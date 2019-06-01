@@ -31,7 +31,7 @@ machine9=ias.Aleatoire(nom="Aleatoire2")
 machine10=ias.MaximisationPions(nom="Direct") #Joue en essayant de maximiser son nombre de pions sur 1 tour seulement
 
 #puis on  choisit les joueurs ici
-joueur_blanc = humain1
+joueur_blanc = machine1
 joueur_noir  = machine7
 
 #et non ici

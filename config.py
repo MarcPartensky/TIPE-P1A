@@ -28,7 +28,10 @@ THEME_PLATEAU = {   "couleur pions"      :  [couleurs.BLANC,couleurs.NOIR],
                     "nom couleur pion"   :  ["BLANC","NOIR"],
                     "couleur grille"     :  couleurs.NOIR,
                     "couleur mouvement"  :  couleurs.ROUGE,
-                    "couleur points"     :  couleurs.NOIR     }
+                    "couleur points"     :  couleurs.NOIR,
+                    "police"             :  "monospace",
+                    "couleur texte"      :  couleurs.BLANC,
+                    "taille texte"       :  20     }
 
 THEME_FENETRE = {}
 

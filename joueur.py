@@ -141,13 +141,13 @@ class Robot(Joueur):
 
 
 class Developpeur(Humain):
-    """classe qui hérite de le classe Humain.
+    """Classe qui hérite de le classe Humain.
     Cette classe particulière permet de jouer comme un humain mais sans respecter
-    les règles de l'othello en ce qui conserne l'endroit où l'on peut jouer """
+    les règles de l'othello en ce qui concerne l'endroit où l'on peut jouer """
 
     def __init__(self,nom=None):
         """Crée un développeur, c'est à dire un humain qui peut jouer sans respecter
-        les règles de l'Othello. Le développeur est très pratique pour débugger et
+        les règles de l'Othello. Le développeur est très pratique pour débogguer et
         tester des intelligences artificielles."""
         super().__init__(nom)
 

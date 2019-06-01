@@ -115,7 +115,7 @@ class Fenetre:
                     self.open=False
             if event.type == pygame.VIDEORESIZE and not self.plein_ecran:
                 self.taille=[event.w,event.h]
-                self.screen=pygame.display.set_mode(self.size,pygame.RESIZABLE)
+                self.screen=pygame.display.set_mode(self.taille,pygame.RESIZABLE)
                 self.flip()
 
     def update(self):
