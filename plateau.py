@@ -391,22 +391,16 @@ class Plateau:
     def conquerirLigne(self,cote,ligne):
         """Permet au nouveau pion a la position position de couleur cote de
         retouner les autres pions dans une ligne"""
-        mangeables=[]
+        pions=[]
         for position in ligne:
             if not self.estDansGrille(position):
                 break
             case=self.obtenirCase(position)
             if case!=cote and case!=cfg.CASE_VIDE:
-                mangeables.append(position)
+                pions.append(position)
             elif case==cote:
-                self.manger(mangeables,cote)
+                self.insererPion(pions,cote)
                 break
-            else: #Dans ce case la case est vide
-                break
-
-    def manger(self,mangeables,personne):
-        """Assigne aux cases mangeables la valeur de pion de la personne"""
-        self.insererPion(mangeables,personne)
 
     def presenter(self,*positions,couleur,message=None,clear=True,pause=True,couleur_texte=couleurs.NOIR):
         """Permet de debuger en 1 commande."""
