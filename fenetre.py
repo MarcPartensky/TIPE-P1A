@@ -43,12 +43,16 @@
 # --coding:utf-8--
 
 import pygame
-from pygame.locals import RESIZABLE,KEYDOWN,K_ESCAPE,FULLSCREEN,K_SPACE # CONSTANTES de pygame
+from pygame.locals import RESIZABLE,KEYDOWN,KEYUP,K_r,K_ESCAPE,FULLSCREEN,K_SPACE # CONSTANTES de pygame
 import couleurs
 import time
 
 
 class Fenetre:
+    """Crée une classe de fenêtre afin de simplifier l'utilisation de pygame."""
+    event=pygame.event.get
+    locals=pygame.locals
+
     def __init__(self,nom="fenetre",
                       taille=None,
                       police_du_texte="monospace",
@@ -80,7 +84,7 @@ class Fenetre:
 
     def set(self):
         """Charge la fenêtre sur l'écran."""
-        self.infoConsole("La fenêtre a été ouverte.")
+        self.infoConsole("La fenetre a ete ouverte.")
         pygame.init()
         self.info=pygame.display.Info()
         if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
@@ -98,7 +102,6 @@ class Fenetre:
         """Colorie l'écran de la fenêtre avec la couleur du fond d'écran."""
         if not color: color=self.couleur_de_fond
         self.screen.fill(color)
-
 
     def check(self):
         """Mets à jour l'état de la fenêtre en fonction des touches pressés par
@@ -207,7 +210,7 @@ class Fenetre:
 
     def __del__(self):
         """Affiche que la fenêtre a été fermée à la fermeture de la fenêtre."""
-        self.infoConsole("La fenêtre a été fermée.")
+        self.infoConsole("La fenetre a ete fermee.")
 
 
 """Test d'utilisation et test de la fenêtre."""

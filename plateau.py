@@ -34,7 +34,7 @@
 #    1.13  ------> obtenirCase (self,coordonnees)  ................... ligne
 #    1.14  ------> obtenirCases (self,coordonnees)  .................. ligne
 #    1.15  ------> obtenirPions (self,cotes)  ........................ ligne
-#    1.17  ------> obtenirNombrePionsJoueur (self,cote)  ............. ligne
+#    1.17  ------> compterPions (self,cote)  ......................... ligne
 #    1.18  ------> obtenirNombrePionsRestant (self)  ................. ligne
 #    1.19  ------> obtenirEnvironnement (self,positions)  ............ ligne
 #    1.20  ------> obtenirAlentours (self,positions)  ................ ligne
@@ -53,17 +53,19 @@
 #    1.33  ------> conquerir (self,position,p_cote)  ................. ligne
 #    1.34  ------> conquerirLigne (self,cote,ligne)  ................. ligne
 #    1.35  ------> manger (self,mangeables,personne)  ................ ligne
-#    1.36  ------> presenter (self, (etc).)  ......................... ligne
-#    1.37  ------> afficherMessage(self,(etc).)  ..................... ligne
-#    1.38  ------> colorerCase (self,positions,couleur,fenetre)  ..... ligne
-#    1.39  ------> colorerLigne (self,ligne,couleur,fenetre)  ........ ligne
-#    1.40  ------> afficher (self,fenetre)  .......................... ligne
-#    1.41  ------> afficherFond (self)  .............................. ligne
-#    1.42  ------> afficherGrille (self)  ............................ ligne
-#    1.43  ------> afficherDecorationGrille (self)  .................. ligne
-#    1.44  ------> afficherPions (self)  ............................. ligne
-#    1.45  ------> afficherMouvements (self,(etc).)  ................. ligne
-#    1.46  ------> afficherAnimationPion(self,(etc).)  ............... ligne
+#    1.36  ------> compterPions  ..................................... ligne
+#    1.37  ------> obtenirScores ..................................... ligne
+#    1.38  ------> presenter (self, (etc).)  ......................... ligne
+#    1.39  ------> afficherMessage(self,(etc).)  ..................... ligne
+#    1.40  ------> colorerCase (self,positions,couleur,fenetre)  ..... ligne
+#    1.41  ------> colorerLigne (self,ligne,couleur,fenetre)  ........ ligne
+#    1.42  ------> afficher (self,fenetre)  .......................... ligne
+#    1.43  ------> afficherFond (self)  .............................. ligne
+#    1.44  ------> afficherGrille (self)  ............................ ligne
+#    1.45  ------> afficherDecorationGrille (self)  .................. ligne
+#    1.46  ------> afficherPions (self)  ............................. ligne
+#    1.47  ------> afficherMouvements (self,(etc).)  ................. ligne
+#    1.48  ------> afficherAnimationPion(self,(etc).)  ............... ligne
 #
 ###############################################################################
 """
@@ -191,7 +193,6 @@ class Plateau:
         """Charge les attributs du plateau afin d'être préchargé pour les ias et ainsi économiser le temps de calcul."""
         self.mouvements=self.obtenirMouvementsValides(cote)
 
-
     def obtenirCase(self,coordonnees):
         """Retourne le contenu d'une case"""
         x,y=coordonnees
@@ -213,28 +214,26 @@ class Plateau:
         if not isinstance(cotes,list): cotes=[cotes]
         positions=[]
         for cote in cotes:
-            sx,sy=self.taille
-            for y in range(sy):
-                for x in range(sx):
+            tx,ty=self.taille
+            for y in range(ty):
+                for x in range(tx):
                     case=self.obtenirCase((x,y))
                     if self.estCaseJoueur((x,y),cote):
                         positions.append((x,y))
         return positions
 
+    def obtenirScores(self):
+        """Obtient le score."""
+        return [self.compterPions(i) for i in range(self.nombre_de_joueurs)] #Car il n'y a que 2 joueurs
 
-    def obtenirNombrePionsJoueur(self, cote):#Todo à optimiser
-        """Determine le nombre de pions d'un joueur en utilisant son cote."""
-        nombre=0
-        sx, sy = self.taille
-        for y in range(sy):
-            for x in range(sx):
-                if self.estCaseJoueur((x,y), cote) :
-                    nombre+=1
-        return nombre
+    def compterPions(self,cote):
+        """Compte le nombre de pions d'un joueur avec son côté."""
+        tx,ty=self.taille
+        return len([ "_" for x in range(tx) for y in range(ty) if self.estCaseJoueur((x,y), cote)]) # ce qu'on met dans la liste n'as pas d'importance donc on met un jolie smiley
 
     def obtenirNombrePionsRestant(self):
         """Determine le nombre de cases restantes"""
-        return self.taille[0]*self.taille[1]-self.obtenirNombrePionsJoueur(0)-self.obtenirNombrePionsJoueur(1)
+        return self.taille[0]*self.taille[1]-self.compterPions(0)-self.compterPions(1)
 
     def obtenirEnvironnement(self,positions):
         """Prend en parametre une liste de position de case et retourne la liste des postions des cases vide se trouvant juste à cote"""

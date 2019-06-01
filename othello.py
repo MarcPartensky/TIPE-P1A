@@ -18,15 +18,14 @@
 #
 #                           SOMMAIRE de Othello
 #
-#    1.    class Othello:  ......................................... ligne  47
-#    1.1   ------> __init__ (self)  ................................ ligne  56
-#    1.2   ------> chargerPanneau (self)  .......................... ligne  74
-#    1.3   ------> __call__ (self)  ................................ ligne  85
-#    1.4   ------> actualiser (self)  .............................. ligne  90
-#    1.5   ------> derterminer_gagnant (self)  ..................... ligne 113
-#    1.6   ------> afficherSceneFinale (self)  ..................... ligne 127
-#    1.7   ------> afficher (self)  ................................ ligne 140
-#    1.8   ------> faireTour (self)  ............................... ligne 150
+#    1.    class Othello:  .......................................... ligne  46
+#    1.1   ------> __init__ (self)  ................................. ligne  55
+#    1.2   ------> chargerPanneau (self)  ........................... ligne  73
+#    1.3   ------> __call__ (self)  ................................. ligne  84
+#    1.4   ------> actualiser (self)  ............................... ligne  89
+#    1.5   ------> derterminer_gagnant (self)  ...................... ligne 109
+#    1.6   ------> afficher (self)  ................................. ligne 123
+#    1.7   ------> faireTour (self)  ................................ ligne 133
 #
 ################################################################################
 """
@@ -35,12 +34,14 @@
 
 from plateau_analysable import PlateauAnalysable as Plateau
 from bordure import Bordure
+from panneau import Panneau
+
+from copy import deepcopy
 
 import couleurs
 import config as cfg
 import joueur as Joueur
 
-from copy import deepcopy
 
 
 
@@ -82,18 +83,35 @@ class Othello:
         decoupage2=(prx,0,prx+brx,bry)
         self.panneau.decoupages=[decoupage1,decoupage2]
 
+    def relancer(self,n=1):
+        """Relance une  partie."""
+        for i in range(n):
+            self.recreer()
+            self.__call__()
+
+    def recreer(self):
+        """Recrée la partie."""
+        self.__dict__=Othello(self.joueurs,self.panneau,self.nom).__dict__
+
     def __call__(self): #Utilisation de la méthode spécial call, utiliser lorsqu'on appele une instance de classe comme si c'étais une fonction
         """Boucle principale du jeu Othello."""
         while self.ouvert:
             self.actualiser()
 
+    def testRecommencer(self):
+        """Relance la partie si l'on appuie sur la touche 'r' du clavier"""
+        for event in Panneau.event():
+            if event.type==Panneau.locals.KEYUP:
+                if event.key==Panneau.locals.K_r:
+                    self.relancer()
+
     def actualiser(self):
         """Actualise le jeu."""
-        self.bordure.actualiser(self.rang%2)
+        self.bordure.actualiser(self.rang,self.plateau.obtenirScores(),self.fini,self.gagnant)
+        self.testRecommencer()
         if self.panneau:
             self.panneau.check()
             self.ouvert=self.panneau.open
-
         if not self.plateau.estFini():
             if self.panneau:
                 self.afficher()
@@ -106,9 +124,6 @@ class Othello:
                 self.determinerGagnant()
                 cfg.info("Fin de partie :",nom_fichier="othello.py")
                 cfg.info("le gagnant : {}".format(repr(self.gagnant)),nom_fichier="othello.py")
-            else:
-                if self.panneau:
-                    self.afficherSceneFinale()
 
     def determinerGagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
@@ -124,19 +139,6 @@ class Othello:
         #Effectivement, ce sont les joueurs qui utilise le plateau et non l'inverse.
         return self.gagnant
 
-    def afficherSceneFinale(self):
-        """Afficher le resultat de la partie une fois qu'elle est terminee.
-        Ne peut être exécutée que si la panneau existe."""
-        if self.gagnant: #Si il existe un gagnant, l'afficher.
-            message=repr(self.gagnant)+" gagne!"
-        else: #Sinon, afficher match nul.
-            message="Match Nul"
-        position=list(self.panneau.centerText(message)) #Centre la position du message, ne fonctionne pas correctement.
-        position[0]-=50 #Recentre correctement le message.
-        taille=[int(len(message)*self.panneau.taille_du_texte/2.7),70] #Choisie la taille du message.
-        self.panneau.afficherTexte(message,position,taille,color=couleurs.NOIR,couleur_de_fond=couleurs.BLANC) #Affiche le message.
-        self.panneau.flip() #Rafraîchie la fenêtre.
-
     def afficher(self):
         """Affiche tout : le plateau et la bordure."""
         self.panneau.clear()
@@ -149,6 +151,7 @@ class Othello:
 
     def faireTour(self) :
         """Faire un tour de jeu"""
+        self.actions_annulees=[]
         self.tour=self.rang%self.plateau.nombre_de_joueurs
         joueur_actif=self.joueurs[self.tour]#joueur a qui c'est le tour
         cfg.debug("C'est au tour du joueur: "+str(joueur_actif))

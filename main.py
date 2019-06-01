@@ -28,9 +28,10 @@ machine4=ias.Exterieur(nom="Exterieur") #Joue toujours le plus loin possible du 
 machine5=ias.Groupe(nom="Groupe") #Joue de façon à former des groupes de pions
 machine6=ias.Eparpille(nom="Eparpille") #Joue de façon à avoir des pions éparpillés
 machine7=ias.DefinivitementStable(nom="Definivitement Stable") #Joue les pions définitivement stables si possibles sinon joue aleatoirement
-machine8=ias.Aleatoire(nom="Aleatoire") #Joue aléatoirement
-machine9=ias.PremierCoup(nom="Premier Coup") #Joue toujours le premier coup parmi ceux proposé
-machine10=ias.Direct(nom="Direct") #Joue en essayant de maximiser son nombre de pions sur 1 tour seulement
+machine8=ias.Aleatoire(nom="Aleatoire1") #Joue aléatoirement
+machine9=ias.Aleatoire(nom="Aleatoire2")
+machine10=ias.PremierCoup(nom="Premier Coup") #Joue toujours le premier coup parmi ceux proposé
+machine11=ias.Direct(nom="Direct") #Joue en essayant de maximiser son nombre de pions sur 1 tour seulement
 
 # Création d'Une IA utilisant la puissance de calcul
 bruteforce1=bf.BruteForce(nom="Brute Force niveau 1", level=1) #Crée une machine utilisant la force de calcul de la machine, cela est utile pour les tests de niveau des nouvelles intelligences artificielles.
@@ -40,7 +41,7 @@ bruteforce4=bf.BruteForce(nom="Brute Force niveau 4", level=4) #Joue en pensant 
 
 #puis on  choisit les joueurs ici
 joueur_blanc = machine1
-joueur_noir  = humain1
+joueur_noir  = machine2
 
 #et non ici
 jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc

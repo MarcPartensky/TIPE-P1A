@@ -22,7 +22,7 @@ RESOLUTION_BORDURE=TAILLE_BORDURE
 
 THEME_BORDURE = {   "police"             :  "monospace",
                     "couleur texte"      :  couleurs.BLANC,
-                    "taille texte"       :  50                }
+                    "taille texte"       :  30                }
 
 THEME_PLATEAU = {   "couleur pions"      :  [couleurs.BLANC,couleurs.NOIR],
                     "couleur grille"     :  couleurs.NOIR,

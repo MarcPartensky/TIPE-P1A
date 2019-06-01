@@ -82,6 +82,10 @@ class Panneau(Fenetre):
             if dx<=px<=dx+dsx and dy<=py<=dy+dsy:
                 return (dsx*px/wsx+dx,dsy*py/wsy+dy)
 
+    def centrer(self,message):
+        """Affiche un message au centre."""
+        pass
+
 
 
 if __name__=="__main__":

@@ -291,9 +291,9 @@ class PlateauAnalysable(Plateau):
     def Nombre_pion_retourne(self, pos, cote):
         """"Renvoie le nombre de pion qui sont retourne lorsque self pose un pion à la position pos sur le plateau plateau."""
         plateau_simulation = copy.deepcopy(self)
-        nombre_init=plateau_simulation.obtenirNombrePionsJoueur(pos)
+        nombre_init=plateau_simulation.compterPions(pos)
         plateau_simulation.placerPion(pos, cote)
-        nombre_final=plateau_simulation.obtenirNombrePionsJoueur(pos)
+        nombre_final=plateau_simulation.compterPions(pos)
         return nombre_final-nombre_init-1#-1 car on pose un pion et ce pion n'a pas ete retourne
 
 
@@ -384,15 +384,8 @@ class PlateauAnalysable(Plateau):
         # "manuellement" avec les lignes suivantes :
         keys=self.__dict__.keys()
         for key in keys :
-            if key in ("taille","vitesse_demonstration","surface","taille_x","taille_y","nombre_de_joueurs",
-                                                                                                    "demonstration"):
+            if key in ("taille","vitesse_demonstration","surface","taille_x","taille_y","nombre_de_joueurs","demonstration"):
                 plateau.__dict__[key] = (self.__dict__[key])
             else:
                 plateau.__dict__[key] = copy.deepcopy(self.__dict__[key])
         return plateau
-
-
-    def compterPions(self,cote):
-        """Compte les pions du joueur de côté 'cote'."""
-        return len(self.obtenirPions(cote))
-

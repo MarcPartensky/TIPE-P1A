@@ -15,12 +15,10 @@ class Simulateur:
 
     def __call__(self):
         """Boucle 'for' principale du simulateur."""
+        if self.fenetre: jeu=Othello(self.joueurs,self.fenetre)
+        else: jeu=Othello(self.joueurs)
         for i in range(self.nombre_parties):
-            if self.fenetre: jeu=Othello(self.joueurs,self.fenetre)
-            else: jeu=Othello(self.joueurs)
-            jeu()
-            if not jeu.fenetre.open:
-                break
+            jeu.relancer()
             self.gagnants.append(jeu.gagnant)
             if self.display: print(self)
 
