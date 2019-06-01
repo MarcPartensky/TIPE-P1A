@@ -82,10 +82,12 @@ class Bordure:
         self.lignes[n]="Tour du joueur: "+str(self.noms_des_joueurs[self.tour])
 
     def ecrireScore(self,n):
-        """Ecrit le score à la ligne 'n', utilise 3 lignes"""
-        self.lignes[n]="Scores :"
-        self.lignes[n+1]=str(self.noms_des_joueurs[0])+" : "+str(self.scores[0])
-        self.lignes[n+2]=str(self.noms_des_joueurs[1])+" : "+str(self.scores[1])
+        """Ecrit le score à la ligne 'n', utilise autant de ligne qu'il y a de joueurs + 1 ligne"""
+        self.lignes[n]="Score :"
+        nombre_de_joueurs = len(self.noms_des_joueurs)
+        for i in range(nombre_de_joueurs):
+            couleur_joueur = cfg.THEME_PLATEAU["nom couleur pion"][i] # c'est déjà une string
+            self.lignes[n+i]=str(self.noms_des_joueurs[i])+" ("+couleur_joueur+")"+" : "+str(self.scores[i])
 
     def ecrireGagnants(self,n):
         """Ecrit si la partie est finie ou pas."""
