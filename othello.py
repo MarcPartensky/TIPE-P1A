@@ -34,15 +34,12 @@
 
 from plateau_analysable import PlateauAnalysable as Plateau
 from bordure import Bordure
-from panneau import Panneau
 
 from copy import deepcopy
 
 import couleurs
 import config as cfg
 import joueur as Joueur
-
-
 
 
 class Othello:
@@ -83,37 +80,23 @@ class Othello:
         decoupage2=(prx,0,prx+brx,bry)
         self.panneau.decoupages=[decoupage1,decoupage2]
 
-    def relancer(self,n=1):
+    def relancer(self):
         """Relance une  partie."""
-        for i in range(n):
-            self.recreer()
-            self.__call__()
+        self.recreer()
+        self.lancer()
 
     def recreer(self):
         """Recrée la partie."""
         self.__dict__=Othello(self.joueurs,self.panneau,self.nom).__dict__
 
-    def __call__(self): #Utilisation de la méthode spécial call, executée lorsqu'on appelle une instance de classe comme si c'étais une fonction
+    def lancer(self): #Utilisation de la méthode spécial call, executée lorsqu'on appelle une instance de classe comme si c'étais une fonction
         """Boucle principale du jeu Othello."""
         while self.ouvert:
             self.actualiser()
 
-    def testRecommencer(self):
-        """Relance la partie si l'on appuie sur la touche 'r' du clavier"""
-        for event in Panneau.event():
-            if event.type==Panneau.locals.KEYUP:
-                if event.key==Panneau.locals.K_r:
-                    self.relancer()
-                    cfg.info("Nouvelle partie lancer",nom_fichier="othello.py")
-
-    def evenements(self):
-        """Détecte si on ."""
-        pass
-
     def actualiser(self):
         """Actualise le jeu."""
         self.bordure.actualiser(self.rang,self.plateau.obtenirScores(),self.fini,self.gagnant)
-        #self.testRecommencer()
         if self.panneau:
             self.panneau.check()
             self.ouvert=self.panneau.open
@@ -124,6 +107,8 @@ class Othello:
         else:
             if self.panneau:
                 self.afficher()
+            else:
+                self.ouvert=False
             if not self.fini:
                 self.fini=not(self.fini)
                 self.determinerGagnant()
@@ -132,9 +117,9 @@ class Othello:
 
     def determinerGagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
-        cote_gagnant=self.plateau.obtenirCoteGagnant()
-        if cote_gagnant!=None:
-            self.gagnant = self.joueurs[cote_gagnant].nom
+        self.cote_gagnant=self.plateau.obtenirCoteGagnant()
+        if self.cote_gagnant!=None:
+            self.gagnant = self.joueurs[self.cote_gagnant].nom
             cfg.info("Le joueur "+self.gagnant+" a gagne.",nom_fichier="othello.py")
 
         else:

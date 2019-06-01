@@ -68,9 +68,9 @@ class Bordure:
         """Permet d'afficher la bordure sur sa surface."""
         self.afficherFond()
         self.ecrireTitre(0)
-        self.ecrireTour(2) # écrit le nom du joueur qui doit jouer à la ligne 1 (prend 1 ligne)
-        self.ecrireScore(4) # écrit les scores des joueurs à la ligne 3 (prend 3 lignes)
-        if self.fini: self.ecrireGagnants(8)
+        self.ecrireTour(2) # écrit le nom du joueur qui doit jouer à la ligne 1 (prend 2 ligne)
+        self.ecrireScore(5) # écrit les scores des joueurs à la ligne 3 (prend 3 lignes)
+        if self.fini: self.ecrireGagnants(9)
         self.afficherLignes() # affiche chaque ligne à l'écran
 
     def ecrireTitre(self,n):
@@ -79,7 +79,8 @@ class Bordure:
 
     def ecrireTour(self,n):
         """Ecrit le tour du joueur, utilise 1 ligne"""
-        self.lignes[n]="Tour du joueur: "+str(self.noms_des_joueurs[self.tour])
+        self.lignes[n]="Tour du joueur:"
+        self.lignes[n+1]=str(self.noms_des_joueurs[self.tour])
 
     def ecrireScore(self,n):
         """Ecrit le score à la ligne 'n', utilise 3 lignes"""

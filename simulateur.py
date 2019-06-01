@@ -1,7 +1,7 @@
 from othello import Othello
 from joueur import Robot,Humain
-from bruteforce import BruteForce
 from ia import IA
+from ias import Aleatoire
 import config as cfg
 
 class Simulateur:
@@ -10,33 +10,31 @@ class Simulateur:
         self.fenetre=fenetre
         self.nombre_parties=nombre_parties
         self.joueurs=joueurs
-        self.affichage=affichage
         self.gagnants=[]
 
-    def __call__(self):
+    def lancer(self):
         """Boucle 'for' principale du simulateur."""
-        if self.fenetre: jeu=Othello(self.joueurs,self.fenetre)
-        else: jeu=Othello(self.joueurs)
+        jeu=Othello(self.joueurs,self.fenetre)
         for i in range(self.nombre_parties):
             jeu.relancer()
-            self.gagnants.append(jeu.gagnant)
-            if self.display: print(self)
+            self.gagnants.append(jeu.cote_gagnant)
 
     def __str__(self):
         """Renvoie une représentation des victoires de chaque joueur avec l'historice des victoires du simulateur."""
-        message="Resultats de "+str(len(self.gagnants))+" parties:\n"
-        for numeror in range(len(self.joueurs)):
-            message+="- Joueur "+str(numero)+" a gagne "+str(self.gagnants.count(numero))+" fois.\n"
+        message="\n\nResultats de "+str(len(self.gagnants))+" parties:\n"
+        for cote in range(len(self.joueurs)):
+            message+="- Joueur "+str(self.joueurs[cote])+" a gagne "+str(self.gagnants.count(cote))+" fois.\n"
+        pluriel=int(self.gagnants.count(None)>1)
+        message+="- Il y a "+str(self.gagnants.count(None))+" match"+"s"*pluriel+" nul"+"s"*pluriel+"."
         return message
 
 
 
 if __name__=="__main__":
     from panneau import Panneau
-    panneau=Panneau(taille=cfg.RESOLUTION_FENETRE)
-    joueurs=[IA(),BruteForce(3)]
-    nombre_parties=2
-    affichage=True
-    simulation=Simulateur(joueurs,nombre_parties,panneau)
-    simulation()
+    #panneau=Panneau(taille=cfg.RESOLUTION_FENETRE)
+    joueurs=[IA(nom="Cyrano"),Aleatoire(nom="Aleatoire")]
+    nombre_parties=10
+    simulation=Simulateur(joueurs,nombre_parties)
+    simulation.lancer()
     print(simulation)
