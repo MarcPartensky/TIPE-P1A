@@ -1,7 +1,4 @@
-import random,time
-
-# FONCTIONS MATHÉMATIQUES (utilisés pour les couleurs et notamment pour afficher un fond d'écran plus agréable)
-sigmoid = lambda x : 1/(1+math.exp(-x))
+import random
 
 # QUELQUES FONCTIONS UTILE DANS LE CAS GÉNÉRALES
 
@@ -55,60 +52,3 @@ def intersection(*args) :
         return intersection_de_2(args[0], args[1])
 
     return intersection(intersection_de_2(args[0], args[1]), *args[2:])
-
-def liste_liste_vers_liste_tuple(liste_liste):
-    """Transforme une liste de liste en liste de tuple"""
-    return [tuple(l) for l in liste_liste]
-
-# NON UTILISER
-def liste_tuple_vers_liste_liste(liste_de_tuple):
-    """Transforme une liste de tuple en liste de liste"""
-    return [list(elem) for elem in liste_de_tuple]
-
-# NON UTILISER
-def arrangementsConsecutifs(liste,n): #todo mieux expliciter ce que fait cette fonction (ajouter des exemples) ou alors la supprimer
-    """Renvoie la liste des arrangements consécutifs de taille n."""
-    arrangements=[]
-    for i in range(len(liste)):
-        arrangement=[]
-        for j in range(n):
-            arrangement.append(liste[(i+j)%n])
-        arrangements.append(arrangement)
-    return arrangements
-
-# NON UTILISER
-def estRemplie(ligne,composante):
-    """Determine si une ligne est remplie d'une même composante."""
-    resultat=True
-    for element in ligne:
-        if element!=composante:
-            resultat=False
-            break
-    return resultat
-
-# NON UTILISER
-def vecteur(arrivee,depart):
-    """Renvoie le vecteur obtenu par les 2 positions"""
-    vecteur=tuple([a-d for (a,d) in zip(arrivee,depart)])
-    return vecteur
-
-# NON UTILISER
-def extremiter(ligne):
-    """Renvoie les extrémités d'une ligne."""
-    ligne=[ligne[0],ligne[-1]]
-    return ligne
-
-
-# DECORATEUR DE FONCTION
-
-def deco_timer(fonction):
-    """Décorateur qui permet de calculer le temps d'exécution d'une fonction."""
-    def nouvelleFonction(*args,**kwargs):
-        """Fonction à tester."""
-        ti=time.time()
-        resultat=fonction(*args,**kwargs)
-        tf=time.time()
-        dt=tf-ti
-        print("[TIMER]: La fonction "+str(fonction.__name__)+" a pris "+str(dt)+" secondes.")
-        return resultat
-    return nouvelleFonction

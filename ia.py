@@ -1,6 +1,6 @@
 from outils import intersection, est_superieur
 from plateau_analysable import PlateauAnalysable
-import outils, joueur, random
+import outils, joueur
 import config as cfg
 from copy import deepcopy
 

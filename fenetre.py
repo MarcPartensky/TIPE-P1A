@@ -43,7 +43,7 @@
 # --coding:utf-8--
 
 import pygame
-from pygame.locals import RESIZABLE,KEYDOWN,KEYUP,K_r,K_ESCAPE,FULLSCREEN,K_SPACE # CONSTANTES de pygame
+from pygame.locals import RESIZABLE,KEYDOWN,KEYUP,K_r,K_ESCAPE,K_SPACE,FULLSCREEN # CONSTANTES de pygame
 import couleurs
 import time
 
