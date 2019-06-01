@@ -9,7 +9,7 @@ import config as cfg
 
 
 # CRÉATION DE LA FENETRE
-panneau=Panneau(nom="Othello",taille=cfg.RESOLUTION_FENETRE,set=False,plein_ecran=False) # Crée un panneau (qui est une fenêtre)
+panneau=Panneau(nom="Fenetre Othello",taille=cfg.RESOLUTION_FENETRE,set=False,plein_ecran=False) # Crée un panneau (qui est une fenêtre)
 
 
 # CRÉATION DES JOUEURS
@@ -40,8 +40,8 @@ bruteforce3=bf.BruteForce(nom="Brute Force niveau 3", level=3) #Joue en pensant 
 bruteforce4=bf.BruteForce(nom="Brute Force niveau 4", level=4) #Joue en pensant 4 coups à l'avance
 
 #puis on  choisit les joueurs ici
-joueur_blanc = machine1
-joueur_noir  = machine2
+joueur_blanc = machine8
+joueur_noir  = machine9
 
 #et non ici
 jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc

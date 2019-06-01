@@ -104,6 +104,7 @@ class Othello:
             if event.type==Panneau.locals.KEYUP:
                 if event.key==Panneau.locals.K_r:
                     self.relancer()
+                    cfg.info("Nouvelle partie lancer",nom_fichier="othello.py")
 
     def actualiser(self):
         """Actualise le jeu."""
@@ -123,7 +124,7 @@ class Othello:
                 self.fini=not(self.fini)
                 self.determinerGagnant()
                 cfg.info("Fin de partie :",nom_fichier="othello.py")
-                cfg.info("le gagnant : {}".format(repr(self.gagnant)),nom_fichier="othello.py")
+                cfg.info("le gagnant est {}".format(repr(self.gagnant)),nom_fichier="othello.py")
 
     def determinerGagnant(self):
         """Determine le gagnant de la partie a la fin du jeu."""
@@ -162,7 +163,7 @@ class Othello:
             choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.panneau)
             if not choix_du_joueur:
                 return None
-            cfg.info("Le choix du joueur est {}".format(repr(choix_du_joueur)),nom_fichier="othello.py")
+            cfg.debug("Le choix du joueur est {}".format(repr(choix_du_joueur)))
             self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
             self.plateau.afficherAnimationPion(choix_du_joueur)
 
