@@ -7,7 +7,7 @@ import ia, ias
 import config as cfg
 
 # CRÉATION DE LA FENETRE
-panneau=Panneau(nom="Fenetre Othello",taille=cfg.RESOLUTION_FENETRE,set=False,plein_ecran=False) # Crée un panneau (qui est une fenêtre)
+panneau=Panneau(nom="Othello",taille=cfg.RESOLUTION_FENETRE,set=False,plein_ecran=False) # Crée un panneau (qui est une fenêtre)
 
 
 # CRÉATION DES JOUEURS
@@ -37,4 +37,4 @@ joueur_noir  = humain1
 
 #et non ici
 jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
-jeu() #Lance le jeu.
+jeu.lancer() #Lance le jeu.

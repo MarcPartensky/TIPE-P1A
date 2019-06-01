@@ -50,8 +50,6 @@ import time
 
 class Fenetre:
     """Crée une classe de fenêtre afin de simplifier l'utilisation de pygame."""
-    event=pygame.event.get
-    locals=pygame.locals
 
     def __init__(self,nom="fenetre",
                       taille=None,

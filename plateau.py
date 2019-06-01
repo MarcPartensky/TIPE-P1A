@@ -380,13 +380,13 @@ class Plateau:
         directions=[(1,0),(1,1),(0,1),(-1,1),(-1,0),(-1,-1),(0,-1),(1,-1)]
         return directions
 
-    def conquerir(self,position,p_cote):
+    def conquerir(self,position,cote):
         """Permet au nouveau pion à la position 'position' de couleur 'cote' de
         retouner les autres pions"""
         directions=self.obtenirDirections()
         for direction in directions:
             ligne=self.obtenirLigneExclus(position,direction)
-            self.conquerirLigne(p_cote,ligne)
+            self.conquerirLigne(cote,ligne)
 
     def conquerirLigne(self,cote,ligne):
         """Permet au nouveau pion a la position position de couleur cote de

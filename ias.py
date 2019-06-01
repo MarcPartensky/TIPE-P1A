@@ -34,19 +34,6 @@ class Aleatoire(Robot):
         """Joue aléatoirement."""
         return self.jouerAleatoire(plateau)
 
-class PremierCoup(Robot):
-    """Robot qui joue toujours le premier coup parmi les coups proposés."""
-
-    def __init__(self,*args,**kwargs):
-        """Crée le robot avec les arguments de la classe mère 'Robot'."""
-        super().__init__(*args,**kwargs)
-
-    def jouer(self,plateau,panneau=None):
-        """Joue le premier coup proposé."""
-        coups_possibles=plateau.mouvements
-        self.choix=coups_possibles[0]
-        return self.choix
-
 
 class Interieur(Robot):
     """Robot qui essaie de jouer ses pions le plus au centre que possible."""
@@ -152,20 +139,6 @@ class Eparpille(Robot):
         else:
             resultat=p1
         return resultat
-
-class Ligne(Robot):
-    """Robot qui essaie de maximiser le nombre de lignes formées par ses pions."""
-
-    def __init__(self,*args,**kwargs):
-        """"Crée le robot avec les arguments de la classe mère 'Robot'."""
-        super().__init__(*args,**kwargs)
-
-    def jouer(self,plateau,panneau=None):
-        """Joue de façon à maximiser le nombre de lignes formées par ses pions."""
-        pass
-
-    def estEnLigne(self,ligne):
-        """Renvoie si une position est."""
 
 class Direct(Robot):
     """Robot qui joue de façon à avoir le plus de pions possibles sur le tour actuel."""

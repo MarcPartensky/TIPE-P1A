@@ -91,7 +91,6 @@ class Humain(Joueur):
                         break
         return self.choix
 
-
 class Robot(Joueur):
     """classe qui hérite de le classe Joueur"""
 
