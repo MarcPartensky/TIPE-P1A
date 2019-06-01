@@ -93,7 +93,7 @@ class Othello:
         """Recrée la partie."""
         self.__dict__=Othello(self.joueurs,self.panneau,self.nom).__dict__
 
-    def __call__(self): #Utilisation de la méthode spécial call, utiliser lorsqu'on appele une instance de classe comme si c'étais une fonction
+    def __call__(self): #Utilisation de la méthode spécial call, executée lorsqu'on appelle une instance de classe comme si c'étais une fonction
         """Boucle principale du jeu Othello."""
         while self.ouvert:
             self.actualiser()
@@ -130,8 +130,9 @@ class Othello:
         """Determine le gagnant de la partie a la fin du jeu."""
         cote_gagnant=self.plateau.obtenirCoteGagnant()
         if cote_gagnant!=None:
-            cfg.info("Le joueur "+self.joueurs[cote_gagnant].nom+" a gagne.",nom_fichier="othello.py")
-            self.gagnant=self.joueurs[cote_gagnant].nom
+            self.gagnant = self.joueurs[cote_gagnant].nom
+            cfg.info("Le joueur "+self.gagnant+" a gagne.",nom_fichier="othello.py")
+
         else:
             cfg.info("Match nul.",nom_fichier="othello.py")
             self.gagnant=None
@@ -170,5 +171,5 @@ class Othello:
             #Permet en théorie au joueur de retourner en arrière. Mais n'est pas encore implémenter
             self.historique.append([self.plateau.grille,joueur_actif.cote,choix_du_joueur])
         else :
-            #Sinon aucun mouvement n'est possible et on passe uniquement au tour suivant
-            pass
+            #Sinon aucun mouvement n'est possible et on passe au tour suivant
+            pass#mot clé python pour indiquer de ne rien faire
