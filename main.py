@@ -32,7 +32,7 @@ machine10=ias.MaximisationPions(nom="Direct") #Joue en essayant de maximiser son
 
 #puis on  choisit les joueurs ici
 joueur_blanc = machine1
-joueur_noir  = machine7
+joueur_noir  = humain1
 
 #et non ici
 jeu=Othello(joueurs=[joueur_blanc,joueur_noir],panneau=panneau) #Crée un jeu. # à noter que le joueur placer en premier dans la liste est le joueur blanc
