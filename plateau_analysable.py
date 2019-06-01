@@ -2,18 +2,17 @@ from plateau import Plateau
 from config import debug
 
 import config as cfg
-import outils,couleurs
-import couleurs
-import copy
+import outils,couleurs,copy
+
 
 #La liste des différentes zone de jeu :
-
-ZONE_COIN=4#Ne doit pas etre une liste
-ZONE_VERTE=3
-ZONE_BLANCHE=2
-ZONE_ROUGE=1
-ZONE_NOIRE=0
-ZONE_TOUT=-1
+# Ne doit pas etre une liste
+ZONE_COIN    =  4
+ZONE_VERTE   =  3
+ZONE_BLANCHE =  2
+ZONE_ROUGE   =  1
+ZONE_NOIRE   =  0
+ZONE_TOUT    = -1
 
 LISTE_ZONES=[ZONE_COIN,ZONE_VERTE,ZONE_BLANCHE,ZONE_ROUGE,ZONE_NOIRE, ZONE_TOUT]
 
