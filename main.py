@@ -1,7 +1,7 @@
 from joueur  import Robot, Humain, Developpeur
 from panneau import Panneau
 from othello import Othello
-from cyrano  import Cyrano
+from ia  import Cyrano
 
 import ias
 import config as cfg
@@ -17,8 +17,8 @@ humain1 = Humain(nom="Humain")   # Crée un joueur humain
 humain2 = Humain(nom="Humain2")  # Crée un autre joueur humain
 developpeur1 = Developpeur(nom="Developpeur")   # Crée un joueur humain qui n'obéit pas aux règles de l'Othello, cela permet de faire des tests
 developpeur2 = Developpeur(nom="Developpeur2")  # Même développeur
-machine1 = Cyrano(nom="Cyrano")   # Crée une intelligence artificielle utilisant la notion de stabilite
-machine2 = Cyrano(nom="Cyrano2")  # Même ia
+machine1 = ia.Cyrano(nom="Cyrano")   # Crée une intelligence artificielle utilisant la notion de stabilite
+machine2 = ia.Cyrano(nom="Cyrano2")  # Même ia
 
 # Création des IAs naïvent
 machine3 = ias.Interieur(nom="Interieur")  # Joue toujours le plus proche possible du centre du plateau
