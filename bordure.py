@@ -1,7 +1,52 @@
+"""
+################################################################################
+#
+#              Institut Supérieur d'électronique de Paris (ISEP)
+#
+#                               SUJET DE TIPE:
+#                     Othello et Intelligence Artificielle
+#
+#    Première année  --  MPSI
+#
+#    Créateurs : Marc  PARTENSKY
+#                Valentin  COLIN
+#                Alexandre BIGOT
+#
+#    Version : 2019
+#
+################################################################################
+#
+#                             SOMMAIRE de Bordure
+#
+#    1.    class Bordure:  ........................................... ligne  47
+#    1.1   ------> __init__ (self,nombre_de_lignes,espacement)  ...... ligne  50
+#    1.2   ------> recupererNomDesJoueurs (self,noms_des_joueurs)  ... ligne  56
+#    1.3   ------> actualiser (self,rang,scores,fini,gagnant)  ....... ligne  60
+#    1.4   ------> afficherTexte(self,texte,position,taille,couleur) . ligne  68
+#    1.5   ------> afficherFond (self)  .............................. ligne  76
+#    1.6   ------> clear (self)  ..................................... ligne  88
+#    1.7   ------> afficherTemps (self,position,taille,couleur)  ..... ligne  92
+#    1.8   ------> afficherRectangle (self,position,taille,couleur) .. ligne 100
+#    1.9   ------> afficherTempsPropre(self)  ........................ ligne 105
+#    1.10  ------> afficher (self)  .................................. ligne 112
+#    1.11  ------> ecrireTitre (self,n)  ............................. ligne 121
+#    1.12  ------> ecrireTour (self,n)  .............................. ligne 125
+#    1.13  ------> crireScore (self,n)  .............................. ligne 130
+#    1.14  ------> ecrireGagnants (self,n)  .......................... ligne 138
+#    1.15  ------> afficherLignes (self,x=10,y=10)  .................. ligne 143
+#
+################################################################################
+"""
+# --coding:utf-8--
+
 import config as cfg
 import pygame, time, couleurs, outils
 
+
+
 class Bordure:
+    """Classe de bordure permettant d'afficher des informations en temps réel"""
+
     def __init__(self,nombre_de_lignes=20,espacement=40):
         """Créer une bordure en utilisant une surface et un thème."""
         self.surface=pygame.Surface(cfg.RESOLUTION_BORDURE)
@@ -67,14 +112,14 @@ class Bordure:
     def afficher(self):
         """Permet d'afficher la bordure sur sa surface."""
         self.afficherFond()
-        self.ecrireTitre(0)
-        self.ecrireTour(2) # écrit le nom du joueur qui doit jouer à la ligne 1 (prend 2 ligne)
-        self.ecrireScore(5) # écrit les scores des joueurs à la ligne 3 (prend 3 lignes)
-        if self.fini: self.ecrireGagnants(9)
+        self.ecrireTitre(n=0)
+        self.ecrireTour(n=2) # écrit le nom du joueur qui doit jouer à la ligne n=2 (prend 2 ligne)
+        self.ecrireScore(n=5) # écrit les scores des joueurs à la ligne n=5 (prend 3 lignes)
+        if self.fini: self.ecrireGagnants(n=9) # lorsque la partie est fini écrit le nom du gagnat à la ligne n=9
         self.afficherLignes() # affiche chaque ligne à l'écran
 
     def ecrireTitre(self,n):
-        """Ecrit le titre."""
+        """Ecrit le titre dans la bordure"""
         self.lignes[n]="                           Othello"
 
     def ecrireTour(self,n):
@@ -100,19 +145,3 @@ class Bordure:
         taille=len(self.lignes)
         for i in range(taille):
             self.afficherTexte(self.lignes[i],(x,y+i*self.espacement))
-
-
-if __name__=="__main__":
-    from panneau import Panneau
-    panneau=Panneau()
-    bordure=Bordure()
-    panneau.decoupages=[(0,0,100,100),(100,0,100,100)]
-    while panneau.open:
-        panneau.check()
-        bordure.surface.fill(couleurs.BLEU)
-        bordure.afficherTemps((0,0),40,couleurs.VERT)
-        bordure.afficherTexte("message",(10,10),10,couleurs.BLEU)
-        panneau.coller(bordure.surface,0)
-        panneau.coller(bordure.surface,1)
-        panneau.afficher()
-        panneau.flip()

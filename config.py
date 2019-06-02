@@ -15,7 +15,6 @@ TAILLE_FENETRE = (1200, 800)
 TAILLE_PLATEAU = ( 800, 800)
 TAILLE_BORDURE = ( 400, 800)
 
-
 RESOLUTION_FENETRE=TAILLE_FENETRE
 RESOLUTION_PLATEAU=TAILLE_PLATEAU # les dimensions des arriere_plan comme celle-ci n'ont pas d'importance vu qu'elle seront redimensionnées
 RESOLUTION_BORDURE=TAILLE_BORDURE
@@ -31,10 +30,7 @@ THEME_PLATEAU = {   "couleur pions"      :  [couleurs.NOIR, couleurs.BLANC],
                     "couleur points"     :  couleurs.NOIR,
                     "police"             :  "monospace",
                     "couleur texte"      :  couleurs.BLANC,
-                    "taille texte"       :  20     }
-
-THEME_FENETRE = {}
-
+                    "taille texte"       :  20                }
 
 # FONCTION D'AFFICHAGE CONSOLE
 

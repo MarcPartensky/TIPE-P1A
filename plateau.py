@@ -14,72 +14,66 @@
 #
 #    Version : 2019
 #
-###############################################################################
+################################################################################
 #
 #                           SOMMAIRE du plateau
 #
-#    1.    Class Plateau:  ........................................... ligne  80
-#    1.1   ------> __init__ (self,theme=None)  ....................... ligne  82
-#    1.2   ------> creerGrille (self)  ............................... ligne
-#    1.3   ------> est_dans_grille (self,position)  .................. ligne
-#    1.4   ------> est_un_coin (self,position)  ...................... ligne
-#    1.5   ------> obtenirPositionBrute (self,(etc).)  ............... ligne
-#    1.6   ------> obtenirPositionPlateau (self,(etc).) .............. ligne
-#    1.7   ------> estComplet (self)  ................................ ligne
-#    1.8   ------> estJouable (self)  ................................ ligne
-#    1.9   ------> estFini (self)  ................................... ligne
-#    1.10  ------> obtenirCoteGagnant (self)  ........................ ligne
-#    1.11  ------> testVictoire (self)  ......  (obsolète)   ......... ligne
-#    1.12  ------> charger (self,cote)  .............................. ligne
-#    1.13  ------> obtenirCase (self,coordonnees)  ................... ligne
-#    1.14  ------> obtenirCases (self,coordonnees)  .................. ligne
-#    1.15  ------> obtenirPions (self,cotes)  ........................ ligne
-#    1.17  ------> compterPions (self,cote)  ......................... ligne
-#    1.18  ------> obtenirNombrePionsRestant (self)  ................. ligne
-#    1.19  ------> obtenirEnvironnement (self,positions)  ............ ligne
-#    1.20  ------> obtenirAlentours (self,positions)  ................ ligne
-#    1.21  ------> obtenirLignesAlentours (self,position)  ........... ligne
-#    1.22  ------> insererPion (self,positions,cote)  ................ ligne
-#    1.23  ------> placer_pion (self,position,cote)  ................. ligne
-#    1.24  ------> estCaseVide (self,position)  ...................... ligne
-#    1.25  ------> estCaseJoueur (self,position,cote)  ............... ligne
-#    1.26  ------> obtenirCoteOppose (self,cote_joueur)  ............. ligne
-#    1.27  ------> obtenirMouvementsValides (self,joueur_cote)  ...... ligne
-#    1.28  ------> estMouvementValide (self,mouvement,cote)  ......... ligne
-#    1.29  ------> estMouvementValideDansLigne (self,cote,ligne)  .... ligne
-#    1.30  ------> obtenirLigneInclus (self,position,vecteur,taille) . ligne
-#    1.31  ------> obtenirLigneExclus (self,position,vecteur,taille) . ligne
-#    1.32  ------> obtenirDirections (self)  ......................... ligne
-#    1.33  ------> conquerir (self,position,p_cote)  ................. ligne
-#    1.34  ------> conquerirLigne (self,cote,ligne)  ................. ligne
-#    1.35  ------> manger (self,mangeables,personne)  ................ ligne
-#    1.36  ------> compterPions  ..................................... ligne
-#    1.37  ------> obtenirScores ..................................... ligne
-#    1.38  ------> presenter (self, (etc).)  ......................... ligne
-#    1.39  ------> afficherMessage(self,(etc).)  ..................... ligne
-#    1.40  ------> colorerCase (self,positions,couleur,fenetre)  ..... ligne
-#    1.41  ------> colorerLigne (self,ligne,couleur,fenetre)  ........ ligne
-#    1.42  ------> afficher (self,fenetre)  .......................... ligne
-#    1.43  ------> afficherFond (self)  .............................. ligne
-#    1.44  ------> afficherGrille (self)  ............................ ligne
-#    1.45  ------> afficherDecorationGrille (self)  .................. ligne
-#    1.46  ------> afficherPions (self)  ............................. ligne
-#    1.47  ------> afficherMouvements (self,(etc).)  ................. ligne
-#    1.48  ------> afficherAnimationPion(self,(etc).)  ............... ligne
+#    1.    Class Plateau:  ........................................... ligne  75
+#    1.1   ------> __init__ (self,theme=None)  ....................... ligne  78
+#    1.2   ------> creerGrille (self)  ............................... ligne  89
+#    1.3   ------> estDansGrille (self,position)  .................... ligne  98
+#    1.4   ------> obtenirPositionPlateau (self,(etc).) .............. ligne 104
+#    1.5   ------> obtenirPositionBrute (self,(etc).)  ............... ligne 113
+#    1.6   ------> estComplet (self)  ................................ ligne 120
+#    1.7   ------> estJouable (self)  ................................ ligne 127
+#    1.8   ------> estFini (self)  ................................... ligne 138
+#    1.9   ------> obtenirCoteGagnant (self)  ........................ ligne 150
+#    1.10  ------> charger (self,cote)  .............................. ligne 161
+#    1.11  ------> obtenirCase (self,coordonnees)  ................... ligne 165
+#    1.12  ------> obtenirCases (self,coordonnees)  .................. ligne 170
+#    1.13  ------> obtenirPions (self,cotes)  ........................ ligne 181
+#    1.14  ------> obtenirScores ..................................... ligne 194
+#    1.15  ------> compterPions (self,cote)  ......................... ligne 198
+#    1.16  ------> obtenirNombrePionsRestant (self)  ................. ligne 203
+#    1.17  ------> obtenirEnvironnement (self,positions)  ............ ligne 207
+#    1.18  ------> obtenirLignesAlentours (self,position)  ........... ligne 223
+#    1.19  ------> insererPion (self,positions,cote)  ................ ligne 229
+#    1.20  ------> placerPion (self,position,cote)  .................. ligne 236
+#    1.21  ------> estCaseVide (self,position)  ...................... ligne 242
+#    1.22  ------> estCaseJoueur (self,position,cote)  ............... ligne 246
+#    1.23  ------> obtenirCoteOppose (self,cote_joueur)  ............. ligne 250
+#    1.24  ------> obtenirMouvementsValides (self,joueur_cote)  ...... ligne 255
+#    1.25  ------> estMouvementValide (self,mouvement,cote)  ......... ligne 266
+#    1.26  ------> estMouvementValideDansLigne (self,cote,ligne)  .... ligne 278
+#    1.27  ------> obtenirLigneInclus (self,position,vecteur,taille) . ligne 299
+#    1.28  ------> obtenirLigneExclus (self,position,vecteur,taille) . ligne 313
+#    1.29  ------> obtenirDirections (self)  ......................... ligne 329
+#    1.30  ------> conquerir (self,position,cote)  ................... ligne 335
+#    1.31  ------> conquerirLigne (self,cote,ligne)  ................. ligne 343
+#    1.32  ------> presenter (self, (etc).)  ......................... ligne 357
+#    1.33  ------> afficherTexte(self,(etc).)  ....................... ligne 373
+#    1.34  ------> colorerCase (self,positions,couleur,fenetre)  ..... ligne 381
+#    1.35  ------> afficher (self,fenetre)  .......................... ligne 397
+#    1.36  ------> afficherFond (self)  .............................. ligne 404
+#    1.37  ------> afficherGrille (self)  ............................ ligne 416
+#    1.38  ------> afficherDecorationGrille (self)  .................. ligne 431
+#    1.39  ------> afficherPions (self)  ............................. ligne 442
+#    1.40  ------> afficherMouvements (self,(etc).)  ................. ligne 457
 #
-###############################################################################
+################################################################################
 """
 # --coding:utf-8--
 
 import outils
 import couleurs
 import config as cfg
-import time #pour les animations
+import time # pour les animations
 import pygame
 
 
-
 class Plateau:
+    """Représentation en classe de l'Othelier."""
+
     def __init__(self,taille=[8,8]):
         """Cree un plateau."""
         self.taille=taille # taille du plateau 8 lignes et 8 colonnes
@@ -105,7 +99,6 @@ class Plateau:
         sx,sy=self.taille
         x,y=position
         return (0<=x<sx and 0<=y<sy)
-
 
     def obtenirPositionPlateau(self,panneau):
         """Renvoie la position dans le systeme de coordonnees du plateau a l'aide d'une position brute de la panneau en pixels."""
@@ -163,24 +156,6 @@ class Plateau:
         else:
             cote_gagnant=None
         return cote_gagnant
-
-    def testVictoire(self): #Ancien test de victoire obselète
-        """Test la victoire et vérifie si au moins l'un des joueurs possède un coup ."""
-        compteur=0
-        for colonne in self.grille:
-            compteur+=colonne.count(cfg.CASE_VIDE) # compte le nombre d'occurence de case vide dans la colonne
-        if compteur==0: #Verifie si il reste encore des cases vides
-            self.gagne=True
-            return self.gagne
-        else: #S'il en reste, verifie si au moins un joueur peut joueur
-            self.gagne=True
-            for i in range(self.nombre_de_joueurs):
-                coups=self.obtenirMouvementsValides(i)
-                if len(coups)>0:
-                    self.gagne=False
-                    break
-        return self.gagne
-
 
     def charger(self,cote):
         """Charge les attributs du plateau afin d'être préchargé pour les ias et ainsi économiser le temps de calcul."""
@@ -243,22 +218,6 @@ class Plateau:
                         environnement.append((x,y))
         environnement=list(set(environnement))
         return environnement
-
-    def obtenirAlentours(self,positions):
-        """Prend en parametre une liste de position de case et retourne la liste des postions des cases vide se trouvant juste à cote"""
-        if type(positions)!=list: positions=[positions]
-        environnement=[]
-        directions=self.obtenirDirections()
-        for position in positions:
-            px,py=position
-            for pas in directions:
-                stx,sty=pas
-                x,y=(px+stx,py+sty)
-                if self.estDansGrille((x,y)):
-                    environnement.append((x,y))
-        environnement=list(set(environnement))
-        return environnement
-
 
     def obtenirLignesAlentours(self,position):
         """Renvoie les lignes partant du pion de position 'position' et en partant dans toutes les directions dans le sens trigonométrique."""
@@ -434,12 +393,6 @@ class Plateau:
             for i in range(2,6):
                 pygame.draw.rect(self.surface,couleur,[mx+i,my+i,cx-2*i,cy-2*i],1)
 
-    def colorerLigne(self,ligne,couleur):
-        """Colorie la ligne."""
-        cfg.debug("colorer:ligne:",ligne)
-        ligne=outils.obtenirLigne(ligne[0],ligne[-1])
-        self.colorerCase(ligne,couleur)
-
     def afficher(self):
         """Affiche l'ensemble des éléments du plateau."""
         self.afficherFond()
@@ -513,15 +466,3 @@ class Plateau:
             position_brute=self.obtenirPositionBrute((x,y))
             pygame.draw.circle(self.surface,(100,0,0),position_brute,rayon+2,0) #affiche des bord aux couleurs, bonne idees mais mal implemente
             pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)
-
-    def afficherAnimationPion(self,choix_du_joueur):
-        """Permet d'afficher l'animation du placement d'un nouveau pion en faisant clicgnoter son contour."""
-        wsx,wsy=self.surface.get_size()
-        sx,sy=self.taille
-        rayon=int(min(wsx,wsy)/min(sx,sy)/2.5)
-        x,y=choix_du_joueur
-        position_brute=self.obtenirPositionBrute((x,y))
-        case=self.obtenirCase(choix_du_joueur)
-        pygame.draw.circle(self.surface,couleurs.BLANC,position_brute,rayon+2,0) #choix du rayon quelque peu arbitraire
-        pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur pions"][case],position_brute,rayon,0)
-        #Cette fonction est devenue purement inutile suite aux nouvelles modifications

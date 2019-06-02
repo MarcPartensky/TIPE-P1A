@@ -1,3 +1,49 @@
+"""
+################################################################################
+#
+#              Institut Supérieur d'électronique de Paris (ISEP)
+#
+#                               SUJET DE TIPE:
+#                     Othello et Intelligence Artificielle
+#
+#    Première année  --  MPSI
+#
+#    Créateurs : Marc  PARTENSKY
+#                Valentin  COLIN
+#                Alexandre BIGOT
+#
+#    Version : 2019
+#
+################################################################################
+#
+#                             SOMMAIRE de Cyrano
+#
+#    1.    class Cyrano (joueur.Robot):  ............................. ligne  63
+#    1.1   ------>  __init__ (self,nom=None)  ........................ ligne  66
+#    1.2   ------>  reinitialiser (self, plateau)  ................... ligne  72
+#    1.3   ------>  main (self, plateau, fenetre=None)  .............. ligne  79
+#    1.4   ------>  comparer_blanc (self, pos1, pos2)  ............... ligne  88
+#    1.5   ------>  comparer_rouge (self, pos1, pos2)  ............... ligne 124
+#    1.6   ------>  comparer_vert(self, pos1, pos2)  ................. ligne 144
+#    1.7   ------>  comparer_noir(self, pos1, pos2)  ................. ligne 173
+#    1.8   ------>  comparer_coin(self, pos1, pos2)  ................. ligne 199
+#    1.9   ------>  comparer_blanc_rouge(self, blanc, rouge)  ........ ligne 225
+#    1.10  ------>  comparer_blanc_vert(self, blanc, vert)  .......... ligne 228
+#    1.11  ------>  comparer_blanc_noir(self, blanc, noir)  .......... ligne 245
+#    1.12  ------>  comparer_blanc_coin(self, blanc, coin)  .......... ligne 248
+#    1.13  ------>  comparer_rouge_vert(self, rouge, vert)  .......... ligne 251
+#    1.14  ------>  comparer_rouge_noir(self, rouge, noir)  .......... ligne 268
+#    1.15  ------>  comparer_rouge_coin(self, rouge, coin)  .......... ligne 288
+#    1.16  ------>  comparer_vert_noir (self, vert, noir)  ........... ligne 291
+#    1.17  ------>  comparer_vert_coin (self, vert, coin)  ........... ligne 306
+#    1.18  ------>  comparer_noir_coin (self, noir, coin)  ........... ligne 309
+#    1.19  ------>  comparer_2_positions (self,position1,position2)  . ligne 312
+#    1.20  ------>  comparer_n_positions (self, *args)  .............. ligne 370
+#
+################################################################################
+"""
+# --coding:utf-8--
+
 from outils import intersection, est_superieur
 from plateau_analysable import PlateauAnalysable
 import outils, joueur
@@ -14,7 +60,7 @@ ZONE_NOIRE   =  0
 ZONE_TOUT    = -1
 
 
-class IA(joueur.Robot):
+class Cyrano(joueur.Robot):
     """Classe d'IA NON-naïve"""
 
     def __init__(self,nom=None):
@@ -37,8 +83,7 @@ class IA(joueur.Robot):
         self.fenetre=fenetre
         self.reinitialiser(plateau)  # Il faut prendre en compte le nouveau plateau
         return self.comparer_n_positions(*self.mouvements_possibles)
-
-#Les prochaines méthodes permettent de comparer les positions
+        #Les prochaines méthodes permettent de comparer les positions
 
     def comparer_blanc(self, pos1, pos2):
         """Comparer deux positions de couleur blanche"""
@@ -54,13 +99,13 @@ class IA(joueur.Robot):
         #Enfin, pour déterminer la position choisie, il suffit de comparer les deux listes termes par terme : cf la
         #fonction est_superieur dans outils.py
 
-
         #Le coefficeint ci dessous est un porduit astucieux :
         #Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
         #de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
         #des coups proposes.
         #Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
         #il n'influe donc pas dans  la selection du coup
+
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
         coeff2.append(self.plateau.est_coup_bourbier_par_cote(pos2, self.cote)*self.parite_desavantageuse)
 
@@ -124,7 +169,6 @@ class IA(joueur.Robot):
             return pos1
         else :
             return pos2
-
 
     def comparer_noir(self, pos1, pos2):
         """ On produit ci dessous est en fait une astuce :
@@ -198,7 +242,6 @@ class IA(joueur.Robot):
         else:
             return vert
 
-
     def comparer_blanc_noir(self, blanc, noir):
         return blanc
 
@@ -222,7 +265,6 @@ class IA(joueur.Robot):
         else :
             return vert
 
-
     def comparer_rouge_noir(self, rouge, noir):
         coeff_rouge, coeff_noir = [], []
 
@@ -243,10 +285,8 @@ class IA(joueur.Robot):
         else:
             return noir
 
-
     def comparer_rouge_coin(self, rouge, coin):
         return coin
-
 
     def comparer_vert_noir(self, vert, noir):
 
@@ -263,10 +303,8 @@ class IA(joueur.Robot):
         else:
             return noir
 
-
     def comparer_vert_coin(self, vert, coin):
         return coin
-
 
     def comparer_noir_coin(self, noir, coin):
         return coin

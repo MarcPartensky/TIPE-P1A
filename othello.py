@@ -21,16 +21,17 @@
 #    1.    class Othello:  .......................................... ligne  46
 #    1.1   ------> __init__ (self)  ................................. ligne  55
 #    1.2   ------> chargerPanneau (self)  ........................... ligne  73
-#    1.3   ------> __call__ (self)  ................................. ligne  84
-#    1.4   ------> actualiser (self)  ............................... ligne  89
-#    1.5   ------> derterminer_gagnant (self)  ...................... ligne 109
-#    1.6   ------> afficher (self)  ................................. ligne 123
-#    1.7   ------> faireTour (self)  ................................ ligne 133
+#    1.3   ------> recreer (self)  .................................. ligne  84
+#    1.4   ------> relancer (self) .................................. ligne  89
+#    1.3   ------> lancer (self)  ................................... ligne  93
+#    1.4   ------> actualiser (self)  ............................... ligne  98
+#    1.5   ------> determiner_gagnant (self)  ....................... ligne 119
+#    1.6   ------> afficher (self)  ................................. ligne 134
+#    1.7   ------> faireTour (self)  ................................ ligne 144
 #
 ################################################################################
 """
 # --coding:utf-8--
-
 
 from plateau_analysable import PlateauAnalysable as Plateau
 from bordure import Bordure
@@ -55,9 +56,9 @@ class Othello:
         """Crée un objet de jeu d'Othello en récupérant une liste de joueurs et un panneau (qui est une fenêtre)."""
         self.nom=nom
         self.joueurs=joueurs
-        for compteur in range(len(self.joueurs)): # atribut le coté des joueur
+        for compteur in range(len(self.joueurs)): # Attribut le coté des joueur
             self.joueurs[compteur].attribuerCote(compteur) # i.e. : self.joueurs[compteur].cote=compteur
-        self.rang=0 # indique le moment dans la partie. exemple: rang =10 signifie que l'on est au 10ème tours
+        self.rang=0 # Indique le moment dans la partie. exemple: rang =10 signifie que l'on est au 10ème tours
         self.gagnant=None
         self.historique=[]
         self.plateau=Plateau()
@@ -81,7 +82,7 @@ class Othello:
         self.panneau.decoupages=[decoupage1,decoupage2]
 
     def relancer(self):
-        """Relance une  partie."""
+        """Relance une partie."""
         self.recreer()
         self.lancer()
 
@@ -113,25 +114,25 @@ class Othello:
                 self.fini=not(self.fini)
                 self.determinerGagnant()
                 cfg.info("Fin de partie :",nom_fichier="othello.py")
-                cfg.info("le gagnant est {}".format(repr(self.gagnant)),nom_fichier="othello.py")
+                cfg.info("Le gagnant est {}".format(repr(self.gagnant)),nom_fichier="othello.py")
 
     def determinerGagnant(self):
-        """Determine le gagnant de la partie a la fin du jeu."""
+        """Détermine le gagnant de la partie a la fin du jeu."""
         self.cote_gagnant=self.plateau.obtenirCoteGagnant()
         if self.cote_gagnant!=None:
             self.gagnant = self.joueurs[self.cote_gagnant].nom
             cfg.info("Le joueur "+self.gagnant+" a gagne.",nom_fichier="othello.py")
-
         else:
             cfg.info("Match nul.",nom_fichier="othello.py")
             self.gagnant=None
+
         #Faire attention au fait que le plateau ne connait que des cotés, et à
         #aucun moment il ne possède les vrais joueurs comme attributs.
         #Effectivement, ce sont les joueurs qui utilise le plateau et non l'inverse.
         return self.gagnant
 
     def afficher(self):
-        """Affiche tout : le plateau et la bordure."""
+        """Affiche tout: le plateau et la bordure."""
         self.panneau.clear()
         self.plateau.afficher()
         self.bordure.afficher()
@@ -141,24 +142,22 @@ class Othello:
         self.panneau.flip()
 
     def faireTour(self) :
-        """Faire un tour de jeu"""
+        """Faire un tour de jeu."""
         self.actions_annulees=[]
         self.tour=self.rang%self.plateau.nombre_de_joueurs
-        joueur_actif=self.joueurs[self.tour]#joueur a qui c'est le tour
+        joueur_actif=self.joueurs[self.tour] #Joueur à qui c'est le tour.
         cfg.debug("C'est au tour du joueur: "+str(joueur_actif))
-        self.plateau.charger(self.tour) #Nécessaire pour tous les joueurs
+        self.plateau.charger(self.tour) #Nécessaire pour tous les joueurs.
         if self.panneau: self.afficher()
         self.rang+=1
-        if len(self.plateau.mouvements)>0:#Si des mouvements sont possibles
+        if len(self.plateau.mouvements)>0: #Si des mouvements sont possibles.
             choix_du_joueur=joueur_actif.jouer(deepcopy(self.plateau),self.panneau)
             if not choix_du_joueur:
                 return None
             cfg.debug("Le choix du joueur est {}".format(repr(choix_du_joueur)))
             self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
-            self.plateau.afficherAnimationPion(choix_du_joueur)
-
-            #Permet en théorie au joueur de retourner en arrière. Mais n'est pas encore implémenter
+            #Sauvegarde l'historique du jeu.
             self.historique.append([self.plateau.grille,joueur_actif.cote,choix_du_joueur])
         else :
-            #Sinon aucun mouvement n'est possible et on passe au tour suivant
-            pass#mot clé python pour indiquer de ne rien faire
+            #Sinon aucun mouvement n'est possible et on passe au tour suivant.
+            pass #Mot clé Python pour indiquer de ne rien faire.

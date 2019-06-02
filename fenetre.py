@@ -18,25 +18,19 @@
 #
 #                           SOMMAIRE de Fenetre
 #
-#    1.    class Fenetre:  ........................................... ligne
-#    1.1   ------> __init__ (self,(etc).)  ........................... ligne
-#    1.2   ------> load (self)  ...................................... ligne
-#    1.3   ------> set (self)  ....................................... ligne
-#    1.4   ------> clear (self,color=None)  .......................... ligne
-#    1.5   ------> scale (self,picture)  ............................. ligne
-#    1.6   ------> check (self)  ..................................... ligne
-#    1.7   ------> update (self)  .................................... ligne
-#    1.8   ------> pause (self)  ..................................... ligne
-#    1.9   ------> attendre (self)  .................................. ligne
-#    1.10  ------> point (self)  ..................................... ligne
-#    1.11  ------> click (self)  ..................................... ligne
-#    1.12  ------> press (self)  ..................................... ligne
-#    1.13  ------> flip (self)  ...................................... ligne
-#    1.14  ------> afficherTexte (self,text,position,(etc).)  ........ ligne
-#    1.15  ------> placerImage (self,position)  ...................... ligne
-#    1.16  ------> infoConsole (self,message)  ....................... ligne
-#    1.17  ------> __call__ (self)  .................................. ligne
-#    1.18  ------> __del__ (self)  ................................... ligne
+#    1.    class Fenetre:  .......................................... ligne  46
+#    1.1   ------> __init__ (self,(etc).)  .......................... ligne  49
+#    1.2   ------> load (self)  ..................................... ligne  71
+#    1.3   ------> set (self)  ...................................... ligne  76
+#    1.4   ------> clear (self,color=None)  ......................... ligne  93
+#    1.5   ------> check (self)  .................................... ligne  98
+#    1.6   ------> pause (self)  .................................... ligne 115
+#    1.7   ------> attendre (self)  ................................. ligne 127
+#    1.8   ------> point (self)  .................................... ligne 139
+#    1.9   ------> click (self)  .................................... ligne 143
+#    1.10  ------> flip (self)  ..................................... ligne 147
+#    1.11  ------> infoConsole (self,message)  ...................... ligne 151
+#    1.12  ------> __del__ (self)  .................................. ligne 156
 #
 ################################################################################
 """
@@ -48,50 +42,50 @@ import couleurs
 import time
 
 
+
 class Fenetre:
     """Crée une classe de fenêtre afin de simplifier l'utilisation de pygame."""
 
-    def __init__(self,nom="fenetre",
-                      taille=None,
-                      police_du_texte="monospace",
-                      taille_du_texte=65,
-                      text_color=couleurs.BLANC,
-                      background_color=couleurs.NOIR,
-                      plein_ecran=False,
-                      set=True):
+    def __init__(self,  nom              = "fenetre",
+                        taille           = None,
+                        police_du_texte  = "monospace",
+                        taille_du_texte  = 65,
+                        text_color       = couleurs.BLANC,
+                        background_color = couleurs.NOIR,
+                        plein_ecran      = False,
+                        set              = True):
         """Crée un objet de fenêtre avec son nom, sa taille, sa police de texte,
         sa taille de texte, sa couleur de texte, sa couleur de fond, l'affichage
         en plein écran, et l'affichage sur l'écran dès sa création."""
-        self.name=nom
-        self.taille=taille
-        self.police_du_texte=police_du_texte
-        self.taille_du_texte=taille_du_texte
-        self.text_color=text_color
-        self.couleur_de_fond=background_color
-        self.plein_ecran=plein_ecran
+        self.name            = nom
+        self.taille          = taille
+        self.police_du_texte = police_du_texte
+        self.taille_du_texte = taille_du_texte
+        self.text_color      = text_color
+        self.couleur_de_fond = background_color
+        self.plein_ecran     = plein_ecran
         self.load()
         if set:
             self.set()
 
     def load(self):
         """Crée les attributs par défaut de la fenêtre."""
-        self.pausing=False
-        self.open=False
-        self.picture_saved=0
-        self.pause_cool_down=1
+        self.pausing         = False
+        self.open            = False
 
     def set(self):
         """Charge la fenêtre sur l'écran."""
-        self.infoConsole("La fenetre a ete ouverte.")
-        pygame.init()
-        self.info=pygame.display.Info()
-        if not self.taille: self.taille=(self.info.current_w//2,self.info.current_h//2)
-        self.font=pygame.font.SysFont(self.police_du_texte, self.taille_du_texte)
+        pygame.init() # On initialise la module pygame afin de pouvoir l'utiliser.
+        self.info=pygame.display.Info() # On s'en sert pour récupérer la taille de l'écran de l'utilisateur.
+        if not self.taille:
+            self.taille=(self.info.current_w//2,self.info.current_h//2)
         if self.plein_ecran:
             self.screen=pygame.display.set_mode(self.taille,FULLSCREEN)
         else:
             self.screen=pygame.display.set_mode(self.taille,RESIZABLE)
-        pygame.display.set_caption(self.name)
+        self.infoConsole("La fenetre a ete ouverte.")
+        self.font=pygame.font.SysFont(self.police_du_texte,self.taille_du_texte) # On charge une police de caractère
+        pygame.display.set_caption(self.name) # nom de la fenêtre dans l'en-tête de celle-ci
         self.clear()
         self.flip()
         self.open=True
@@ -118,25 +112,14 @@ class Fenetre:
                 self.screen=pygame.display.set_mode(self.taille,pygame.RESIZABLE)
                 self.flip()
 
-    def update(self):
-        """Updates all window's main attributs."""
-        self.mouse_click=bool(pygame.mouse.get_pressed()[0])
-        self.mouse_position=pygame.mouse.get_pos()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.open=False
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    self.open=False
-
     def pause(self):
-        """Permet de mettre le programme en pause jusqu'a ce que l'utilisateur
-        appuie sur la barre d'espace"""
+        """Permet de mettre le programme en pause jusqu'à ce que l'utilisateur
+        appuie sur la barre d'espace."""
         self.pausing=True
         while self.pausing and self.open:
             self.check()
             keys=pygame.key.get_pressed()
-            if keys[K_SPACE]:
+            if keys[K_SPACE]: # Si on appuie sur la barre d'espace..
                 self.pausing=False
         if self.open:
             time.sleep(0.1)
@@ -161,61 +144,15 @@ class Fenetre:
         """Détermine si l'utilisateur à cliqué sur sa souris."""
         return bool(pygame.mouse.get_pressed()[0])
 
-    def press(self):
-        """Renvoie la liste des touches avec leurs états:
-        0: si la touche n'est pas pressée, 1: sinon."""
-        return pygame.key.get_pressed()
-
     def flip(self):
         """Rafraichie l'écran"""
         pygame.display.flip()
 
-    def placerImage(self,picture_directory,coordonnates,color=None):
-        """Permet de placer une image aux coordonnées indiqués."""
-        x,y,sx,sy=coordonnates
-        picture=pygame.image.load(picture_directory)
-        picture=pygame.transform.scale(picture,(sx,sy))
-        if color: picture=colorize(picture,color)
-        self.screen.blit(picture,(x,y))
-
-    def obtenirTailleTexteAbsolue(self):
-        """Renvoie la taille du texte en coordonnées en pixels avec la taille
-        du texte de pygame en faisant un calcul arbitraire."""
-        return self.taille_du_texte/4
-
-    def afficherTexte(self,text,position,taille=None,couleur=None,couleur_de_fond=None,font=None,marge=1):
-        """Affiche du texte à l'écran avec la position les optionnels: taille,
-        couleur, couleur de fond, police d'écriture et marge."""
-        if not taille: taille=self.taille_du_texte
-        if not couleur: couleur=self.text_color
-        if not font: font=self.font
-        sx,sy=taille
-        x,y=position
-        pygame.draw.rect(self.screen,couleurs.inverser(couleur_de_fond),list(position)+list(taille),0)
-        pygame.draw.rect(self.screen,couleur_de_fond,(x+marge,y+marge,sx-2*marge,sy-2*marge),0)
-        label=font.render(text,1,couleur)
-        self.screen.blit(label,position)
-
     def infoConsole(self,message):
-        """Print message with window mention."""
+        """Affiche un message depuis la fenêtre."""
         text="["+self.name+"] "+message
         print(text)
-
-    def __call__(self):
-        """Rafraîchie la fenêtre et fait la met en pause."""
-        self.flip()
-        self.pause()
 
     def __del__(self):
         """Affiche que la fenêtre a été fermée à la fermeture de la fenêtre."""
         self.infoConsole("La fenetre a ete fermee.")
-
-
-"""Test d'utilisation et test de la fenêtre."""
-
-if __name__=="__main__":
-    f=Fenetre("Test de la fenêtre")
-    f.pause()
-    f.clear()
-    f.alert("test")
-    f.attendre(1)

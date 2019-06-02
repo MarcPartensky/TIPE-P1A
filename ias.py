@@ -1,3 +1,58 @@
+"""
+################################################################################
+#
+#              Institut Supérieur d'électronique de Paris (ISEP)
+#
+#                               SUJET DE TIPE:
+#                     Othello et Intelligence Artificielle
+#
+#    Première année  --  MPSI
+#
+#    Créateurs : Marc  PARTENSKY
+#                Valentin  COLIN
+#                Alexandre BIGOT
+#
+#    Version : 2019
+#
+################################################################################
+#
+#                           SOMMAIRE de Fenetre
+#    1.    class DefinivitementStable (Robot):  ..................... ligne  64
+#    1.1   ------> __init__ (self,(etc).)  .......................... ligne  67
+#    1.2   ------> jouer (self,plateau,panneau=None)  ............... ligne  71
+#
+#    2.    class Aleatoire (Robot):  ................................ ligne  87
+#    2.1   ------> __init__ (self,etc)  ............................. ligne  90
+#    2.2   ------> jouer (self,plateau,panneau=None)  ............... ligne  94
+#
+#    3.    class Interieur (Robot):  ................................ ligne  99
+#    3.1   ------> __init__ (self,etc)  ............................. ligne 102
+#    3.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 106
+#    3.3   ------> plusProcheDuCentre (self,p1,p2,plateau)  ......... ligne 114
+#
+#    4.    class Exterieur (Robot):  ................................ ligne 125
+#    4.1   ------> __init__ (self,etc)  ............................. ligne 128
+#    4.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 132
+#    4.3   ------> plusLoinDuCentre (self,p1,p2,plateau)  ........... ligne 140
+#
+#    5.    class Groupe (Robot):  ................................... ligne 151
+#    5.1   ------> __init__ (self,etc)  ............................. ligne 154
+#    5.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 158
+#    5.3   ------> plusProcheDUnGroupe (self,p1,p2,plateau)  ........ ligne 167
+#
+#    6.    class Eparpille (Robot):  ................................ ligne 179
+#    6.1   ------> __init__ (self,etc)  ............................. ligne 182
+#    6.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 186
+#    6.3   ------> plusLoinDUnGroupe (self,p1,p2,plateau)  .......... ligne 195
+#
+#    7.    class MaximisationPions (Robot):   ....................... ligne 207
+#    7.1   ------> __init__ (self,etc)  ............................. ligne 210
+#    7.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 214
+#    7.3   ------> meilleurCoup (self,p1,p2,plateau)  ............... ligne 222
+#
+################################################################################
+"""
+
 from joueur import Robot
 
 import config as cfg
@@ -8,6 +63,7 @@ import random
 
 class DefinivitementStable(Robot):
     """Robot qui essaie seulement de maximiser ses pions définitivement stables."""
+
     def __init__(self,*args,**kwargs):
         """Crée un robot."""
         super().__init__(*args,**kwargs)
@@ -30,6 +86,7 @@ class DefinivitementStable(Robot):
 
 class Aleatoire(Robot):
     """Robot qui joue aléatoirement."""
+
     def __init__(self,*args,**kwargs):
         """Crée le robot avec les arguments de la classe mère 'Robot'."""
         super().__init__(*args,**kwargs)
@@ -41,6 +98,7 @@ class Aleatoire(Robot):
 
 class Interieur(Robot):
     """Robot qui essaie de jouer ses pions le plus au centre que possible."""
+
     def __init__(self,*args,**kwargs):
         """Crée le robot avec les arguments de la classe mère 'Robot'."""
         super().__init__(*args,**kwargs)
@@ -66,6 +124,7 @@ class Interieur(Robot):
 
 class Exterieur(Robot):
     """Robot qui essaie de joueur le plus loin du centre que possible."""
+
     def __init__(self,*args,**kwargs):
         """Crée le robot avec les arguments de la classe mère 'Robot'."""
         super().__init__(*args,**kwargs)
@@ -87,7 +146,6 @@ class Exterieur(Robot):
         else:
             resultat=p1
         return resultat
-
 
 
 class Groupe(Robot):
@@ -117,6 +175,7 @@ class Groupe(Robot):
             resultat=p2
         return resultat
 
+
 class Eparpille(Robot):
     """Robot qui essaie de placer ses pions de la façon la plus éparpillé possible."""
 
@@ -144,8 +203,10 @@ class Eparpille(Robot):
             resultat=p1
         return resultat
 
+
 class MaximisationPions(Robot):
     """Robot qui joue de façon à avoir le plus de pions possibles sur le tour actuel."""
+
     def __init__(self,*args,**kwargs):
         """"Crée le robot avec les arguments de la classe mère 'Robot'."""
         super().__init__(*args,**kwargs)

@@ -1,3 +1,7 @@
+"""
+Module d'outils basique
+"""
+
 import random
 
 # QUELQUES FONCTIONS UTILE DANS LE CAS GÉNÉRALES

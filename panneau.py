@@ -1,27 +1,66 @@
+"""
+################################################################################
+#
+#              Institut Supérieur d'électronique de Paris (ISEP)
+#
+#                               SUJET DE TIPE:
+#                     Othello et Intelligence Artificielle
+#
+#    Première année  --  MPSI
+#
+#    Créateurs : Marc  PARTENSKY
+#                Valentin  COLIN
+#                Alexandre BIGOT
+#
+#    Version : 2019
+#
+################################################################################
+#
+#                             SOMMAIRE de Panneau
+#
+#    1.    class Panneau:  ........................................... ligne  42
+#    1.1   ------> __init__ (self,(etc).)  ........................... ligne  45
+#    1.2   ------> coller (self,surface,compartiment)  ............... ligne  58
+#    1.3   ------> pointer (self)  ................................... ligne  65
+#    1.4   ------> obtenirNumeroCompartiment (self,position)  ........ ligne  72
+#    1.5   ------> obtenirPositionDansCompartiment (self,position,n) . ligne  82
+#    1.6   ------> afficher (self)  .................................. ligne  91
+#    1.7   ------> afficherCadres (self)  ............................ ligne  97
+#    1.8   ------> afficherCadre(self,compartiment,couleur,l)  ....... ligne 102
+#    1.9   ------> positionRelative(self)  ........................... ligne 114
+#
+################################################################################
+"""
+# --coding:utf-8--
+
 from fenetre import Fenetre
 import couleurs
-
 import pygame
 
+
+
 class Panneau(Fenetre):
-    def __init__(self,nom="fenetre",
-                      taille=None,
-                      police_du_texte="monospace",
-                      taille_du_texte=65,
-                      couleur_du_texte=couleurs.BLANC,
-                      couleur_du_fond=couleurs.NOIR,
-                      plein_ecran=False,
-                      set=True,
-                      decoupages=[]):
+    """Classe héritant de la fenêtre permettant de gérer les découpages de celle-ci"""
+
+    def __init__(self,  nom              = "fenetre",
+                        taille           = None,
+                        police_du_texte  = "monospace",
+                        taille_du_texte  = 65,
+                        couleur_du_texte = couleurs.BLANC,
+                        couleur_du_fond  = couleurs.NOIR,
+                        plein_ecran      = False,
+                        set              = True,
+                        decoupages=[]):
         """Crée un panneau qui est une fenetre organisée en compartiments."""
         super().__init__(nom,taille,police_du_texte,taille_du_texte,couleur_du_texte,couleur_du_fond,plein_ecran,set)
         self.decoupages=decoupages
 
     def coller(self,surface,compartiment):
         """Pose une surface dans le compartiment."""
-        sx,sy=surface.get_size()
-        dx,dy,dsx,dsy=self.decoupages[compartiment]
+        sx,sy = surface.get_size() # on récupère la taille de la surface
+        dx,dy,dsx,dsy = self.decoupages[compartiment] # on récupère la position et la dimmension du compartiment
         self.screen.blit(surface,(dx,dy))
+        # blit permet de placer les surface à l'écran mais ne les montre pas encore à l'utilisateur (il faut pour cela appeler la méthode flip())
 
     def pointer(self):
         """Renvoie la position du curseur dans le système de coordonnées du compartiment."""
@@ -54,7 +93,6 @@ class Panneau(Fenetre):
         la marge entre les différents compartiments."""
         self.afficherCadres()
 
-
     def afficherCadres(self):
         """Affiche la marge sur l'écran du panneau qui sépare les zones de découpages."""
         for compartiment in range(len(self.decoupages)):
@@ -72,7 +110,6 @@ class Panneau(Fenetre):
         pygame.draw.line(self.screen,couleur,p3,p4,l)
         pygame.draw.line(self.screen,couleur,p4,p1,l)
 
-
     def positionRelative(self):
         """Renvoie la position relative au compartiment dans lequel la souris se place."""
         px,py=pygame.mouse.get_pos()
@@ -81,23 +118,3 @@ class Panneau(Fenetre):
             dx,dy,dsx,dsy=decoupage
             if dx<=px<=dx+dsx and dy<=py<=dy+dsy:
                 return (dsx*px/wsx+dx,dsy*py/wsy+dy)
-
-    def centrer(self,message):
-        """Affiche un message au centre."""
-        pass
-
-
-
-if __name__=="__main__":
-    panneau=Panneau(taille=[1000,800])
-    x,y=panneau.taille
-    panneau.decoupages=[(0,0,800,800),(800,0,200,800)]
-    s2=pygame.image.load('othelloimage.png')
-    #s1=panneau.rect(self.ecran,couleurs.ROUGE,(0,0,80,50),fill=0)
-    #s2=panneau.rect(panneau.ecran,couleurs.BLEU,(0,0,50,80),fill=0)
-    #panneau.rect(couleurs.BLEU,(0,0,50,50),0)
-    s1=s2
-    panneau.coller(s1,0)
-    panneau.coller(s2,1)
-    panneau.flip()
-    panneau()

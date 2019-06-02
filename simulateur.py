@@ -1,10 +1,43 @@
+"""
+################################################################################
+#
+#              Institut Supérieur d'électronique de Paris (ISEP)
+#
+#                               SUJET DE TIPE:
+#                     Othello et Intelligence Artificielle
+#
+#    Première année  --  MPSI
+#
+#    Créateurs : Marc  PARTENSKY
+#                Valentin  COLIN
+#                Alexandre BIGOT
+#
+#    Version : 2019
+#
+###############################################################################
+#
+#                           SOMMAIRE du plateau
+#
+#    1.    Class Simulateur:  ........................................ ligne 38
+#    1.1   ------> __init__ (self,theme=None)  ....................... ligne 41
+#    1.2   ------> lancer (self)  .................................... ligne 48
+#    1.3   ------> __str__ (self)  ................................... ligne 55
+#
+###############################################################################
+"""
+# --coding:utf-8--
+
 from othello import Othello
 from joueur import Robot,Humain
-from ia import IA
+from cyrano import Cyrano
 import ias
 import config as cfg
 
+
+
 class Simulateur:
+    """Permet de simuler plusieurs parties."""
+
     def __init__(self,joueurs,nombre_parties=10,fenetre=None):
         """Cree un simulateur de partie avec une fenetre, des joueurs, un nombre de partie"""
         self.fenetre=fenetre
@@ -28,13 +61,11 @@ class Simulateur:
         message+="- Il y a "+str(self.gagnants.count(None))+" match"+"s"*pluriel+" nul"+"s"*pluriel+"."
         return message
 
-
-
 if __name__=="__main__":
     from panneau import Panneau
     #panneau=Panneau(taille=cfg.RESOLUTION_FENETRE)
-    joueurs=[ias.Aleatoire(nom="MaximisationPions"),IA(nom="Cyrano")]
-    nombre_parties=100
+    joueurs=[ias.Aleatoire(nom="MaximisationPions"),Cyrano(nom="Cyrano")]
+    nombre_parties=10
     simulation=Simulateur(joueurs,nombre_parties)
     simulation.lancer()
     print(simulation)
