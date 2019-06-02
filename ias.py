@@ -18,35 +18,35 @@
 #
 #                           SOMMAIRE de Fenetre
 #
-#    1.    class DefinivitementStable (Robot):  ..................... ligne  65
+#    1.    class DefinivitementStable (joueur.Robot):  .............. ligne  65
 #    1.1   ------> __init__ (self,(etc).)  .......................... ligne  68
 #    1.2   ------> jouer (self,plateau,panneau=None)  ............... ligne  72
 #
-#    2.    class Aleatoire (Robot):  ................................ ligne  87
+#    2.    class Aleatoire (joueur.Robot):  ......................... ligne  87
 #    2.1   ------> __init__ (self,etc)  ............................. ligne  91
 #    2.2   ------> jouer (self,plateau,panneau=None)  ............... ligne  95
 #
-#    3.    class Interieur (Robot):  ................................ ligne 100
+#    3.    class Interieur (joueur.Robot):  ......................... ligne 100
 #    3.1   ------> __init__ (self,etc)  ............................. ligne 103
 #    3.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 107
 #    3.3   ------> plusProcheDuCentre (self,p1,p2,plateau)  ......... ligne 115
 #
-#    4.    class Exterieur (Robot):  ................................ ligne 126
+#    4.    class Exterieur (joueur.Robot):  ......................... ligne 126
 #    4.1   ------> __init__ (self,etc)  ............................. ligne 129
 #    4.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 133
 #    4.3   ------> plusLoinDuCentre (self,p1,p2,plateau)  ........... ligne 141
 #
-#    5.    class Groupe (Robot):  ................................... ligne 152
+#    5.    class Groupe (joueur.Robot):  ............................ ligne 152
 #    5.1   ------> __init__ (self,etc)  ............................. ligne 155
 #    5.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 159
 #    5.3   ------> plusProcheDUnGroupe (self,p1,p2,plateau)  ........ ligne 168
 #
-#    6.    class Eparpille (Robot):  ................................ ligne 180
+#    6.    class Eparpille (joueur.Robot):  ......................... ligne 180
 #    6.1   ------> __init__ (self,etc)  ............................. ligne 183
 #    6.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 187
 #    6.3   ------> plusLoinDUnGroupe (self,p1,p2,plateau)  .......... ligne 196
 #
-#    7.    class MaximisationPions (Robot):   ....................... ligne 208
+#    7.    class MaximisationPions (joueur.Robot):   ................ ligne 208
 #    7.1   ------> __init__ (self,etc)  ............................. ligne 211
 #    7.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 215
 #    7.3   ------> meilleurCoup (self,p1,p2,plateau)  ............... ligne 223
@@ -55,14 +55,14 @@
 """
 # --coding:utf-8--
 
-from joueur import Robot
 import config as cfg
-import outils
-import math
-import copy
-import random
+import joueur, outils
+import math, copy, random
 
-class DefinivitementStable(Robot):
+
+
+
+class DefinivitementStable(joueur.Robot):
     """Robot qui essaie seulement de maximiser ses pions définitivement stables."""
 
     def __init__(self,*args,**kwargs):
@@ -85,7 +85,7 @@ class DefinivitementStable(Robot):
             return self.jouerAleatoire(plateau)
 
 
-class Aleatoire(Robot):
+class Aleatoire(joueur.Robot):
     """Robot qui joue aléatoirement."""
 
     def __init__(self,*args,**kwargs):
@@ -97,7 +97,7 @@ class Aleatoire(Robot):
         return self.jouerAleatoire(plateau)
 
 
-class Interieur(Robot):
+class Interieur(joueur.Robot):
     """Robot qui essaie de jouer ses pions le plus au centre que possible."""
 
     def __init__(self,*args,**kwargs):
@@ -123,7 +123,7 @@ class Interieur(Robot):
         return resultat
 
 
-class Exterieur(Robot):
+class Exterieur(joueur.Robot):
     """Robot qui essaie de joueur le plus loin du centre que possible."""
 
     def __init__(self,*args,**kwargs):
@@ -149,7 +149,7 @@ class Exterieur(Robot):
         return resultat
 
 
-class Groupe(Robot):
+class Groupe(joueur.Robot):
     """Robot qui essaie de placer ses pions en groupes les plus larges possibles."""
 
     def __init__(self,*args,**kwargs):
@@ -177,7 +177,7 @@ class Groupe(Robot):
         return resultat
 
 
-class Eparpille(Robot):
+class Eparpille(joueur.Robot):
     """Robot qui essaie de placer ses pions de la façon la plus éparpillé possible."""
 
     def __init__(self,*args,**kwargs):
@@ -205,7 +205,7 @@ class Eparpille(Robot):
         return resultat
 
 
-class MaximisationPions(Robot):
+class MaximisationPions(joueur.Robot):
     """Robot qui joue de façon à avoir le plus de pions possibles sur le tour actuel."""
 
     def __init__(self,*args,**kwargs):
