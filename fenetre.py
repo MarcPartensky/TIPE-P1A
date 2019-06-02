@@ -8,9 +8,9 @@
 #
 #    Première année  --  MPSI
 #
-#    Créateurs : Marc  PARTENSKY
+#    Créateurs : Alexandre BIGOT
 #                Valentin  COLIN
-#                Alexandre BIGOT
+#                Marc  PARTENSKY
 #
 #    Version : 2019
 #
@@ -18,26 +18,28 @@
 #
 #                           SOMMAIRE de Fenetre
 #
-#    1.    class Fenetre:  .......................................... ligne  46
-#    1.1   ------> __init__ (self,(etc).)  .......................... ligne  49
-#    1.2   ------> load (self)  ..................................... ligne  71
-#    1.3   ------> set (self)  ...................................... ligne  76
-#    1.4   ------> clear (self,color=None)  ......................... ligne  93
-#    1.5   ------> check (self)  .................................... ligne  98
-#    1.6   ------> pause (self)  .................................... ligne 115
-#    1.7   ------> attendre (self)  ................................. ligne 127
-#    1.8   ------> point (self)  .................................... ligne 139
-#    1.9   ------> click (self)  .................................... ligne 143
-#    1.10  ------> flip (self)  ..................................... ligne 147
-#    1.11  ------> infoConsole (self,message)  ...................... ligne 151
-#    1.12  ------> __del__ (self)  .................................. ligne 156
+#    1.    class Fenetre:  .......................................... ligne  48
+#    1.1   ------> __init__ (self,(etc).)  .......................... ligne  51
+#    1.2   ------> load (self)  ..................................... ligne  73
+#    1.3   ------> set (self)  ...................................... ligne  78
+#    1.4   ------> clear (self,color=None)  ......................... ligne  95
+#    1.5   ------> check (self)  .................................... ligne 100
+#    1.6   ------> pause (self)  .................................... ligne 117
+#    1.7   ------> attendre (self)  ................................. ligne 129
+#    1.8   ------> point (self)  .................................... ligne 141
+#    1.9   ------> click (self)  .................................... ligne 145
+#    1.10  ------> flip (self)  ..................................... ligne 149
+#    1.11  ------> infoConsole (self,message)  ...................... ligne 153
+#    1.12  ------> __del__ (self)  .................................. ligne 158
 #
 ################################################################################
 """
 # --coding:utf-8--
 
+from pygame.locals import RESIZABLE,KEYDOWN,KEYUP,K_r,K_ESCAPE,K_SPACE,FULLSCREEN
+# CONSTANTES de pygame
+
 import pygame
-from pygame.locals import RESIZABLE,KEYDOWN,KEYUP,K_r,K_ESCAPE,K_SPACE,FULLSCREEN # CONSTANTES de pygame
 import couleurs
 import time
 

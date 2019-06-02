@@ -8,9 +8,9 @@
 #
 #    Première année  --  MPSI
 #
-#    Créateurs : Marc  PARTENSKY
+#    Créateurs : Alexandre BIGOT
 #                Valentin  COLIN
-#                Alexandre BIGOT
+#                Marc  PARTENSKY
 #
 #    Version : 2019
 #
@@ -37,7 +37,7 @@
 #    3.7   ------> distanceTotale (self,pions)  ..................... ligne 128
 #    3.8   ------> distanceMoyenne (self,pions)  .................... ligne 137
 #
-#    4.   class Developpeur (Joueur):  .............................. ligne 143
+#    4.   class Developpeur (humain):  .............................. ligne 143
 #    4.1  ------> __init__ (self,nom=None)  ......................... ligne 148
 #    4.2  ------> jouer (self,plateau,fenetre)  ..................... ligne 154
 #
