@@ -8,53 +8,54 @@
 #
 #    Première année  --  MPSI
 #
-#    Créateurs : Marc  PARTENSKY
+#    Créateurs : Alexandre BIGOT
 #                Valentin  COLIN
-#                Alexandre BIGOT
+#                Marc  PARTENSKY
 #
 #    Version : 2019
 #
 ################################################################################
 #
 #                           SOMMAIRE de Fenetre
-#    1.    class DefinivitementStable (Robot):  ..................... ligne  64
-#    1.1   ------> __init__ (self,(etc).)  .......................... ligne  67
-#    1.2   ------> jouer (self,plateau,panneau=None)  ............... ligne  71
+#
+#    1.    class DefinivitementStable (Robot):  ..................... ligne  65
+#    1.1   ------> __init__ (self,(etc).)  .......................... ligne  68
+#    1.2   ------> jouer (self,plateau,panneau=None)  ............... ligne  72
 #
 #    2.    class Aleatoire (Robot):  ................................ ligne  87
-#    2.1   ------> __init__ (self,etc)  ............................. ligne  90
-#    2.2   ------> jouer (self,plateau,panneau=None)  ............... ligne  94
+#    2.1   ------> __init__ (self,etc)  ............................. ligne  91
+#    2.2   ------> jouer (self,plateau,panneau=None)  ............... ligne  95
 #
-#    3.    class Interieur (Robot):  ................................ ligne  99
-#    3.1   ------> __init__ (self,etc)  ............................. ligne 102
-#    3.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 106
-#    3.3   ------> plusProcheDuCentre (self,p1,p2,plateau)  ......... ligne 114
+#    3.    class Interieur (Robot):  ................................ ligne 100
+#    3.1   ------> __init__ (self,etc)  ............................. ligne 103
+#    3.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 107
+#    3.3   ------> plusProcheDuCentre (self,p1,p2,plateau)  ......... ligne 115
 #
-#    4.    class Exterieur (Robot):  ................................ ligne 125
-#    4.1   ------> __init__ (self,etc)  ............................. ligne 128
-#    4.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 132
-#    4.3   ------> plusLoinDuCentre (self,p1,p2,plateau)  ........... ligne 140
+#    4.    class Exterieur (Robot):  ................................ ligne 126
+#    4.1   ------> __init__ (self,etc)  ............................. ligne 129
+#    4.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 133
+#    4.3   ------> plusLoinDuCentre (self,p1,p2,plateau)  ........... ligne 141
 #
-#    5.    class Groupe (Robot):  ................................... ligne 151
-#    5.1   ------> __init__ (self,etc)  ............................. ligne 154
-#    5.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 158
-#    5.3   ------> plusProcheDUnGroupe (self,p1,p2,plateau)  ........ ligne 167
+#    5.    class Groupe (Robot):  ................................... ligne 152
+#    5.1   ------> __init__ (self,etc)  ............................. ligne 155
+#    5.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 159
+#    5.3   ------> plusProcheDUnGroupe (self,p1,p2,plateau)  ........ ligne 168
 #
-#    6.    class Eparpille (Robot):  ................................ ligne 179
-#    6.1   ------> __init__ (self,etc)  ............................. ligne 182
-#    6.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 186
-#    6.3   ------> plusLoinDUnGroupe (self,p1,p2,plateau)  .......... ligne 195
+#    6.    class Eparpille (Robot):  ................................ ligne 180
+#    6.1   ------> __init__ (self,etc)  ............................. ligne 183
+#    6.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 187
+#    6.3   ------> plusLoinDUnGroupe (self,p1,p2,plateau)  .......... ligne 196
 #
-#    7.    class MaximisationPions (Robot):   ....................... ligne 207
-#    7.1   ------> __init__ (self,etc)  ............................. ligne 210
-#    7.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 214
-#    7.3   ------> meilleurCoup (self,p1,p2,plateau)  ............... ligne 222
+#    7.    class MaximisationPions (Robot):   ....................... ligne 208
+#    7.1   ------> __init__ (self,etc)  ............................. ligne 211
+#    7.2   ------> jouer (self,plateau,panneau=None)  ............... ligne 215
+#    7.3   ------> meilleurCoup (self,p1,p2,plateau)  ............... ligne 223
 #
 ################################################################################
 """
+# --coding:utf-8--
 
 from joueur import Robot
-
 import config as cfg
 import outils
 import math

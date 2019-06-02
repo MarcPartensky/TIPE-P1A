@@ -8,9 +8,9 @@
 #
 #    Première année  --  MPSI
 #
-#    Créateurs : Marc  PARTENSKY
+#    Créateurs : Alexandre BIGOT
 #                Valentin  COLIN
-#                Alexandre BIGOT
+#                Marc  PARTENSKY
 #
 #    Version : 2019
 #
@@ -31,7 +31,6 @@ from othello import Othello
 from joueur import Robot,Humain
 import ia, ias
 import config as cfg
-
 
 
 class Simulateur:

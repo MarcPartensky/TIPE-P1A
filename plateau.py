@@ -8,9 +8,9 @@
 #
 #    Première année  --  MPSI
 #
-#    Créateurs : Marc  PARTENSKY
+#    Créateurs : Alexandre BIGOT
 #                Valentin  COLIN
-#                Alexandre BIGOT
+#                Marc  PARTENSKY
 #
 #    Version : 2019
 #

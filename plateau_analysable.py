@@ -8,9 +8,9 @@
 #
 #    Première année  --  MPSI
 #
-#    Créateurs : Marc  PARTENSKY
+#    Créateurs : Alexandre BIGOT
 #                Valentin  COLIN
-#                Alexandre BIGOT
+#                Marc  PARTENSKY
 #
 #    Version : 2019
 #
@@ -18,6 +18,7 @@
 #
 #                           SOMMAIRE de Fenetre
 #    0.    generer_constante () ......................................... ligne 83
+#
 #    1.    class PlateauAnalysable (plateau):  .......................... ligne 96
 #    1.1   ------> __init__ (self,(etc).)  .............................. ligne 100
 #    1.2   ------> obtenirToutesLesLignes(self)  ........................ ligne 109
@@ -50,7 +51,7 @@
 #
 ################################################################################
 """
-
+# --coding:utf-8--
 from plateau import Plateau
 from config import debug
 
@@ -91,7 +92,6 @@ def generer_constante() :
         LISTE_POSITION_ZONE[key]=result
 
 generer_constante()
-
 
 class PlateauAnalysable(Plateau):
     """Le plateau analysable est une classe qui hérite de plateau et qui fournit
