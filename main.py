@@ -11,7 +11,7 @@ panneau = Panneau(nom="Othello", taille=cfg.RESOLUTION_FENETRE, set=False,plein_
 
 # CRÉATION DES JOUEURS
 
-# Création des joueur humain et non naïvent
+# Création des joueurs humains et non naïfs
 humain1 = Humain(nom="Humain")   # Crée un joueur humain
 humain2 = Humain(nom="Humain2")  # Crée un autre joueur humain
 developpeur1 = Developpeur(nom="Developpeur")   # Crée un joueur humain qui n'obéit pas aux règles de l'Othello, cela permet de faire des tests
@@ -19,7 +19,7 @@ developpeur2 = Developpeur(nom="Developpeur2")  # Même développeur
 machine1 = ia.Cyrano(nom="Cyrano")   # Crée une intelligence artificielle utilisant la notion de stabilite
 machine2 = ia.Cyrano(nom="Cyrano2")  # Même ia
 
-# Création des IAs naïvent
+# Création des IAs naïves
 machine3 = ias.Interieur(nom="Interieur")  # Joue toujours le plus proche possible du centre du plateau
 machine4 = ias.Exterieur(nom="Exterieur")  # Joue toujours le plus loin possible du centre du plateau
 machine5 = ias.Groupe(nom="Groupe")  # Joue de façon à former des groupes de pions
