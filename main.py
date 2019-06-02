@@ -1,9 +1,8 @@
 from joueur  import Robot, Humain, Developpeur
 from panneau import Panneau
 from othello import Othello
-from ia  import Cyrano
 
-import ias
+import ia, ias
 import config as cfg
 
 
