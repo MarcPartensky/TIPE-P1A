@@ -347,9 +347,11 @@ class Plateau:
             if not self.estDansGrille(position):
                 break
             case=self.obtenirCase(position)
-            if case!=cote and case!=cfg.CASE_VIDE:
+            if case==cfg.CASE_VIDE:
+                break
+            if case!=cote:
                 pions.append(position)
-            elif case==cote:
+            else:
                 self.insererPion(pions,cote)
                 break
 
