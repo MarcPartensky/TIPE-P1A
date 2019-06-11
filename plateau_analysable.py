@@ -305,7 +305,7 @@ class PlateauAnalysable(Plateau):
                 break
         return resultat
 
-    def test_si_le_joueur_cote_peut_prendre_position(self, cote, positions):
+    def test_si_le_joueur_cote_peut_prendre_position(self, cote, positions): # c'est utilisé ? 
         """On a un plateau, c'est le tour de joueur de côté 'cote' et on souhaite
         déterminer, si dans ses mouvements possibles, un permet d'avoir une pion
         de sa couleur dans une des positions de la liste positions dans le plateau
