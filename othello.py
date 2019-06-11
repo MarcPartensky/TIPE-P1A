@@ -39,6 +39,7 @@ from bordure import Bordure
 from copy import deepcopy
 
 import couleurs
+import time
 import config as cfg
 import joueur as Joueur
 
@@ -105,20 +106,19 @@ class Othello:
             self.panneau.check()
             self.ouvert=self.panneau.open
         if not self.plateau.estFini():
-            if self.panneau:
-                self.afficher()
+            if self.panneau: self.afficher()
             self.faireTour()
         else:
-            if self.panneau:
-                self.afficher()
-            else:
-                self.ouvert=False
             if not self.fini:
                 self.fini=not(self.fini)
                 self.determinerGagnant()
                 cfg.info("Fin de partie :",nom_fichier="othello.py")
                 cfg.info("Le gagnant est {}".format(repr(self.gagnant)),
                          nom_fichier="othello.py")
+            if self.panneau:
+                self.afficher()
+            else:
+                self.ouvert=False
 
     def determinerGagnant(self):
         """Détermine le gagnant de la partie a la fin du jeu."""
@@ -162,10 +162,28 @@ class Othello:
             if not choix_du_joueur:
                 return None
             cfg.debug("Le choix du joueur est {}".format(str(choix_du_joueur)))
-            self.plateau.placerPion(choix_du_joueur,joueur_actif.cote)
+            self.plateau.insererPion(choix_du_joueur,joueur_actif.cote)
+            self.animer(choix_du_joueur)
+            self.plateau.conquerir(choix_du_joueur,joueur_actif.cote)
             #Sauvegarde l'historique du jeu.
             self.historique.append([self.plateau.grille,joueur_actif.cote,
                                                         choix_du_joueur])
         else :
             #Sinon aucun mouvement n'est possible et on passe au tour suivant.
             pass #Mot clé Python pour indiquer de ne rien faire.
+
+
+    def animer(self,choix):
+        """Permet d'animer les pions placés."""
+        for i in range(5):
+            self.plateau.afficher()
+            if i%2==0:
+                print("animer rouge")
+                self.plateau.afficherAnimation(choix)
+            else:
+                print("animer noir/blanc")
+                self.plateau.afficherPions()
+            self.panneau.coller(self.plateau.surface,0)
+            self.panneau.afficher()
+            self.panneau.flip()
+            self.panneau.attendre(0.1)

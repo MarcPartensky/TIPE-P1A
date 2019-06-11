@@ -490,8 +490,7 @@ class Plateau:
         """Affiche les pions"""
         wsx , wsy = self.surface.get_size()
         sx, sy = self.taille
-        taille_relative = 2/5 #Taille du pion par rapport a une case
-        rayon = int(min(wsx,wsy) / min(sx,sy) * taille_relative)
+        rayon = int(min(wsx,wsy) / min(sx,sy) * cfg.THEME_PLATEAU["rayon relatif pion"])
         for y in range(sy):
             for x in range(sx):
                 case = self.obtenirCase((x,y))
@@ -504,15 +503,24 @@ class Plateau:
     def afficherMouvements(self):
         """Afficher les coups possible. (rond rouge sur le plateau)"""
         if cfg.THEME_PLATEAU["aide mouvement"]:
-            mouvements = self.mouvements
             couleur = cfg.THEME_PLATEAU["couleur mouvement"]
             #devrait  marcher si il n'y a que un mouvement.
-            for move in mouvements:
+            for mouvement in self.mouvements:
                 wsx, wsy = self.surface.get_size()
                 sx, sy = self.taille
-                rayon = int(min(wsx,wsy) / min(sx,sy) / 4)
-                x, y = move
-                position_brute = self.obtenirPositionBrute((x,y))
+                rayon = int(min(wsx,wsy) / min(sx,sy)*cfg.THEME_PLATEAU["rayon relatif mouvement"])
+                position_brute = self.obtenirPositionBrute(mouvement)
                 #affiche des bord aux couleurs, bonne idées mais mal implemente
                 pygame.draw.circle(self.surface,(100,0,0),position_brute,rayon+2,0)
                 pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)
+
+    def afficherAnimation(self,choix):
+        """Affiche le coup joueur avec un contour rouge."""
+        wsx, wsy = self.surface.get_size()
+        sx, sy = self.taille
+        case = self.obtenirCase(choix)
+        couleur = cfg.THEME_PLATEAU["couleur pions"][case]
+        position=self.obtenirPositionBrute(choix)
+        rayon=int((min(wsx,wsy) / min(sx,sy)) * cfg.THEME_PLATEAU["rayon relatif pion"])
+        pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur animation pion"],position,rayon+2,0)
+        pygame.draw.circle(self.surface,couleur,position,rayon,0)

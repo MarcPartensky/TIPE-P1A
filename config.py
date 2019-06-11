@@ -27,15 +27,18 @@ THEME_BORDURE = {   "police"             :  "monospace",
                     "couleur texte"      :  couleurs.BLANC,
                     "taille texte"       :  30                }
 
-THEME_PLATEAU = {   "couleur pions"      :  [couleurs.NOIR, couleurs.BLANC],
-                    "nom couleur pion"   :  ["NOIR","BLANC"],
-                    "couleur mouvement"  :  couleurs.ROUGE,
-                    "couleur grille"     :  couleurs.NOIR,
-                    "couleur points"     :  couleurs.NOIR,
-                    "couleur texte"      :  couleurs.BLANC,
-                    "police"             :  "monospace",
-                    "taille texte"       :  20,
-                    "aide mouvement"     :  True              }
+THEME_PLATEAU = {   "couleur pions"           :  [couleurs.NOIR, couleurs.BLANC],
+                    "nom couleur pion"        :  ["NOIR","BLANC"],
+                    "couleur mouvement"       :  couleurs.ROUGE,
+                    "couleur grille"          :  couleurs.NOIR,
+                    "couleur points"          :  couleurs.NOIR,
+                    "couleur texte"           :  couleurs.BLANC,
+                    "couleur animation pion" :  couleurs.ROUGE,
+                    "rayon relatif pion"      :  2/5,
+                    "rayon relatif mouvement" :  1/4,
+                    "police"                  :  "monospace",
+                    "taille texte"            :  20,
+                    "aide mouvement"          :  True              }
 
 #######################  FONCTION D'AFFICHAGE CONSOLE  ########################
 
