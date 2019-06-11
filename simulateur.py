@@ -62,8 +62,8 @@ class Simulateur:
 if __name__=="__main__":
     from panneau import Panneau
     #panneau=Panneau(taille=cfg.RESOLUTION_FENETRE)
-    joueurs=[ias.Aleatoire(nom="MaximisationPions"),ia.Cyrano(nom="Cyrano")]
-    nombre_parties=10
+    joueurs=[ia.Cyrano(nom="Cyrano"),ias.Eparpille(nom="Eparpille")]
+    nombre_parties=100
     simulation=Simulateur(joueurs,nombre_parties)
     simulation.lancer()
     print(simulation)
