@@ -178,11 +178,7 @@ class Othello:
         for i in range(5):
             self.plateau.afficher()
             if i%2==0:
-                print("animer rouge")
                 self.plateau.afficherAnimation(choix)
-            else:
-                print("animer noir/blanc")
-                self.plateau.afficherPions()
             self.panneau.coller(self.plateau.surface,0)
             self.panneau.afficher()
             self.panneau.flip()
