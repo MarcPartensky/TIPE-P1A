@@ -109,11 +109,12 @@ class Cyrano(joueur.Robot):
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
         coeff2.append(self.plateau.est_coup_bourbier_par_cote(pos2, self.cote)*self.parite_desavantageuse)
 
-        coeff1.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos1, ZONE_TOUT, self.cote_oppose))
-        coeff2.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos2, ZONE_TOUT, self.cote_oppose))
+        coeff1.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos1, ZONE_TOUT, self.cote))
+        coeff2.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos2, ZONE_TOUT, self.cote))
 
         coeff1.append(self.plateau.Nombre_pion_retourne(pos1, self.cote))
         coeff2.append(self.plateau.Nombre_pion_retourne(pos2, self.cote))
+
 
         if est_superieur(coeff1, coeff2) :
             return pos1
@@ -127,11 +128,11 @@ class Cyrano(joueur.Robot):
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
         coeff2.append(self.plateau.est_coup_bourbier_par_cote(pos2, self.cote)*self.parite_desavantageuse)
 
-        coeff1.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos1, ZONE_VERTE, self.cote_oppose))
-        coeff2.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos2, ZONE_VERTE, self.cote_oppose))
+        coeff1.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos1, ZONE_VERTE, self.cote))
+        coeff2.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos2, ZONE_VERTE, self.cote))
 
-        coeff1.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos1, ZONE_TOUT, self.cote_oppose))
-        coeff2.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos2, ZONE_TOUT, self.cote_oppose))
+        coeff1.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos1, ZONE_TOUT, self.cote))
+        coeff2.append(-1*self.plateau.Augmentation_coup_possible_adv_dans_zone(pos2, ZONE_TOUT, self.cote))
 
         coeff1.append(self.plateau.Nombre_pion_retourne(pos1, self.cote))
         coeff2.append(self.plateau.Nombre_pion_retourne(pos2, self.cote))
