@@ -2,6 +2,7 @@
 from othello import Othello
 from panneau import Panneau
 from joueur  import Humain
+import config as cfg
 
 
 
@@ -38,6 +39,7 @@ mobilite_1 = [
 [ _, _, 1, n, 1, 1, _, _],
 [ _, _, 1, 1, _, 1, _, _]]
 
+# NON UTILISE
 mobilite_2 = [
 [ _, _, 1, _, _, 1, _, _],
 [ _, _, 1, 1, 1, 1, _, _],
@@ -58,11 +60,21 @@ parite = [
 [ 1, _, n, n, n, 1, _, 1],
 [ _, 1, 1, 1, 1, 1, 1, _]]
 
+screenShot = [
+[ _, _, n, n, _, _, _, _],
+[ _, _, 1, n, 1, n, _, _],
+[ _, 1, n, n, 1, 1, 1, n],
+[ n, n, 1, 1, 1, n, 1, 1],
+[ n, 1, 1, 1, n, n, n, 1],
+[ n, 1, _, 1, 1, _, 1, n],
+[ _, _, _, 1, n, _, _, _],
+[ _, _, _, _, n, _, _, _]]
+
 if __name__=="__main__":
     panneau = Panneau(nom="Othello",
-                      taille=[1200,800],
+                      taille=cfg.RESOLUTION_FENETRE,
                       set=False,
-                      plein_ecran=False)
+                      plein_ecran=True)
 
     joueur_noir  = Humain("Toto")
     joueur_blanc = Humain("Caroline")
@@ -76,13 +88,14 @@ if __name__=="__main__":
     jeu.lancer()
 
     jeu.recreer()
-    jeu.plateau.grille=mobilite_1
+    jeu.plateau.grille=parite
     jeu.lancer()
 
+    jeu.recreer()
+    jeu.plateau.grille=mobilite_1
+    jeu.lancer()
+    """
     jeu.recreer()
     jeu.plateau.grille=mobilite_2
     jeu.lancer()
-
-    jeu.recreer()
-    jeu.plateau.grille=parite
-    jeu.lancer()
+    """

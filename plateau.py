@@ -213,8 +213,7 @@ class Plateau:
 
     def obtenirNombrePionsRestant(self):
         """Determine le nombre de cases restantes"""
-        #return self.taille[0] * self.taille[1] - self.compterPions(0) - self.compterPions(1)
-        return self.compterPions(-1) # compte le nombre de cases vide
+        return self.compterPions(cfg.CASE_VIDE) # compte le nombre de cases vide
 
     def obtenirEnvironnement(self,positions):
         """Prend en parametre une liste de position de case
@@ -441,7 +440,8 @@ class Plateau:
         self.afficherFond()
         self.afficherGrille()
         self.afficherDecorationGrille()
-        self.afficherMouvements()
+        if cfg.THEME_PLATEAU["aide mouvement"]:
+            self.afficherMouvements()
         self.afficherPions()
 
     def afficherFond(self):
@@ -503,16 +503,15 @@ class Plateau:
 
     def afficherMouvements(self):
         """Afficher les coups possible. (rond rouge sur le plateau)"""
-        if cfg.THEME_PLATEAU["aide mouvement"]:
-            mouvements = self.mouvements
-            couleur = cfg.THEME_PLATEAU["couleur mouvement"]
-            #devrait  marcher si il n'y a que un mouvement.
-            for move in mouvements:
-                wsx, wsy = self.surface.get_size()
-                sx, sy = self.taille
-                rayon = int(min(wsx,wsy) / min(sx,sy) / 4)
-                x, y = move
-                position_brute = self.obtenirPositionBrute((x,y))
-                #affiche des bord aux couleurs, bonne idées mais mal implemente
-                pygame.draw.circle(self.surface,(100,0,0),position_brute,rayon+2,0)
-                pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)
+        mouvements = self.mouvements
+        couleur = cfg.THEME_PLATEAU["couleur mouvement"]
+        #devrait  marcher si il n'y a que un mouvement.
+        for move in mouvements:
+            wsx, wsy = self.surface.get_size()
+            sx, sy = self.taille
+            rayon = int(min(wsx,wsy) / min(sx,sy) / 4)
+            x, y = move
+            position_brute = self.obtenirPositionBrute((x,y))
+            #affiche des bord aux couleurs, bonne idées mais mal implemente
+            pygame.draw.circle(self.surface,(100,0,0),position_brute,rayon+2,0)
+            pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)

@@ -135,7 +135,7 @@ class PlateauAnalysable(Plateau):
             lignes.append(list(ligne_triee))
         return lignes
 
-    def presenterPionsStables(self,fenetre): #Obselète
+    def presenterPionsStables(self,fenetre): #Obsolète
         """Présente les pions stables a l'ecran en les trouvant, cela s'effectue avec la fenêtre."""
         self.afficher()
         fenetre.coller(self.surface,0)
@@ -305,7 +305,7 @@ class PlateauAnalysable(Plateau):
                 break
         return resultat
 
-    def test_si_le_joueur_cote_peut_prendre_position(self, cote, positions): # c'est utilisé ? 
+    def test_si_le_joueur_cote_peut_prendre_position(self, cote, positions): # c'est utilisé ?
         """On a un plateau, c'est le tour de joueur de côté 'cote' et on souhaite
         déterminer, si dans ses mouvements possibles, un permet d'avoir une pion
         de sa couleur dans une des positions de la liste positions dans le plateau
@@ -329,7 +329,7 @@ class PlateauAnalysable(Plateau):
     def est_coup_bourbier_par_cote(self, pos, cote):
         """Détermine si le coup à la position 'pos' joué par le joueur de côté
         'cote' empêche l'adversaire de jouer au prochain tour."""
-        cote_oppose=1-cote
+        cote_oppose = 1-cote
         plateau_simulation = copy.deepcopy(self)
         plateau_simulation.placerPion(pos, cote)
         return len(plateau_simulation.obtenirMouvementsValides(cote_oppose)) == 0
@@ -363,11 +363,11 @@ class PlateauAnalysable(Plateau):
 
     def Nombre_pion_stable_zone(self, cote, zone):
         """Détermine le nombre de pions stables avec le côté 'cote' et la zone 'zone'."""
-        resultat=0
+        resultat = 0
         position_pion_zone=outils.intersection(self.obtenirPions(cote), LISTE_POSITION_ZONE[zone])
         for pos in position_pion_zone :
             if self.position_stable_pour_cote(pos, cote):
-                resultat+=1
+                resultat += 1
         return resultat
 
     def Augmentation_pion_stable_dans_zone(self, cote, zone, pos):
