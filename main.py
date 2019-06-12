@@ -12,7 +12,7 @@ import config as cfg
 panneau = Panneau(nom="Othello",
                   taille=cfg.RESOLUTION_FENETRE,
                   set=False,
-                  plein_ecran=False)
+                  plein_ecran=True)
 
 ############################# CRÉATION DES JOUEURS ############################
 

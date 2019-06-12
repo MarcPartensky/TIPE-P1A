@@ -175,7 +175,7 @@ class Othello:
 
     def animer(self,choix):
         """Permet d'animer les pions placés."""
-        for i in range(5):
+        for i in range(3):
             self.plateau.afficher()
             if i%2==0:
                 self.plateau.afficherAnimation(choix)
