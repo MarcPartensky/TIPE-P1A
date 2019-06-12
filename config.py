@@ -34,7 +34,7 @@ THEME_PLATEAU = {   "couleur pions"           :  [couleurs.NOIR, couleurs.BLANC]
                     "couleur grille"          :  couleurs.NOIR,
                     "couleur points"          :  couleurs.NOIR,
                     "couleur texte"           :  couleurs.BLANC,
-                    "couleur animation pion" :  couleurs.ROUGE,
+                    "couleur animation pion"  :  couleurs.ROUGE,
                     "rayon relatif pion"      :  2/5,
                     "rayon relatif mouvement" :  1/4,
                     "police"                  :  "monospace",
