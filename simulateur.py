@@ -89,8 +89,8 @@ if __name__=="__main__":
     machine9 = ias.MaximisationPions(nom="MaximisationPions")
 
     # puis on  choisit les joueurs ici
-    joueur_noir  = aléatoire
-    joueur_blanc = machine5
+    joueur_noir  = machine1
+    joueur_blanc = machine6
     nombre_parties=50
 
     simulation=Simulateur([joueur_noir,joueur_blanc],nombre_parties)
