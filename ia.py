@@ -1,5 +1,5 @@
 """
-################################################################################
+###############################################################################
 #
 #              Institut Supérieur d'électronique de Paris (ISEP)
 #
@@ -14,33 +14,33 @@
 #
 #    Version : 2019
 #
-################################################################################
+###############################################################################
 #
 #                             SOMMAIRE de Cyrano
 #
-#    1.    class Cyrano (joueur.Robot):  ............................. ligne  63
-#    1.1   ------>  __init__ (self,nom=None)  ........................ ligne  66
-#    1.2   ------>  reinitialiser (self, plateau)  ................... ligne  72
-#    1.3   ------>  main (self, plateau, fenetre=None)  .............. ligne  79
-#    1.4   ------>  comparer_blanc (self, pos1, pos2)  ............... ligne  88
-#    1.5   ------>  comparer_rouge (self, pos1, pos2)  ............... ligne 124
-#    1.6   ------>  comparer_vert(self, pos1, pos2)  ................. ligne 144
-#    1.7   ------>  comparer_noir(self, pos1, pos2)  ................. ligne 173
-#    1.8   ------>  comparer_coin(self, pos1, pos2)  ................. ligne 199
-#    1.9   ------>  comparer_blanc_rouge(self, blanc, rouge)  ........ ligne 225
-#    1.10  ------>  comparer_blanc_vert(self, blanc, vert)  .......... ligne 228
-#    1.11  ------>  comparer_blanc_noir(self, blanc, noir)  .......... ligne 245
-#    1.12  ------>  comparer_blanc_coin(self, blanc, coin)  .......... ligne 248
-#    1.13  ------>  comparer_rouge_vert(self, rouge, vert)  .......... ligne 251
-#    1.14  ------>  comparer_rouge_noir(self, rouge, noir)  .......... ligne 268
-#    1.15  ------>  comparer_rouge_coin(self, rouge, coin)  .......... ligne 288
-#    1.16  ------>  comparer_vert_noir (self, vert, noir)  ........... ligne 291
-#    1.17  ------>  comparer_vert_coin (self, vert, coin)  ........... ligne 306
-#    1.18  ------>  comparer_noir_coin (self, noir, coin)  ........... ligne 309
-#    1.19  ------>  comparer_2_positions (self,position1,position2)  . ligne 312
-#    1.20  ------>  comparer_n_positions (self, *args)  .............. ligne 370
+#    1.    class Cyrano (joueur.Robot):  ........................... ligne  63
+#    1.1   ---->  __init__ (self,nom=None)  ........................ ligne  66
+#    1.2   ---->  reinitialiser (self, plateau)  ................... ligne  72
+#    1.3   ---->  main (self, plateau, fenetre=None)  .............. ligne  79
+#    1.4   ---->  comparer_blanc (self, pos1, pos2)  ............... ligne  88
+#    1.5   ---->  comparer_rouge (self, pos1, pos2)  ............... ligne 124
+#    1.6   ---->  comparer_vert(self, pos1, pos2)  ................. ligne 144
+#    1.7   ---->  comparer_noir(self, pos1, pos2)  ................. ligne 173
+#    1.8   ---->  comparer_coin(self, pos1, pos2)  ................. ligne 199
+#    1.9   ---->  comparer_blanc_rouge(self, blanc, rouge)  ........ ligne 225
+#    1.10  ---->  comparer_blanc_vert(self, blanc, vert)  .......... ligne 228
+#    1.11  ---->  comparer_blanc_noir(self, blanc, noir)  .......... ligne 245
+#    1.12  ---->  comparer_blanc_coin(self, blanc, coin)  .......... ligne 248
+#    1.13  ---->  comparer_rouge_vert(self, rouge, vert)  .......... ligne 251
+#    1.14  ---->  comparer_rouge_noir(self, rouge, noir)  .......... ligne 268
+#    1.15  ---->  comparer_rouge_coin(self, rouge, coin)  .......... ligne 288
+#    1.16  ---->  comparer_vert_noir (self, vert, noir)  ........... ligne 291
+#    1.17  ---->  comparer_vert_coin (self, vert, coin)  ........... ligne 306
+#    1.18  ---->  comparer_noir_coin (self, noir, coin)  ........... ligne 309
+#    1.19  ---->  comparer_2_positions (self,position1,position2)  . ligne 312
+#    1.20  ---->  comparer_n_positions (self, *args)  .............. ligne 370
 #
-################################################################################
+###############################################################################
 """
 # --coding:utf-8--
 
@@ -70,16 +70,20 @@ class Cyrano(joueur.Robot):
         # on initialise l'instance IA comme s'il s'agisasit d'une instance de Plateau
 
     def reinitialiser(self, plateau):
-        """Cette fonction est lancée au debut de chaque tour
-        Ici on definit des variables qui ne vont pas etre modifiées pendant tout le tour afin d'economiser du temps..."""
-        self.plateau=plateau#il ne faut pas faire de simulations sur ce plateau !
+        """Cette fonction est lancée au debut de chaque tour.
+        Ici on definit des variables qui ne vont pas etre modifiées pendant
+        tout le tour afin d'economiser du temps...
+        """
+        self.plateau=plateau # il ne faut pas faire de simulations sur ce plateau !
         self.mouvements_possibles=plateau.obtenirMouvementsValides(self.cote)
         self.parite_desavantageuse = not(plateau.test_parite_avantageuse())
 
     def main(self, plateau, fenetre=None):
         """Méthode principale de la classe.
         Cette méthode est executé lorsque l'IA doit jouer :
-        elle prend en paramètre le plateau actuel et renvoie la position choisie"""
+        elle prend en paramètre le plateau actuel et
+        renvoie la position choisie
+        """
         self.fenetre=fenetre
         self.reinitialiser(plateau)  # Il faut prendre en compte le nouveau plateau
         return self.comparer_n_positions(*self.mouvements_possibles)
@@ -144,11 +148,14 @@ class Cyrano(joueur.Robot):
 
     def comparer_vert(self, pos1, pos2):
         """ On produit ci dessous est en fait une astuce :
-            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
-            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
-            des coups proposes.
-            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
-            il n'influe donc pas dans  la selection du coup"""
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse,
+            il faut essayer de faire passer le tour de l'adversaire, pour cela,
+            on cherche un "coup bourbier",
+            il faut donc en prendre compte dans la selection des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et
+            le produit est dans les deux cas egal à 0
+            il n'influe donc pas dans la selection du coup
+            """
         coeff1,coeff2=[],[]
 
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
@@ -173,11 +180,14 @@ class Cyrano(joueur.Robot):
 
     def comparer_noir(self, pos1, pos2):
         """ On produit ci dessous est en fait une astuce :
-            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
-            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
-            des coups proposes.
-            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
-            il n'influe donc pas dans  la selection du coup"""
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse,
+            il faut essayer de faire passer le tour de l'adversaire,
+            pour cela, on cherche un "coup bourbier",
+            il faut donc en prendre compte dans la selection des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et
+            le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans la selection du coup
+            """
         coeff1,coeff2=[],[]
 
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)
@@ -199,11 +209,14 @@ class Cyrano(joueur.Robot):
 
     def comparer_coin(self, pos1, pos2):
         """ On produit ci dessous est en fait une astuce :
-            Si self.parite_desavantageuse est True, la parite est desavantgeuse, il faut essayer de faire passer le tour
-            de l'adversaire, pour cela, on cherche un "coup bourbier", il faut donc en prendre compte dans la selection
-            des coups proposes.
-            Sinon, alors self.parite_desavantageuse est False et le porduit est dans les deux cas egal à 0
-            il n'influe donc pas dans  la selection du coup"""
+            Si self.parite_desavantageuse est True, la parite est desavantgeuse,
+            il faut essayer de faire passer le tour
+            de l'adversaire, pour cela, on cherche un "coup bourbier",
+            il faut donc en prendre compte dans la selection des coups proposes.
+            Sinon, alors self.parite_desavantageuse est False et
+            le porduit est dans les deux cas egal à 0
+            il n'influe donc pas dans la selection du coup
+            """
         coeff1,coeff2=[],[]
 
         coeff1.append(self.plateau.est_coup_bourbier_par_cote(pos1, self.cote)*self.parite_desavantageuse)

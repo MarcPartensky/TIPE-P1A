@@ -56,19 +56,21 @@ class Fenetre:
                         background_color = couleurs.NOIR,
                         text_color  = couleurs.BLANC,
                         plein_ecran = False,
+                        redimensionnable = False,
                         set = True):
         """Crée un objet de fenêtre avec son nom, sa taille,
         sa police de texte, sa taille de texte, sa couleur de texte,
         sa couleur de fond, l'affichage en plein écran,
         et l'affichage sur l'écran dès sa création.
         """
-        self.name            = nom
-        self.taille          = taille
+        self.name   = nom
+        self.taille = taille
         self.police_du_texte = police_du_texte
         self.taille_du_texte = taille_du_texte
         self.couleur_de_fond = background_color
-        self.text_color      = text_color
-        self.plein_ecran     = plein_ecran
+        self.text_color  = text_color
+        self.plein_ecran = plein_ecran
+        self.redimensionnable = redimensionnable
         self.load()
         if set:
             self.set()
@@ -89,13 +91,14 @@ class Fenetre:
             self.taille = (self.info.current_w // 2, self.info.current_h // 2)
         if self.plein_ecran:
             self.screen = pygame.display.set_mode(self.taille, FULLSCREEN)
-        else:
+        elif self.redimensionnable:
             self.screen = pygame.display.set_mode(self.taille, RESIZABLE)
+        else:
+            self.screen = pygame.display.set_mode(self.taille)
         self.infoConsole("La fenetre a ete ouverte.")
 
         # On charge la police du texte
-        self.font = pygame.font.SysFont(self.police_du_texte,
-                                        self.taille_du_texte)
+        self.font = pygame.font.SysFont(self.police_du_texte, self.taille_du_texte)
 
         # nom de la fenêtre dans l'en-tête de celle-ci
         pygame.display.set_caption(self.name)
@@ -123,8 +126,7 @@ class Fenetre:
                     self.open=False
             if event.type == pygame.VIDEORESIZE and not self.plein_ecran:
                 self.taille=[event.w,event.h]
-                self.screen=pygame.display.set_mode(self.taille,
-                                                    pygame.RESIZABLE)
+                self.screen=pygame.display.set_mode(self.taille, RESIZABLE)
                 self.flip()
 
     def pause(self):
@@ -145,7 +147,7 @@ class Fenetre:
         prématurément."""
         self.pausing=True
         temps=time.time()
-        while self.pausing and self.open and time.time()-temps<temps_maximum:
+        while self.pausing and self.open and time.time() - temps<temps_maximum:
             self.check()
             keys=pygame.key.get_pressed()
             if keys[K_SPACE]:

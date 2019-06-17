@@ -69,17 +69,17 @@ class Panneau(Fenetre):
         """Renvoie la position du curseur
         dans le système de coordonnées du compartiment.
         """
-        position=pygame.mouse.get_pos()
-        n=self.obtenirNumeroCompartiment(position)
-        position=self.obtenirPositionDansCompartiment(position,n)
+        position = pygame.mouse.get_pos()
+        n = self.obtenirNumeroCompartiment(position)
+        position = self.obtenirPositionDansCompartiment(position,n)
         return position
 
     def obtenirNumeroCompartiment(self,position):
         """Renvoie le numéro du compartiment qui contient la position donnée"""
-        x,y=position
+        x,y = position
         for compartiment in range(len(self.decoupages)):
-            dx,dy,dsx,dsy=self.decoupages[compartiment]
-            if dx<=x<=dx+dsx and dy<=y<=dy+dsy:
+            dx,dy,dsx,dsy = self.decoupages[compartiment]
+            if dx <= x <= (dx+dsx) and dy <= y <= (dy+dsy):
                 resultat=compartiment
                 break
         return resultat
@@ -88,11 +88,11 @@ class Panneau(Fenetre):
         """Renvoie la position relative
         au système de coordonnées du compartiment n.
         """
-        x,y=position
-        dx,dy,dsx,dsy=self.decoupages[compartiment]
-        tx,ty=self.taille
-        nx=x*dsx/tx+dx
-        ny=y*dsy/ty+dy
+        x,y = position
+        dx,dy,dsx,dsy = self.decoupages[compartiment]
+        tx,ty = self.taille
+        nx = x * dsx / tx+dx
+        ny = y * dsy / ty+dy
         return (nx,ny)
 
     def afficher(self):
@@ -112,10 +112,10 @@ class Panneau(Fenetre):
     def afficherCadre(self,compartiment,couleur=couleurs.NOIR,l=3):
         """Affiche un cadre autour d'un compartiment."""
         dx,dy,dsx,dsy=self.decoupages[compartiment]
-        p1=(dx,dy)
-        p2=(dx,dy+dsy)
-        p3=(dx+dsx,dy+dsy)
-        p4=(dx+dsx,dy)
+        p1 = (    dx,     dy)
+        p2 = (    dx, dy+dsy)
+        p3 = (dx+dsx, dy+dsy)
+        p4 = (dx+dsx,     dy)
         pygame.draw.line(self.screen,couleur,p1,p2,l)
         pygame.draw.line(self.screen,couleur,p2,p3,l)
         pygame.draw.line(self.screen,couleur,p3,p4,l)
@@ -125,9 +125,9 @@ class Panneau(Fenetre):
         """Renvoie la position relative au compartiment
         dans lequel la souris se place.
         """
-        px,py=pygame.mouse.get_pos()
-        wsx,wsy=self.taille
+        px,py = pygame.mouse.get_pos()
+        wsx,wsy = self.taille
         for decoupage in self.decoupages:
-            dx,dy,dsx,dsy=decoupage
-            if dx<=px<=dx+dsx and dy<=py<=dy+dsy:
+            dx,dy,dsx,dsy = decoupage
+            if dx <= px <= (dx+dsx) and dy <= py <= (dy+dsy):
                 return (dsx*px/wsx+dx,dsy*py/wsy+dy)

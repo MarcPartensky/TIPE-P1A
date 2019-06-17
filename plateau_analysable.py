@@ -123,7 +123,9 @@ class PlateauAnalysable(Plateau):
         return vrai_lignes
 
     def obtenirToutesLesLignesSansDirection(self):
-        """Renvoie toutes les lignes possibles de la grille mais sans prendre en compte l'ordre des positions de celles-ci."""
+        """Renvoie toutes les lignes possibles de la grille mais
+        sans prendre en compte l'ordre des positions de celles-ci.
+        """
         lignes=self.obtenirToutesLesLignes()
         lignes_triees=[]
         for ligne in lignes:
@@ -136,7 +138,9 @@ class PlateauAnalysable(Plateau):
         return lignes
 
     def presenterPionsStables(self,fenetre): #Obsolète
-        """Présente les pions stables a l'ecran en les trouvant, cela s'effectue avec la fenêtre."""
+        """Présente les pions stables a l'ecran en les trouvant,
+        cela s'effectue avec la fenêtre.
+        """
         self.afficher()
         fenetre.coller(self.surface,0)
         fenetre.afficher()
@@ -166,9 +170,13 @@ class PlateauAnalysable(Plateau):
         return stables
 
     def estUnPionDefinitivementStable(self,pion,panneau):
-        """Determine si un pion est définivement stable en déterminant pour chaque ligne auquel il appartient, si il peut être définitivement stable.
-        Pour cela, on se ramène à un problème plus simple: c'est à dire vérifier la stabilité d'un pion dans une ligne.
-        Ainsi on vérifie pour chaque ligne auquelle ce pion appartient, si celui-ci peut-être définitivment stable, et si c'est bien le cas,
+        """Determine si un pion est définivement stable en déterminant
+        pour chaque ligne auquel il appartient,
+        si il peut être définitivement stable.
+        Pour cela, on se ramène à un problème plus simple:
+                c'est à dire vérifier la stabilité d'un pion dans une ligne.
+        Ainsi on vérifie pour chaque ligne auquelle ce pion appartient,
+        si celui-ci peut-être définitivment stable, et si c'est bien le cas,
         alors ce pion est définitivment stable sans équivoque."""
         cote=self.obtenirCase(pion)
         lignes=self.obtenirLignesAlentours(pion) #lignes de positions

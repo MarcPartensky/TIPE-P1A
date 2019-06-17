@@ -166,8 +166,8 @@ class Groupe(joueur.Robot):
         return self.choix
 
     def plusProcheDUnGroupe(self,p1,p2,mes_pions):
-        """Renvoie l'une des positions p1 ou p2 pour laquelle la distance totale
-        par rapport aux autres pions est la plus faible."""
+        """Renvoie l'une des positions p1 ou p2 pour laquelle
+        la distance totale par rapport aux autres pions est la plus faible."""
         d1=self.distanceTotale(mes_pions+[p1])
         d2=self.distanceTotale(mes_pions+[p2])
         if d1>d2:

@@ -65,7 +65,7 @@ class Bordure:
         self.fini = fini
         self.gagnant = gagnant
 
-    def afficherTexte(self,texte,position, taille=None, couleur=None):
+    def afficherTexte(self,texte,position,taille=None,couleur=None):
         """Affiche du texte à l'écran."""
         if not couleur:
             couleur=cfg.THEME_BORDURE["couleur texte"]
@@ -96,8 +96,7 @@ class Bordure:
         heures   = str(time.localtime()[3])
         minutes  = str(time.localtime()[4])
         secondes = str(time.localtime()[5])
-        temps = heures + " : " + (2 - len(minutes)) * "0" + minutes + " : " + \
-                                 (2 - len(secondes)) * "0" + secondes
+        temps = heures + " : " + (2 - len(minutes)) * "0" + minutes + " : " + (2 - len(secondes)) * "0" + secondes
         self.afficherTexte(temps,position,taille,couleur)
 
     def afficherRectangle(self,position,taille,couleur):
@@ -121,6 +120,8 @@ class Bordure:
             self.ecrireGagnants(n=9)
         self.afficherLignes() # affiche chaque ligne à l'écran
 
+    # n'est absolument pas rigoureux,
+    # mais nécessaire tant que l'on à pas implémenter de technique efficace pour centrer du texte
     def ecrireTitre(self,n):
         """Ecrit le titre dans la bordure."""
         self.lignes[n] = "                           Othello"
@@ -138,8 +139,7 @@ class Bordure:
         nombre_de_joueurs = len(self.noms_des_joueurs)
         for i in range(nombre_de_joueurs):
             couleur_joueur = cfg.THEME_PLATEAU["nom couleur pion"][i]
-            self.lignes[n+i] = str(self.noms_des_joueurs[i]) + " (" + \
-                        couleur_joueur + ")" + " : " + str(self.scores[i])
+            self.lignes[n+i] = str(self.noms_des_joueurs[i]) + " (" + couleur_joueur + ")" + " : " + str(self.scores[i])
 
     def ecrireGagnants(self,n):
         """Ecrit si la partie est finie ou pas."""

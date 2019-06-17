@@ -61,15 +61,15 @@ class Joueur:
         """Cree un joueur et défini son choix à None.
         Il s'agit de la classe de base de tous les joueurs.
         """
-        self.choix=None
-        self.nom=str(nom_du_joueur)
+        self.choix = None
+        self.nom = str(nom_du_joueur)
 
     def attribuerCote(self,cote):
         """Défini le côté d'un joueur,
         celui-ci peut varier d'une partie à une autre.
         """
-        self.cote=cote
-        self.cote_oppose=1-self.cote
+        self.cote = cote
+        self.cote_oppose = 1-self.cote
 
     def __str__(self):
         """Renvoie une représentation du joueur en string."""
@@ -89,13 +89,13 @@ class Humain(Joueur):
         """
         while fenetre.open:
             fenetre.check()
-            curseur=fenetre.point() # Renvoie les coordonnees du curseur
-            position=plateau.obtenirPositionPlateau(fenetre)
-            click=fenetre.click()
+            curseur = fenetre.point() # Renvoie les coordonnees du curseur
+            position = plateau.obtenirPositionPlateau(fenetre)
+            click = fenetre.click()
             if click:
                 if plateau.estDansGrille(position):
                     if position in plateau.mouvements:
-                        self.choix=position
+                        self.choix = position
                         break
         return self.choix
 
@@ -121,29 +121,29 @@ class Robot(Joueur):
 
     def jouerAleatoire(self,plateau):
         """Le joueur choisi un des mouvements possibles aléatoirement."""
-        mouvements=plateau.obtenirMouvementsValides(self.cote)
-        self.choix=random.choice(mouvements)
+        mouvements = plateau.obtenirMouvementsValides(self.cote)
+        self.choix = random.choice(mouvements)
         return self.choix
 
     def distance(self,p1,p2):
         """Renvoie la distance entre les positions p1 et p2."""
-        x1,y1=p1
-        x2,y2=p2
-        return math.sqrt((x1-x2)**2+(y1-y2)**2)
+        x1,y1 = p1
+        x2,y2 = p2
+        return math.sqrt((x1-x2)**2 + (y1-y2)**2)
 
     def distanceDuCentre(self,position,plateau):
         """Renvoie la distance d'une position par rapport au centre."""
-        tx,ty=plateau.taille
-        centre=(tx/2,ty/2)
+        tx, ty = plateau.taille
+        centre = (tx/2,ty/2)
         return self.distance(position,centre)
 
     def distanceTotale(self,pions):
         """Renvoie la somme des distances entre tous les pions 2 à 2."""
-        somme=0
-        l=len(pions)
+        somme = 0
+        l = len(pions)
         for i in range(l):
             for j in range(i+1,l):
-                somme+=self.distance(pions[i],pions[j])
+                somme += self.distance(pions[i],pions[j])
         return somme
 
     def distanceMoyenne(self,pions):
@@ -174,10 +174,10 @@ class Developpeur(Humain):
         """
         while panneau.open:
             panneau.check()
-            position=plateau.obtenirPositionPlateau(panneau)
-            click=panneau.click()
+            position = plateau.obtenirPositionPlateau(panneau)
+            click = panneau.click()
             if click:
                 if plateau.estDansGrille(position):
-                    self.choix=position
+                    self.choix = position
                 break
         return self.choix

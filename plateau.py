@@ -19,7 +19,7 @@
 #                           SOMMAIRE du plateau
 #
 #    1.    Class Plateau:  ......................................... ligne  75
-#    1.1   ----> __init__ (self,theme=None)  ....................... ligne  78
+#    1.1   ----> __init__ (self,taille=[8,8])  ..................... ligne  78
 #    1.2   ----> creerGrille (self)  ............................... ligne  89
 #    1.3   ----> estDansGrille (self,position)  .................... ligne  98
 #    1.4   ----> obtenirPositionPlateau (self,(etc).) .............. ligne 104
@@ -33,7 +33,7 @@
 #    1.12  ----> obtenirCases (self,coordonnees)  .................. ligne 176
 #    1.13  ----> obtenirPions (self,cotes)  ........................ ligne 189
 #    1.14  ----> obtenirScores (self)  ............................. ligne 204
-#    1.15  ----> compterPions (self,cote)  ......................... ligne 208 # correct jusqu'ici ensuite tous est décaler ou pourra être décaler
+#    1.15  ----> compterPions (self,cote)  ......................... ligne 208
 #    1.16  ----> obtenirNombrePionsRestant (self)  ................. ligne 214
 #    1.17  ----> obtenirEnvironnement (self,positions)  ............ ligne 219
 #    1.18  ----> obtenirLignesAlentours (self,position)  ........... ligne 224
@@ -440,13 +440,13 @@ class Plateau:
         self.afficherFond()
         self.afficherGrille()
         self.afficherDecorationGrille()
-        if cfg.THEME_PLATEAU["aide mouvement"]:
+        if cfg.THEME_PLATEAU["aide mouvement"]: # cela correspond à l'affichage des rond rouge qui montre les coup possible par le joueur
             self.afficherMouvements()
         self.afficherPions()
 
     def afficherFond(self):
         """Permet de charger un arriere plan sur la surface."""
-        ftx,fty=self.surface.get_size()
+        ftx, fty = self.surface.get_size()
         # on colore le plateau de case de 10 pixel
         # pour produire un dégrader de couleur
         for y in range(0,fty,10):
@@ -486,7 +486,7 @@ class Plateau:
         for position in positions_points_graphic:
             pygame.draw.circle(self.surface,cfg.THEME_PLATEAU["couleur grille"],position,rayon,0)
 
-    def afficherPions(self): # pas rigoureux la taille_relative
+    def afficherPions(self):
         """Affiche les pions"""
         wsx , wsy = self.surface.get_size()
         sx, sy = self.taille
@@ -494,8 +494,8 @@ class Plateau:
         for y in range(sy):
             for x in range(sx):
                 case = self.obtenirCase((x,y))
-                position_brute = self.obtenirPositionBrute((x,y))
-                if 0 <= case <= len(cfg.THEME_PLATEAU["couleur pions"]) - 1:
+                if 0 <= case < self.nombre_de_joueurs:
+                    position_brute = self.obtenirPositionBrute((x,y))
                     couleur = cfg.THEME_PLATEAU["couleur pions"][case]
                     pygame.draw.circle(self.surface,couleurs.inverser(couleur),position_brute,rayon+2,0)
                     pygame.draw.circle(self.surface,couleur,position_brute,rayon,0)

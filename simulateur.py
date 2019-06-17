@@ -58,13 +58,11 @@ class Simulateur:
         """Renvoie une représentation des victoires de chaque joueur
         avec l'historique des victoires du simulateur.
         """
-        message = "\n\nResultats de " + str(len(self.gagnants)) + " parties:\n"
+        message = "\n\nResultats de " + str(len(self.gagnants)) + " parties:\n" # le '\n est un retour à la ligne'
         for cote in range(len(self.joueurs)):
-            message += "- Joueur " + str(self.joueurs[cote]) + " a gagne " + \
-                       str(self.gagnants.count(cote)) + " fois.\n"
+            message += "- Joueur " + str(self.joueurs[cote]) + " a gagne " + str(self.gagnants.count(cote)) + " fois.\n"
         pluriel = int(self.gagnants.count(None)>1)
-        message += "- Il y a " + str(self.gagnants.count(None)) + " match" + \
-                   "s" * pluriel + " nul" + "s" * pluriel + "."
+        message += "- Il y a " + str(self.gagnants.count(None)) + " match" + "s" * pluriel + " nul" + "s" * pluriel + "."
         return message
 
 if __name__=="__main__":
