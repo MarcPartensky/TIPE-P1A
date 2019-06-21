@@ -13,10 +13,20 @@ DEBUGING  = False
 
 TEMPS_ANIMATION_PION = 0.15
 
+# taille 1
+#TAILLE_FENETRE = (1040, 640)
+#TAILLE_PLATEAU = ( 640, 640)
+#TAILLE_BORDURE = ( 400, 640)
 
-TAILLE_FENETRE = (1040, 640)
-TAILLE_PLATEAU = ( 640, 640)
-TAILLE_BORDURE = ( 400, 640)
+# taille 2
+TAILLE_FENETRE = (1120, 720)
+TAILLE_PLATEAU = ( 720, 720)
+TAILLE_BORDURE = ( 400, 720)
+
+# taille 3
+#TAILLE_FENETRE = (1200, 800)
+#TAILLE_PLATEAU = ( 800, 800)
+#TAILLE_BORDURE = ( 400, 800)
 
 # les dimensions des arriere_plan comme celle-ci n'ont pas d'importance
 # vu qu'elle seront redimensionnées

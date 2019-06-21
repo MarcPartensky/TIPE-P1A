@@ -52,8 +52,11 @@ class Panneau(Fenetre):
                         set              = True,
                         decoupages=[]):
         """Crée un panneau qui est une fenetre organisée en compartiments."""
-        super().__init__(nom, taille, police_du_texte, taille_du_texte,
-                         couleur_du_texte, couleur_du_fond, plein_ecran, set)
+        super().__init__(nom=nom,taille=taille,police_du_texte=police_du_texte,
+                        taille_du_texte=taille_du_texte,
+                        text_color=couleur_du_texte,
+                        background_color=couleur_du_fond,
+                        plein_ecran=plein_ecran, set=set)
         self.decoupages = decoupages
 
     def coller(self,surface,compartiment):

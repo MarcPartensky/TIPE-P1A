@@ -61,7 +61,7 @@ class Bordure:
         """Actualise la bordure."""
         self.rang = rang
         self.tour = rang % 2
-        self.scores = scores
+        self.scores  = scores
         self.fini = fini
         self.gagnant = gagnant
 
@@ -144,7 +144,10 @@ class Bordure:
     def ecrireGagnants(self,n):
         """Ecrit si la partie est finie ou pas."""
         self.lignes[n]   = "La partie est finie."
-        self.lignes[n+1] = "Le gagnant est : "+self.gagnant
+        if self.gagnant:
+            self.lignes[n+1] = "Le gagnant est : "+str(self.gagnant)
+        else:
+            self.lignes[n+1] = "ÉGALITÉ"
 
     def afficherLignes(self,x=10,y=10):
         """Affiche les lignes du texte sur la surface de la bordure."""

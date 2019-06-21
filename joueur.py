@@ -57,7 +57,7 @@ class Joueur:
     car ne possède pas de méthode jouer()
     """
 
-    def __init__(self,nom_du_joueur=None):
+    def __init__(self,nom_du_joueur="NO NAME"):
         """Cree un joueur et défini son choix à None.
         Il s'agit de la classe de base de tous les joueurs.
         """

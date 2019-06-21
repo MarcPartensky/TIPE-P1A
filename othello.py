@@ -122,7 +122,7 @@ class Othello:
     def determinerGagnant(self):
         """Détermine le gagnant de la partie à la fin du jeu."""
         self.cote_gagnant = self.plateau.obtenirCoteGagnant()
-        if self.cote_gagnant:
+        if self.cote_gagnant != None:
             self.gagnant = self.joueurs[self.cote_gagnant].nom
             cfg.info("Le joueur " + self.gagnant + " a gagne.",nom_fichier = "othello.py")
         else:

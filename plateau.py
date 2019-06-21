@@ -153,13 +153,13 @@ class Plateau:
 
     def obtenirCoteGagnant(self):
         """Renvoie le gagnant de la partie au stade actuel."""
-        pions0=self.obtenirPions(0)
-        pions1=self.obtenirPions(1)
-        compte_des_pions=(len(pions0),len(pions1))
-        if len(pions0) != len(pions1):
+        pions0 = self.obtenirPions(0)
+        pions1 = self.obtenirPions(1)
+        compte_des_pions = (len(pions0),len(pions1))
+        if compte_des_pions[0] != compte_des_pions[1]:
             cote_gagnant = compte_des_pions.index(max(compte_des_pions))
         else:
-            cote_gagnant=None
+            cote_gagnant = None
         return cote_gagnant
 
     def charger(self,cote):

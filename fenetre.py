@@ -169,7 +169,7 @@ class Fenetre:
 
     def infoConsole(self,message):
         """Affiche un message depuis la fenêtre."""
-        text="["+self.name+"] "+message
+        text="[Fenetre "+self.name+"] "+message
         print(text)
 
     def __del__(self):
