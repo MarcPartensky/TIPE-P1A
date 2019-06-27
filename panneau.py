@@ -50,7 +50,7 @@ class Panneau(Fenetre):
                         couleur_du_fond  = couleurs.NOIR,
                         plein_ecran      = False,
                         set              = True,
-                        decoupages=[]):
+                        decoupages       = []  ):
         """Crée un panneau qui est une fenetre organisée en compartiments."""
         super().__init__(nom=nom,taille=taille,police_du_texte=police_du_texte,
                         taille_du_texte=taille_du_texte,
@@ -114,7 +114,7 @@ class Panneau(Fenetre):
 
     def afficherCadre(self,compartiment,couleur=couleurs.NOIR,l=3):
         """Affiche un cadre autour d'un compartiment."""
-        dx,dy,dsx,dsy=self.decoupages[compartiment]
+        dx,dy,dsx,dsy = self.decoupages[compartiment]
         p1 = (    dx,     dy)
         p2 = (    dx, dy+dsy)
         p3 = (dx+dsx, dy+dsy)
