@@ -1,7 +1,7 @@
 # Othello / Reversi
 
 ## Demonstration
-[![Watch the video](https://s8.gifyu.com/images/output21df7246f6cd1ebe.gif)](https://youtu.be/5tQjwkG4tgo)
+[![Watch the video](https://s8.gifyu.com/images/othello.gif)](https://youtu.be/5tQjwkG4tgo)
 
 ## Rules
 > Reversi is a strategy board game for two players, played on an 8×8 uncheckered board. It was invented in 1883. Othello, a variant with a change to the board's initial setup, was patented in 1971.
