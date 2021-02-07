@@ -43,34 +43,33 @@ import config as cfg
 import pygame, time, couleurs, outils
 
 
-
 class Bordure:
     """Classe permettant d'afficher des informations en temps réel"""
 
-    def __init__(self,nombre_de_lignes=20,espacement=40):
+    def __init__(self, nombre_de_lignes=20, espacement=40):
         """Créer une bordure en utilisant une surface et un thème."""
         self.surface = pygame.Surface(cfg.RESOLUTION_BORDURE)
-        self.espacement = espacement # espace entre deux lignes de texte
+        self.espacement = espacement  # espace entre deux lignes de texte
         self.lignes = ["" for i in range(nombre_de_lignes)]
 
-    def recupererNomDesJoueurs(self,noms_des_joueurs):
+    def recupererNomDesJoueurs(self, noms_des_joueurs):
         """Récupère le nom des joueurs pour les afficher plus tard."""
         self.noms_des_joueurs = noms_des_joueurs
 
-    def actualiser(self,rang,scores,fini,gagnant):
+    def actualiser(self, rang, scores, fini, gagnant):
         """Actualise la bordure."""
         self.rang = rang
         self.tour = rang % 2
-        self.scores  = scores
+        self.scores = scores
         self.fini = fini
         self.gagnant = gagnant
 
-    def afficherTexte(self,texte,position,taille=None,couleur=None):
+    def afficherTexte(self, texte, position, taille=None, couleur=None):
         """Affiche du texte à l'écran."""
         if not couleur:
-            couleur=cfg.THEME_BORDURE["couleur texte"]
+            couleur = cfg.THEME_BORDURE["couleur texte"]
         if not taille:
-            taille=cfg.THEME_BORDURE["taille texte"]
+            taille = cfg.THEME_BORDURE["taille texte"]
         font = pygame.font.SysFont(cfg.THEME_BORDURE["police"], taille)
         surface_texte = font.render(texte, 1, couleur)
         self.surface.blit(surface_texte, position)
@@ -81,34 +80,42 @@ class Bordure:
         ftm = max(ftx, fty)
         for y in range(0, fty, 10):
             for x in range(0, ftx, 10):
-                r = int(      abs(outils.bijection(x,       [0,ftx], [0,255])))
-                g = int(255 - abs(outils.bijection((x+y)/2, [0,ftm], [0,255])))
-                b = int(      abs(outils.bijection(y,       [0,fty], [0,255])))
+                r = int(abs(outils.bijection(x, [0, ftx], [0, 255])))
+                g = int(255 - abs(outils.bijection((x + y) / 2, [0, ftm], [0, 255])))
+                b = int(abs(outils.bijection(y, [0, fty], [0, 255])))
                 couleur = (r, g, b)
-                pygame.draw.rect(self.surface,couleur,[x,y,10,10],0)
+                pygame.draw.rect(self.surface, couleur, [x, y, 10, 10], 0)
 
     def clear(self):
         """Nettoie la surface en recoloriant celle-ci par son arrière plan."""
         self.surface.fill(cfg.THEME_BORDURE["arriere plan"])
 
-    def afficherTemps(self,position,taille=30,couleur=couleurs.BLANC):
+    def afficherTemps(self, position, taille=30, couleur=couleurs.BLANC):
         """Affiche l'heure à un instant."""
-        heures   = str(time.localtime()[3])
-        minutes  = str(time.localtime()[4])
+        heures = str(time.localtime()[3])
+        minutes = str(time.localtime()[4])
         secondes = str(time.localtime()[5])
-        temps = heures + " : " + (2 - len(minutes)) * "0" + minutes + " : " + (2 - len(secondes)) * "0" + secondes
-        self.afficherTexte(temps,position,taille,couleur)
+        temps = (
+            heures
+            + " : "
+            + (2 - len(minutes)) * "0"
+            + minutes
+            + " : "
+            + (2 - len(secondes)) * "0"
+            + secondes
+        )
+        self.afficherTexte(temps, position, taille, couleur)
 
-    def afficherRectangle(self,position,taille,couleur):
+    def afficherRectangle(self, position, taille, couleur):
         """Affiche un rectangle sur la surface de la bordure avec sa position
         sa taille, et sa couleur."""
-        pygame.draw.rect(self.surface,couleur,position+taille,0)
+        pygame.draw.rect(self.surface, couleur, position + taille, 0)
 
-    def afficherTempsPropre(self): # n'est pas actualiser donc non-utilisable
+    def afficherTempsPropre(self):  # n'est pas actualiser donc non-utilisable
         """Affiche le temps en se souciant de la présentation."""
         tx, ty = self.surface.get_size()
-        self.afficherRectangle((0,0), (tx,70), couleurs.BLEU)
-        self.afficherTemps((20,10), couleurs.VERT)
+        self.afficherRectangle((0, 0), (tx, 70), couleurs.BLEU)
+        self.afficherTemps((20, 10), couleurs.VERT)
 
     def afficher(self):
         """Permet d'afficher la bordure sur sa surface."""
@@ -118,20 +125,20 @@ class Bordure:
         self.ecrireScore(n=5)
         if self.fini:
             self.ecrireGagnants(n=9)
-        self.afficherLignes() # affiche chaque ligne à l'écran
+        self.afficherLignes()  # affiche chaque ligne à l'écran
 
     # n'est absolument pas rigoureux,
     # mais nécessaire tant que l'on à pas implémenter de technique efficace pour centrer du texte
-    def ecrireTitre(self,n):
+    def ecrireTitre(self, n):
         """Ecrit le titre dans la bordure."""
         self.lignes[n] = "                           Othello"
 
-    def ecrireTour(self,n):
+    def ecrireTour(self, n):
         """Ecrit le tour du joueur, utilise 1 ligne."""
-        self.lignes[n]   = "Tour du joueur:"
-        self.lignes[n+1] = str(self.noms_des_joueurs[self.tour])
+        self.lignes[n] = "Tour du joueur:"
+        self.lignes[n + 1] = str(self.noms_des_joueurs[self.tour])
 
-    def ecrireScore(self,n):
+    def ecrireScore(self, n):
         """Ecrit le score à la ligne 'n',
         utilise autant de ligne qu'il y a de joueurs + 1 ligne.
         """
@@ -139,18 +146,25 @@ class Bordure:
         nombre_de_joueurs = len(self.noms_des_joueurs)
         for i in range(nombre_de_joueurs):
             couleur_joueur = cfg.THEME_PLATEAU["nom couleur pion"][i]
-            self.lignes[n+i] = str(self.noms_des_joueurs[i]) + " (" + couleur_joueur + ")" + " : " + str(self.scores[i])
+            self.lignes[n + i] = (
+                str(self.noms_des_joueurs[i])
+                + " ("
+                + couleur_joueur
+                + ")"
+                + " : "
+                + str(self.scores[i])
+            )
 
-    def ecrireGagnants(self,n):
+    def ecrireGagnants(self, n):
         """Ecrit si la partie est finie ou pas."""
-        self.lignes[n]   = "La partie est finie."
+        self.lignes[n] = "La partie est finie."
         if self.gagnant:
-            self.lignes[n+1] = "Le gagnant est : "+str(self.gagnant)
+            self.lignes[n + 1] = "Le gagnant est : " + str(self.gagnant)
         else:
-            self.lignes[n+1] = "ÉGALITÉ"
+            self.lignes[n + 1] = "ÉGALITÉ"
 
-    def afficherLignes(self,x=10,y=10):
+    def afficherLignes(self, x=10, y=10):
         """Affiche les lignes du texte sur la surface de la bordure."""
         taille = len(self.lignes)
         for i in range(taille):
-            self.afficherTexte(self.lignes[i], (x, y+i * self.espacement))
+            self.afficherTexte(self.lignes[i], (x, y + i * self.espacement))

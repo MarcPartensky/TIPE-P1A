@@ -38,32 +38,39 @@ import couleurs
 import pygame
 
 
-
 class Panneau(Fenetre):
     """Classe héritant de la fenêtre permettant de gérer des découpages."""
 
-    def __init__(self,  nom              = "fenetre",
-                        taille           = None,
-                        police_du_texte  = "monospace",
-                        taille_du_texte  = 65,
-                        couleur_du_texte = couleurs.BLANC,
-                        couleur_du_fond  = couleurs.NOIR,
-                        plein_ecran      = False,
-                        set              = True,
-                        decoupages       = []  ):
+    def __init__(
+        self,
+        nom="fenetre",
+        taille=None,
+        police_du_texte="monospace",
+        taille_du_texte=65,
+        couleur_du_texte=couleurs.BLANC,
+        couleur_du_fond=couleurs.NOIR,
+        plein_ecran=False,
+        set=True,
+        decoupages=[],
+    ):
         """Crée un panneau qui est une fenetre organisée en compartiments."""
-        super().__init__(nom=nom,taille=taille,police_du_texte=police_du_texte,
-                        taille_du_texte=taille_du_texte,
-                        text_color=couleur_du_texte,
-                        background_color=couleur_du_fond,
-                        plein_ecran=plein_ecran, set=set)
+        super().__init__(
+            nom=nom,
+            taille=taille,
+            police_du_texte=police_du_texte,
+            taille_du_texte=taille_du_texte,
+            text_color=couleur_du_texte,
+            background_color=couleur_du_fond,
+            plein_ecran=plein_ecran,
+            set=set,
+        )
         self.decoupages = decoupages
 
-    def coller(self,surface,compartiment):
+    def coller(self, surface, compartiment):
         """Pose une surface dans le compartiment."""
-        sx,sy = surface.get_size() # on récupère la taille de la surface
-        dx,dy,dsx,dsy = self.decoupages[compartiment]
-        self.screen.blit(surface,(dx,dy))
+        sx, sy = surface.get_size()  # on récupère la taille de la surface
+        dx, dy, dsx, dsy = self.decoupages[compartiment]
+        self.screen.blit(surface, (dx, dy))
         # blit permet de placer les surface à l'écran
         # mais ne les montre pas encore à l'utilisateur
         # (il faut pour cela appeler la méthode flip())
@@ -74,29 +81,29 @@ class Panneau(Fenetre):
         """
         position = pygame.mouse.get_pos()
         n = self.obtenirNumeroCompartiment(position)
-        position = self.obtenirPositionDansCompartiment(position,n)
+        position = self.obtenirPositionDansCompartiment(position, n)
         return position
 
-    def obtenirNumeroCompartiment(self,position):
+    def obtenirNumeroCompartiment(self, position):
         """Renvoie le numéro du compartiment qui contient la position donnée"""
-        x,y = position
+        x, y = position
         for compartiment in range(len(self.decoupages)):
-            dx,dy,dsx,dsy = self.decoupages[compartiment]
-            if dx <= x <= (dx+dsx) and dy <= y <= (dy+dsy):
-                resultat=compartiment
+            dx, dy, dsx, dsy = self.decoupages[compartiment]
+            if dx <= x <= (dx + dsx) and dy <= y <= (dy + dsy):
+                resultat = compartiment
                 break
         return resultat
 
-    def obtenirPositionDansCompartiment(self,position,n):
+    def obtenirPositionDansCompartiment(self, position, n):
         """Renvoie la position relative
         au système de coordonnées du compartiment n.
         """
-        x,y = position
-        dx,dy,dsx,dsy = self.decoupages[compartiment]
-        tx,ty = self.taille
-        nx = x * dsx / tx+dx
-        ny = y * dsy / ty+dy
-        return (nx,ny)
+        x, y = position
+        dx, dy, dsx, dsy = self.decoupages[compartiment]
+        tx, ty = self.taille
+        nx = x * dsx / tx + dx
+        ny = y * dsy / ty + dy
+        return (nx, ny)
 
     def afficher(self):
         """Affiche les éléments spécifiques au panneau,
@@ -112,25 +119,25 @@ class Panneau(Fenetre):
         for compartiment in range(len(self.decoupages)):
             self.afficherCadre(compartiment)
 
-    def afficherCadre(self,compartiment,couleur=couleurs.NOIR,l=3):
+    def afficherCadre(self, compartiment, couleur=couleurs.NOIR, l=3):
         """Affiche un cadre autour d'un compartiment."""
-        dx,dy,dsx,dsy = self.decoupages[compartiment]
-        p1 = (    dx,     dy)
-        p2 = (    dx, dy+dsy)
-        p3 = (dx+dsx, dy+dsy)
-        p4 = (dx+dsx,     dy)
-        pygame.draw.line(self.screen,couleur,p1,p2,l)
-        pygame.draw.line(self.screen,couleur,p2,p3,l)
-        pygame.draw.line(self.screen,couleur,p3,p4,l)
-        pygame.draw.line(self.screen,couleur,p4,p1,l)
+        dx, dy, dsx, dsy = self.decoupages[compartiment]
+        p1 = (dx, dy)
+        p2 = (dx, dy + dsy)
+        p3 = (dx + dsx, dy + dsy)
+        p4 = (dx + dsx, dy)
+        pygame.draw.line(self.screen, couleur, p1, p2, l)
+        pygame.draw.line(self.screen, couleur, p2, p3, l)
+        pygame.draw.line(self.screen, couleur, p3, p4, l)
+        pygame.draw.line(self.screen, couleur, p4, p1, l)
 
     def positionRelative(self):
         """Renvoie la position relative au compartiment
         dans lequel la souris se place.
         """
-        px,py = pygame.mouse.get_pos()
-        wsx,wsy = self.taille
+        px, py = pygame.mouse.get_pos()
+        wsx, wsy = self.taille
         for decoupage in self.decoupages:
-            dx,dy,dsx,dsy = decoupage
-            if dx <= px <= (dx+dsx) and dy <= py <= (dy+dsy):
-                return (dsx*px/wsx+dx,dsy*py/wsy+dy)
+            dx, dy, dsx, dsy = decoupage
+            if dx <= px <= (dx + dsx) and dy <= py <= (dy + dsy):
+                return (dsx * px / wsx + dx, dsy * py / wsy + dy)

@@ -50,26 +50,25 @@ import math
 import config as cfg
 
 
-
 class Joueur:
     """Classe de tous les joueurs, celle utiliser par l'othello.
     Cependant il ne faut en aucun cas crée une instance de cette classe
     car ne possède pas de méthode jouer()
     """
 
-    def __init__(self,nom_du_joueur="NO NAME"):
+    def __init__(self, nom_du_joueur="NO NAME"):
         """Cree un joueur et défini son choix à None.
         Il s'agit de la classe de base de tous les joueurs.
         """
         self.choix = None
         self.nom = str(nom_du_joueur)
 
-    def attribuerCote(self,cote):
+    def attribuerCote(self, cote):
         """Défini le côté d'un joueur,
         celui-ci peut varier d'une partie à une autre.
         """
         self.cote = cote
-        self.cote_oppose = 1-self.cote
+        self.cote_oppose = 1 - self.cote
 
     def __str__(self):
         """Renvoie une représentation du joueur en string."""
@@ -79,17 +78,17 @@ class Joueur:
 class Humain(Joueur):
     """classe qui hérite de le classe Joueur"""
 
-    def __init__(self,nom=None):
+    def __init__(self, nom=None):
         """Crée un humain qui hérite de joueur."""
         super().__init__(nom)
 
-    def jouer(self,plateau,fenetre):
+    def jouer(self, plateau, fenetre):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose
         et peux le sélectionner a l'aide de la fenêtre.
         """
         while fenetre.open:
             fenetre.check()
-            curseur = fenetre.point() # Renvoie les coordonnees du curseur
+            curseur = fenetre.point()  # Renvoie les coordonnees du curseur
             position = plateau.obtenirPositionPlateau(fenetre)
             click = fenetre.click()
             if click:
@@ -99,10 +98,11 @@ class Humain(Joueur):
                         break
         return self.choix
 
+
 class Robot(Joueur):
     """classe qui hérite de le classe Joueur"""
 
-    def __init__(self,nom=None):
+    def __init__(self, nom=None):
         """Cree un joueur robot qui hérite de joueur.
         Il s'agit de la classe de base de tous les robots.
         """
@@ -113,43 +113,43 @@ class Robot(Joueur):
         cfg.debug("Random actif, Robot.main n'a pas ete surcharge")
         return self.jouerAleatoire(plateau)
 
-    def jouer(self,plateau,fenetre):
+    def jouer(self, plateau, fenetre):
         """Le joueur renvoie un mouvement parmi les mouvements possibles
         à l'aide du plateau et de la fenetre.
         """
         return self.main(plateau)
 
-    def jouerAleatoire(self,plateau):
+    def jouerAleatoire(self, plateau):
         """Le joueur choisi un des mouvements possibles aléatoirement."""
         mouvements = plateau.obtenirMouvementsValides(self.cote)
         self.choix = random.choice(mouvements)
         return self.choix
 
-    def distance(self,p1,p2):
+    def distance(self, p1, p2):
         """Renvoie la distance entre les positions p1 et p2."""
-        x1,y1 = p1
-        x2,y2 = p2
-        return math.sqrt((x1-x2)**2 + (y1-y2)**2)
+        x1, y1 = p1
+        x2, y2 = p2
+        return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
-    def distanceDuCentre(self,position,plateau):
+    def distanceDuCentre(self, position, plateau):
         """Renvoie la distance d'une position par rapport au centre."""
         tx, ty = plateau.taille
-        centre = (tx/2,ty/2)
-        return self.distance(position,centre)
+        centre = (tx / 2, ty / 2)
+        return self.distance(position, centre)
 
-    def distanceTotale(self,pions):
+    def distanceTotale(self, pions):
         """Renvoie la somme des distances entre tous les pions 2 à 2."""
         somme = 0
         l = len(pions)
         for i in range(l):
-            for j in range(i+1,l):
-                somme += self.distance(pions[i],pions[j])
+            for j in range(i + 1, l):
+                somme += self.distance(pions[i], pions[j])
         return somme
 
-    def distanceMoyenne(self,pions):
+    def distanceMoyenne(self, pions):
         """Renvoie la distance moyenne entre tous les pions 2 à 2."""
-        nombre_de_distances_calculees=(len(pions)+1)*len(pions)/2
-        return self.distanceTotale(pions)/nombre_de_distances_calculees
+        nombre_de_distances_calculees = (len(pions) + 1) * len(pions) / 2
+        return self.distanceTotale(pions) / nombre_de_distances_calculees
 
 
 class Developpeur(Humain):
@@ -159,7 +159,7 @@ class Developpeur(Humain):
     en ce qui concerne l'endroit où l'on peut jouer.
     """
 
-    def __init__(self,nom=None):
+    def __init__(self, nom=None):
         """Crée un développeur,
         c'est à dire un humain qui peut jouer sans respecter
         les règles de l'Othello.
@@ -168,7 +168,7 @@ class Developpeur(Humain):
         """
         super().__init__(nom)
 
-    def jouer(self,plateau,panneau):
+    def jouer(self, plateau, panneau):
         """Le joueur choisi un coup parmi ceux que le plateau lui propose
         et peux le sélectionner a l'aide de la fenêtre.
         """

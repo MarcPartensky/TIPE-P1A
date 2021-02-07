@@ -37,38 +37,40 @@
 # --coding:utf-8--
 
 # CONSTANTES de pygame
-from pygame.locals import RESIZABLE,FULLSCREEN
-from pygame.locals import KEYDOWN,KEYUP,K_ESCAPE,K_SPACE,K_r
+from pygame.locals import RESIZABLE, FULLSCREEN
+from pygame.locals import KEYDOWN, KEYUP, K_ESCAPE, K_SPACE, K_r
 
 import pygame
 import couleurs
 import time
 
 
-
 class Fenetre:
     """Classe Fenêtre qui permet de simplifier l'utilisation de pygame."""
 
-    def __init__(self,  nom    = "fenetre",
-                        taille = None,
-                        police_du_texte  = "monospace",
-                        taille_du_texte  = 65,
-                        background_color = couleurs.NOIR,
-                        text_color  = couleurs.BLANC,
-                        plein_ecran = False,
-                        redimensionnable = False,
-                        set = True):
+    def __init__(
+        self,
+        nom="fenetre",
+        taille=None,
+        police_du_texte="monospace",
+        taille_du_texte=65,
+        background_color=couleurs.NOIR,
+        text_color=couleurs.BLANC,
+        plein_ecran=False,
+        redimensionnable=False,
+        set=True,
+    ):
         """Crée un objet de fenêtre avec son nom, sa taille,
         sa police de texte, sa taille de texte, sa couleur de texte,
         sa couleur de fond, l'affichage en plein écran,
         et l'affichage sur l'écran dès sa création.
         """
-        self.name   = nom
+        self.name = nom
         self.taille = taille
         self.police_du_texte = police_du_texte
         self.taille_du_texte = taille_du_texte
         self.couleur_de_fond = background_color
-        self.text_color  = text_color
+        self.text_color = text_color
         self.plein_ecran = plein_ecran
         self.redimensionnable = redimensionnable
         self.load()
@@ -78,11 +80,11 @@ class Fenetre:
     def load(self):
         """Crée les attributs par défaut de la fenêtre."""
         self.pausing = False
-        self.open    = False
+        self.open = False
 
     def set(self):
         """Charge la fenêtre sur l'écran."""
-        pygame.init() # On initialise pygame afin de pouvoir l'utiliser.
+        pygame.init()  # On initialise pygame afin de pouvoir l'utiliser.
 
         # On s'en sert pour récupérer la taille de l'écran de l'utilisateur.
         self.info = pygame.display.Info()
@@ -105,11 +107,12 @@ class Fenetre:
 
         self.clear()
         self.flip()
-        self.open=True
+        self.open = True
 
-    def clear(self,color=None):
+    def clear(self, color=None):
         """Colorie l'écran de la fenêtre avec la couleur du fond d'écran."""
-        if not color: color=self.couleur_de_fond
+        if not color:
+            color = self.couleur_de_fond
         self.screen.fill(color)
 
     def check(self):
@@ -120,38 +123,38 @@ class Fenetre:
         taille est automatiquement redéfinie."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.open=False
+                self.open = False
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    self.open=False
+                    self.open = False
             if event.type == pygame.VIDEORESIZE and not self.plein_ecran:
-                self.taille=[event.w,event.h]
-                self.screen=pygame.display.set_mode(self.taille, RESIZABLE)
+                self.taille = [event.w, event.h]
+                self.screen = pygame.display.set_mode(self.taille, RESIZABLE)
                 self.flip()
 
     def pause(self):
         """Permet de mettre le programme en pause jusqu'à ce que l'utilisateur
         appuie sur la barre d'espace."""
-        self.pausing=True
+        self.pausing = True
         while self.pausing and self.open:
             self.check()
-            keys=pygame.key.get_pressed()
-            if keys[K_SPACE]: # Si on appuie sur la barre d'espace..
-                self.pausing=False
+            keys = pygame.key.get_pressed()
+            if keys[K_SPACE]:  # Si on appuie sur la barre d'espace..
+                self.pausing = False
         if self.open:
             time.sleep(0.1)
 
-    def attendre(self,temps_maximum=0.5):
+    def attendre(self, temps_maximum=0.5):
         """Permet de mettre le programme en pause pendant une durée déterminée
         mais si l'utilisateur appuie sur la barre d'espace la pause se termine
         prématurément."""
-        self.pausing=True
-        temps=time.time()
-        while self.pausing and self.open and time.time() - temps<temps_maximum:
+        self.pausing = True
+        temps = time.time()
+        while self.pausing and self.open and time.time() - temps < temps_maximum:
             self.check()
-            keys=pygame.key.get_pressed()
+            keys = pygame.key.get_pressed()
             if keys[K_SPACE]:
-                self.pausing=False
+                self.pausing = False
 
     def point(self):
         """Retourne la position du curseur
@@ -167,9 +170,9 @@ class Fenetre:
         """Rafraichie l'écran"""
         pygame.display.flip()
 
-    def infoConsole(self,message):
+    def infoConsole(self, message):
         """Affiche un message depuis la fenêtre."""
-        text="[Fenetre "+self.name+"] "+message
+        text = "[Fenetre " + self.name + "] " + message
         print(text)
 
     def __del__(self):

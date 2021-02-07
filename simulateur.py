@@ -28,28 +28,27 @@
 # --coding:utf-8--
 
 from othello import Othello
-from joueur import Robot,Humain
+from joueur import Robot, Humain
 import ia
 import ias
 import config as cfg
 
 
-
 class Simulateur:
     """Permet de simuler plusieurs parties."""
 
-    def __init__(self,joueurs,nombre_parties=10,fenetre=None):
+    def __init__(self, joueurs, nombre_parties=10, fenetre=None):
         """Cree un simulateur de partie avec :
         une fenetre, des joueurs, un nombre de partie.
         """
-        self.fenetre=fenetre
-        self.nombre_parties=nombre_parties
-        self.joueurs=joueurs
-        self.gagnants=[]
+        self.fenetre = fenetre
+        self.nombre_parties = nombre_parties
+        self.joueurs = joueurs
+        self.gagnants = []
 
     def lancer(self):
         """Boucle 'for' principale du simulateur."""
-        jeu=Othello(self.joueurs,self.fenetre)
+        jeu = Othello(self.joueurs, self.fenetre)
         for i in range(self.nombre_parties):
             jeu.relancer()
             self.gagnants.append(jeu.cote_gagnant)
@@ -58,16 +57,33 @@ class Simulateur:
         """Renvoie une représentation des victoires de chaque joueur
         avec l'historique des victoires du simulateur.
         """
-        message = "\n\nResultats de " + str(len(self.gagnants)) + " parties:\n" # le '\n est un retour à la ligne'
+        message = (
+            "\n\nResultats de " + str(len(self.gagnants)) + " parties:\n"
+        )  # le '\n est un retour à la ligne'
         for cote in range(len(self.joueurs)):
-            message += "- Joueur " + str(self.joueurs[cote]) + " a gagne " + str(self.gagnants.count(cote)) + " fois.\n"
-        pluriel = int(self.gagnants.count(None)>1)
-        message += "- Il y a " + str(self.gagnants.count(None)) + " match" + "s" * pluriel + " nul" + "s" * pluriel + "."
+            message += (
+                "- Joueur "
+                + str(self.joueurs[cote])
+                + " a gagne "
+                + str(self.gagnants.count(cote))
+                + " fois.\n"
+            )
+        pluriel = int(self.gagnants.count(None) > 1)
+        message += (
+            "- Il y a "
+            + str(self.gagnants.count(None))
+            + " match"
+            + "s" * pluriel
+            + " nul"
+            + "s" * pluriel
+            + "."
+        )
         return message
 
-if __name__=="__main__":
-    #from panneau import Panneau
-    #panneau=Panneau(taille=cfg.RESOLUTION_FENETRE)
+
+if __name__ == "__main__":
+    # from panneau import Panneau
+    # panneau=Panneau(taille=cfg.RESOLUTION_FENETRE)
 
     # Création des joueur humain et non naïvent
     humain1 = Humain(nom="Humain")
@@ -87,10 +103,10 @@ if __name__=="__main__":
     machine9 = ias.MaximisationPions(nom="MaximisationPions")
 
     # puis on  choisit les joueurs ici
-    joueur_noir  = machine1
+    joueur_noir = machine1
     joueur_blanc = machine6
-    nombre_parties=50
+    nombre_parties = 50
 
-    simulation=Simulateur([joueur_noir,joueur_blanc],nombre_parties)
+    simulation = Simulateur([joueur_noir, joueur_blanc], nombre_parties)
     simulation.lancer()
     print(simulation)
